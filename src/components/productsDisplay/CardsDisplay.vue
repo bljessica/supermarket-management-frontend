@@ -19,7 +19,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .cards-display-container {
   box-sizing: border-box;
   margin-top: 10px;
