@@ -1,9 +1,4 @@
 <template>
-  <!-- <div id="nav"> -->
-    <!-- <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link> -->
-  <!-- </div> -->
-  <!-- <router-view/> -->
   <Layout />
 </template>
 
@@ -12,7 +7,7 @@ import { defineComponent } from 'vue'
 import Layout from '@/components/layout/Layout.vue'
 
 export default defineComponent({
-  name: 'app',
+  name: 'App',
   components: {
     Layout
   }

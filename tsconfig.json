@@ -33,7 +33,7 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx"
-  ],
+, "src/views/ProductsDisplay.vue", "src/components/productsDisplay/TableDisplay.vue"  ],
   "exclude": [
     "node_modules"
   ]

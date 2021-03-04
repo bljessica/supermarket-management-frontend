@@ -3763,7 +3763,7 @@ eslint-plugin-promise@^4.3.1:
   resolved "https://registry.npm.taobao.org/eslint-plugin-promise/download/eslint-plugin-promise-4.3.1.tgz#61485df2a359e03149fdafc0a68b0e030ad2ac45"
   integrity sha1-YUhd8qNZ4DFJ/a/AposOAwrSrEU=
 
-eslint-plugin-vue@^7.2.0:
+eslint-plugin-vue@^7.7.0:
   version "7.7.0"
   resolved "https://registry.npm.taobao.org/eslint-plugin-vue/download/eslint-plugin-vue-7.7.0.tgz#a90df4595e670821bf243bd2750ededdb74948b8"
   integrity sha1-qQ30WV5nCCG/JDvSdQ7e3bdJSLg=

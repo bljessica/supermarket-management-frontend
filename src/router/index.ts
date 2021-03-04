@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import ProductDisplay from '@/views/ProductDisplay.vue'
+import ProductDisplay from '@/views/ProductsDisplay.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -15,9 +15,10 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import(/* webpackChunkName: "about" */ '../views/index.vue')
   },
   {
-    path: '/productDisplay',
+    path: '/productDisplay/:tab',
     name: 'productDisplay',
-    component: ProductDisplay
+    component: ProductDisplay,
+    props: true
   }
 ]
 
