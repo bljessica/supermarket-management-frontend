@@ -4,15 +4,20 @@
     :style="{
       width: props.size + 'px',
       height: props.size + 'px',
-      color: props.color
+      color: iconColor
     }"
+    @mouseenter="hoverChangeColor && (iconColor = '#B3C0D1')"
+    @mouseleave="hoverChangeColor && (iconColor = props.color)"
   >
-    <use :xlink:href="`#icon-${props.name}`" :fill="props.color" />
+    <use
+      :xlink:href="`#icon-${props.name}`"
+      :fill="iconColor"
+    />
   </svg>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, toRefs, ref } from 'vue'
 
 export default defineComponent({
   name: 'SvgIcon',
@@ -23,16 +28,23 @@ export default defineComponent({
     },
     size: {
       type: Number,
-      default: 32
+      default: 24
     },
     color: {
       type: String,
       default: '#000'
+    },
+    hoverChangeColor: {
+      type: Boolean,
+      default: true
     }
   },
   setup (props) {
+    const { color } = toRefs(props)
+    const iconColor = ref(color.value)
     return {
-      props
+      props,
+      iconColor
     }
   }
 })
