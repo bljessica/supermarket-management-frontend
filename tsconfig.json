@@ -7,11 +7,16 @@
     "importHelpers": true,
     "moduleResolution": "node",
     "skipLibCheck": true,
+    "strictPropertyInitialization": false,
+    "strictNullChecks": false,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "useDefineForClassFields": true,
     "sourceMap": true,
     "baseUrl": ".",
+    "allowJs": true,
+    "suppressImplicitAnyIndexErrors":true,
+    "forceConsistentCasingInFileNames": true,
     "types": [
       "webpack-env"
     ],
@@ -31,9 +36,14 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "tests/**/*.ts",
-    "tests/**/*.tsx"
-, "src/views/ProductsDisplay.vue", "src/components/productsDisplay/TableDisplay.vue"  ],
+    "tests/**/*.ts", "src/components/loginOrRegister/LoginAForm.vue", "src/views/LoginOrRegister.vue",
+    // "tests/**/*.tsx", "src/components/LoginForm.vue", "src/components/loginOrRegister/LoginForm.vue", "src/views/loginOrRegister.vue",
+    // "src/views/ProductsDisplay.vue", 
+    // "src/components/productsDisplay/TableDisplay.vue", 
+    // "src/views/Login.vue", 
+    // "src/components/loginOrRegister/RegisterForm.vue",
+    // "src/components/loginOrRegister/LoginForm.vue",
+  ],
   "exclude": [
     "node_modules"
   ]
