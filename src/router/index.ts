@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import ProductDisplay from '@/views/ProductsDisplay.vue'
+import LoginOrRegister from '@/views/LoginOrRegister.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -18,6 +19,15 @@ const routes: Array<RouteRecordRaw> = [
     path: '/productDisplay/:tab',
     name: 'productDisplay',
     component: ProductDisplay,
+    props: true
+  },
+  {
+    path: '/loginOrRegister/:type',
+    name: 'login',
+    component: LoginOrRegister,
+    meta: {
+      noLayout: true
+    },
     props: true
   }
 ]

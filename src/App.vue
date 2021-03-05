@@ -1,5 +1,6 @@
 <template>
-  <Layout />
+  <router-view v-if="$route.meta.noLayout" />
+  <Layout v-else />
 </template>
 
 <script lang="ts">

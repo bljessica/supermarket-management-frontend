@@ -13,7 +13,7 @@
     >
       <el-avatar
         :size="40"
-        :src="circleUrl"
+        src="../../assets/imgs/user.svg"
       />
       <span>{{ userName }}</span>
       <el-divider direction="vertical" />
@@ -23,7 +23,10 @@
       <el-divider direction="vertical" />
       <span>退出</span>
     </div>
-    <el-link v-else>
+    <el-link
+      v-else
+      @click="$router.replace({path: '/loginOrRegister/login'})"
+    >
       登录/注册
     </el-link>
   </div>
@@ -36,7 +39,7 @@ export default defineComponent({
   name: 'Header',
   setup () {
     return {
-      circleUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
+      // circleUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
     }
   },
   computed: {

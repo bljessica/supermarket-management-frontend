@@ -1,4 +1,3 @@
-import { reactive } from 'vue'
 import { UserState, RootState } from './types'
 
 const user: UserState = {

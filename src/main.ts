@@ -6,6 +6,13 @@ import ElementPlus from 'element-plus'
 import 'element-plus/lib/theme-chalk/index.css'
 import plugin from './plugin'
 
-createApp(App).use(plugin, {
+const app = createApp(App)
+
+// 全局错误处理
+app.config.errorHandler = (err: any, vm: any, info: any) => {
+  console.error(err, info)
+}
+
+app.use(plugin, {
   imports: []
 }).use(store).use(router).use(ElementPlus).mount('#app')

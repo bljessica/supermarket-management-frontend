@@ -4,7 +4,10 @@
       <Header />
     </el-header>
     <el-container>
-      <el-aside width="200px" style="background: #D3DCE6;" >
+      <el-aside
+        width="200px"
+        style="background: #D3DCE6;"
+      >
         <Aside />
       </el-aside>
       <el-main>

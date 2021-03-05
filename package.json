@@ -5,9 +5,11 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint --fix"
   },
   "dependencies": {
+    "@types/lodash": "^4.14.168",
+    "axios": "^0.21.1",
     "core-js": "^3.8.3",
     "element-plus": "^1.0.2-beta.33",
     "svg-sprite-loader": "^5.2.1",
