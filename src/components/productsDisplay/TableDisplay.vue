@@ -1,8 +1,8 @@
 <template>
   <div class="table-display-container">
     <el-table
-      :data="data"
-      style="width: 100%"
+      :data="products"
+      border
     >
       <el-table-column
         v-for="column in columns"
@@ -21,20 +21,33 @@ import columns from './tableColumns'
 
 export default defineComponent({
   name: 'TableDisplay',
+  props: {
+    refresh: {
+      type: Boolean
+    }
+  },
   setup () {
-    const data = ref([
-      {
-        name: 'product1',
-        num: 50
-      },
-      {
-        name: 'product1',
-        num: 50
-      }
-    ])
+    const products = ref([])
     return {
       columns,
-      data
+      products
+    }
+  },
+  watch: {
+    refresh: {
+      async handler () {
+        await this.getProducts()
+      },
+      immediate: true
+    }
+  },
+  async created () {
+    await this.getProducts()
+  },
+  methods: {
+    async getProducts () {
+      const res = await (this as any).$api.getAllProducts()
+      this.products = res.data
     }
   }
 })

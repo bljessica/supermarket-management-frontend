@@ -19,7 +19,7 @@ export interface userInfoType {
   username: string
 }
 
-export interface addProductFormType {
+export interface productType {
   productName: string,
   description: string,
   price: number,

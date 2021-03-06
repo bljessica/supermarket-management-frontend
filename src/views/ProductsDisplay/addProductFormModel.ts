@@ -1,7 +1,7 @@
 import { ref } from 'vue'
-import { addProductFormType } from '@/constants/types'
+import { productType } from '@/constants/types'
 
-export const addProductForm: addProductFormType = {
+export const addProductForm: productType = {
   productName: '',
   description: '',
   price: 10,
@@ -17,7 +17,7 @@ export const addProductFormRules = {
       if (value < 0) {
         cb(new Error('库存量不能为负数'))
       } else {
-        const addProductFormRef = ref<addProductFormType>(addProductForm)
+        const addProductFormRef = ref<productType>(addProductForm)
         if (value > addProductFormRef.value.inventoryCeiling) {
           cb(new Error('不能超过库存上限'))
         } else {

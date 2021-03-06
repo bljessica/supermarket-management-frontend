@@ -16,7 +16,7 @@
         <SvgIcon
           name="cards"
           :size="24"
-          :color="currentTab === 'cards' ? '#B3C0D1' : '#8a8a8a'"
+          :color="currentTab === 'cards' ? '#409EFF' : '#8a8a8a'"
           style="cursor: pointer;"
           @click="changeTab('cards')"
         />
@@ -24,7 +24,7 @@
         <SvgIcon
           name="table"
           :size="21"
-          :color="currentTab === 'table' ? '#B3C0D1' : '#8a8a8a'"
+          :color="currentTab === 'table' ? '#409EFF' : '#8a8a8a'"
           style="cursor: pointer;margin-left: 2px;"
           @click="changeTab('table')"
         />
@@ -46,8 +46,14 @@
       class="products-display-content"
       style="margin-top: 20px;"
     >
-      <CardsDisplay v-if="currentTab === 'cards'" />
-      <TableDisplay v-if="currentTab === 'table'" />
+      <CardsDisplay
+        v-if="currentTab === 'cards'"
+        :refresh="refresh"
+      />
+      <TableDisplay
+        v-if="currentTab === 'table'"
+        :refresh="refresh"
+      />
     </div>
     <!-- 添加商品 - 抽屉 -->
     <el-drawer
@@ -142,11 +148,13 @@ export default defineComponent({
     const currentTab = ref<'cards' | 'table'>('cards')
     const showAddProductDrawer = ref<boolean>(false)
     const addProductFormRef = ref(addProductForm)
+    const refresh = ref<boolean>(false)
     return {
       currentTab,
       showAddProductDrawer,
       addProductForm: addProductFormRef,
-      addProductFormRules
+      addProductFormRules,
+      refresh
     }
   },
   watch: {
@@ -159,6 +167,7 @@ export default defineComponent({
       const res = await (this as any).$api.addProduct(this.addProductForm)
       if (res.code === 0) {
         this.showAddProductDrawer = false
+        this.refresh = !this.refresh
       }
     },
     changeTab (tab: 'cards' | 'table'): void {

@@ -1,6 +1,6 @@
 import request from './request/request'
 import { loginDataType, registerDataType } from './types/auth'
-import { addProductFormType } from '@/constants/types'
+import { productType } from '@/constants/types'
 
 // auth
 export const login = (data: loginDataType) => {
@@ -20,10 +20,17 @@ export const register = (data: registerDataType) => {
 }
 
 // product
-export const addProduct = (data: addProductFormType) => {
+export const addProduct = (data: productType) => {
   return request({
     url: '/addProduct',
     data,
     method: 'POST'
+  })
+}
+
+export const getAllProducts = () => {
+  return request({
+    url: '/allProducts',
+    method: 'GET'
   })
 }
