@@ -1,6 +1,7 @@
 export interface loginFormType {
   account: string,
-  password: string
+  password: string,
+  rememberUser: boolean
 }
 
 export interface registerFormType {
@@ -9,4 +10,11 @@ export interface registerFormType {
   password1: string,
   password2: string,
   username: string,
+}
+
+export interface userInfoType {
+  account: string,
+  password: string,
+  avatar: string,
+  username: string
 }

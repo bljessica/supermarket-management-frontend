@@ -1,5 +1,5 @@
 /* eslint-disable */
-import SvgIcon from "@/components/SvgIcon.vue"
+import SvgIcon from "@/components/common/SvgIcon.vue"
 
 const componentPlugin: any = {
   install: function (vue: any, options: any) {

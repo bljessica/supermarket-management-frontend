@@ -19,8 +19,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import Header from '../header/index.vue'
-import Aside from '../aside/index.vue'
+import Header from './Header.vue'
+import Aside from './Aside.vue'
 
 export default defineComponent({
   name: 'Layout',

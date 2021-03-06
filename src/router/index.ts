@@ -1,19 +1,13 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import ProductDisplay from '@/views/ProductsDisplay.vue'
 import LoginOrRegister from '@/views/LoginOrRegister.vue'
+import Store from '@/store'
+import { getUserFromLocal } from '@/utils'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/index'
-  },
-  {
-    path: '/index',
-    name: 'index',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/index.vue')
+    redirect: '/productDisplay/cards'
   },
   {
     path: '/productDisplay/:tab',
@@ -23,7 +17,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/loginOrRegister/:type',
-    name: 'login',
+    name: 'loginOrRegister',
     component: LoginOrRegister,
     meta: {
       noLayout: true
@@ -35,6 +29,24 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+// 路由守卫
+router.beforeEach(async (to, from, next) => {
+  if (to.name === 'loginOrRegister') {
+    next()
+  } else {
+    if (!Store.state.user.account) {
+      await getUserFromLocal()
+      if (Store.state.user.account) {
+        next()
+      } else {
+        next({ path: '/loginOrRegister/login' })
+      }
+    } else {
+      next()
+    }
+  }
 })
 
 export default router

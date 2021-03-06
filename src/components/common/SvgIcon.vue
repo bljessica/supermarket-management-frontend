@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, toRefs, ref } from 'vue'
+import { defineComponent, toRefs, ref, watch } from 'vue'
 
 export default defineComponent({
   name: 'SvgIcon',
@@ -42,6 +42,9 @@ export default defineComponent({
   setup (props) {
     const { color } = toRefs(props)
     const iconColor = ref(color.value)
+    watch(color, (newColor: string) => {
+      iconColor.value = newColor
+    })
     return {
       props,
       iconColor

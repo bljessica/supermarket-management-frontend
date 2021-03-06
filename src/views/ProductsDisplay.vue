@@ -10,14 +10,14 @@
       <SvgIcon
         name="cards"
         :size="24"
-        color="#8a8a8a"
+        :color="currentTab === 'cards' ? '#B3C0D1' : '#8a8a8a'"
         style="cursor: pointer;"
         @click="changeTab('cards')"
       />
       <SvgIcon
         name="table"
         :size="22"
-        color="#8a8a8a"
+        :color="currentTab === 'table' ? '#B3C0D1' : '#8a8a8a'"
         style="cursor: pointer;margin-left: 20px;"
         @click="changeTab('table')"
       />

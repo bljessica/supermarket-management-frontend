@@ -1,4 +1,4 @@
-import { responseDataType, requestDataType } from './types'
+import { responseDataType, requestDataType } from '../types/request'
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
 
@@ -30,9 +30,13 @@ export default async ({ url = '', data = {}, method = 'GET' }: requestDataType) 
   }
   const resData: responseDataType = res.data
   if (resData.code === 0) {
-    ElMessage.success(resData.msg)
-    return resData
+    if (resData.msg) {
+      ElMessage.success(resData.msg)
+    }
   } else {
-    ElMessage.error(resData.msg)
+    if (resData.msg) {
+      ElMessage.error(resData.msg)
+    }
   }
+  return resData
 }

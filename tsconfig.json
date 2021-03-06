@@ -36,13 +36,7 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "tests/**/*.ts", "src/components/loginOrRegister/LoginAForm.vue", "src/views/LoginOrRegister.vue",
-    // "tests/**/*.tsx", "src/components/LoginForm.vue", "src/components/loginOrRegister/LoginForm.vue", "src/views/loginOrRegister.vue",
-    // "src/views/ProductsDisplay.vue", 
-    // "src/components/productsDisplay/TableDisplay.vue", 
-    // "src/views/Login.vue", 
-    // "src/components/loginOrRegister/RegisterForm.vue",
-    // "src/components/loginOrRegister/LoginForm.vue",
+    "tests/**/*.ts"
   ],
   "exclude": [
     "node_modules"

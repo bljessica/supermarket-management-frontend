@@ -15,21 +15,36 @@
         <!-- 登录表单 -->
         <el-form
           v-if="currentState === 'login'"
+          ref="LoginForm"
+          :rules="loginFormRules"
+          :model="loginForm"
           label-width="80px"
           label-position="left"
         >
-          <el-form-item label="账号">
+          <el-form-item
+            label="账号"
+            prop="accunt"
+          >
             <el-input
               v-model="loginForm.account"
               placeholder="请输入手机号或邮箱"
             />
           </el-form-item>
-          <el-form-item label="密码">
+          <el-form-item
+            label="密码"
+            prop="password"
+          >
             <el-input
               v-model="loginForm.password"
               placeholder="请输入密码"
               show-password
             />
+          </el-form-item>
+          <el-form-item
+            label="记住我"
+            prop="rememberUser"
+          >
+            <el-switch v-model="loginForm.rememberUser" />
           </el-form-item>
           <el-button
             size="medium"
@@ -44,7 +59,7 @@
             <span>还没有账号？</span>
             <el-link
               style="font-size: 10px;"
-              @click="$router.replace({path: '/loginOrRegister/register'})"
+              @click="$router.push({path: '/loginOrRegister/register'})"
             >
               去注册
             </el-link>
@@ -127,7 +142,7 @@
             <span>已有账号？</span>
             <el-link
               style="font-size: 10px;"
-              @click="$router.replace({path: '/loginOrRegister/login'})"
+              @click="$router.push({path: '/loginOrRegister/login'})"
             >
               去登录
             </el-link>
@@ -140,23 +155,21 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { loginFormType } from '@/constants/types'
-import { addUser } from '@/api/user'
+import { loginForm, loginFormRules } from '@/components/loginOrRegister/loginFormModel'
 import { registerFormRules, registerForm } from '@/components/loginOrRegister/registerFormModel'
 import { ROLE_LIST } from '@/constants/contants'
+import { saveUserToLocal } from '@/utils'
+import CryptoJS from 'crypto-js'
 
 export default defineComponent({
   name: 'LoginOrRegister',
   setup () {
-    const loginForm = ref<loginFormType>({
-      account: '',
-      password: ''
-    })
+    const loginFormRef = ref(loginForm)
     const registerFormRef = ref(registerForm)
     return {
-      loginForm,
+      loginForm: loginFormRef,
       registerForm: registerFormRef,
-      addUser,
+      loginFormRules,
       registerFormRules,
       ROLE_LIST
     }
@@ -171,18 +184,47 @@ export default defineComponent({
   },
   methods: {
     async login () {
-      // const res = await addUser(this.loginForm)
-      // console.log(res)
+      (this as any).$refs.LoginForm.validate(async (isValid: boolean) => {
+        if (isValid) {
+          const res = await (this as any).$api.login({
+            account: this.loginForm.account,
+            password: CryptoJS.MD5(this.loginForm.password).toString()
+          })
+          if (res.code === 0) {
+            const user = {
+              account: this.loginForm.account,
+              username: res.data.username,
+              avatar: res.data.avatar,
+              password: this.loginForm.password
+            }
+            if (this.loginForm.rememberUser) {
+              // 记住用户
+              saveUserToLocal(user)
+            }
+            this.$store.commit('setUser', user)
+            console.log(this.$store.state.user)
+            // 跳转首页
+            setTimeout(() => {
+              this.$router.push({ name: 'index' })
+            }, 1000)
+          }
+        } else {
+          return false
+        }
+      })
     },
     async register () {
       (this as any).$refs.RegisterForm.validate(async (isValid: boolean) => {
         if (isValid) {
-          const res = await addUser({
+          const res = await (this as any).$api.register({
             account: this.registerForm.account,
-            password: this.registerForm.password1,
+            password: CryptoJS.MD5(this.registerForm.password2).toString(),
             username: this.registerForm.username,
             role: this.registerForm.role
           })
+          if (res.code === 0) {
+            this.$router.push({ path: '/loginOrRegister/login' })
+          }
         } else {
           return false
         }

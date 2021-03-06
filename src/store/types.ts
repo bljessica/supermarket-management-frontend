@@ -1,6 +1,7 @@
 export interface UserState {
-  userId: string,
-  userName: string
+  account?: string,
+  username?: string,
+  avatar?: string
 }
 
 export interface RootState {
