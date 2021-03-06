@@ -202,7 +202,6 @@ export default defineComponent({
               saveUserToLocal(user)
             }
             this.$store.commit('setUser', user)
-            console.log(this.$store.state.user)
             // 跳转首页
             setTimeout(() => {
               this.$router.push({ name: 'index' })

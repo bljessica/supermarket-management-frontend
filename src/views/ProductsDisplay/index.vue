@@ -1,0 +1,173 @@
+<template>
+  <div
+    class="products-display-container"
+    style="padding: 20px;"
+  >
+    <!-- 头部 -->
+    <div
+      class="products-display-header"
+      style="display: flex; align-items: center;justify-content: space-between;"
+    >
+      <!-- tab -->
+      <div
+        class="tabs-container"
+        style="display: flex; align-items: center;"
+      >
+        <SvgIcon
+          name="cards"
+          :size="24"
+          :color="currentTab === 'cards' ? '#B3C0D1' : '#8a8a8a'"
+          style="cursor: pointer;"
+          @click="changeTab('cards')"
+        />
+        <el-divider direction="vertical" />
+        <SvgIcon
+          name="table"
+          :size="21"
+          :color="currentTab === 'table' ? '#B3C0D1' : '#8a8a8a'"
+          style="cursor: pointer;margin-left: 2px;"
+          @click="changeTab('table')"
+        />
+      </div>
+      <!-- 操作 -->
+      <div
+        class="actions-container"
+      >
+        <el-button
+          size="small"
+          @click="showAddProductDrawer = true"
+        >
+          添加商品
+        </el-button>
+      </div>
+    </div>
+    <!-- 商品内容 -->
+    <div
+      class="products-display-content"
+      style="margin-top: 20px;"
+    >
+      <CardsDisplay v-if="currentTab === 'cards'" />
+      <TableDisplay v-if="currentTab === 'table'" />
+    </div>
+    <!-- 添加商品 - 抽屉 -->
+    <el-drawer
+      v-model="showAddProductDrawer"
+      title="添加商品"
+      size="70%"
+      direction="rtl"
+      destroy-on-close
+    >
+      <el-form
+        ref="AddProductForm"
+        style="padding: 20px 40px 20px 20px;"
+        :model="addProductForm"
+        :rules="addProductFormRules"
+        label-width="80px"
+        label-position="left"
+      >
+        <el-form-item
+          label="商品名"
+          prop="productName"
+        >
+          <el-input v-model="addProductForm.productName" />
+        </el-form-item>
+        <el-form-item
+          label="商品描述"
+          prop="description"
+        >
+          <el-input v-model="addProductForm.description" />
+        </el-form-item>
+        <el-form-item
+          label="价格"
+          prop="price"
+        >
+          <el-input-number
+            v-model="addProductForm.price"
+          />
+        </el-form-item>
+        <el-form-item
+          label="单位"
+          prop="unit"
+        >
+          <el-input v-model="addProductForm.unit" />
+        </el-form-item>
+        <el-form-item
+          label="库存量"
+          prop="inventory"
+        >
+          <el-input-number
+            v-model="addProductForm.inventory"
+          />
+        </el-form-item>
+        <el-form-item
+          label="库存上限"
+          prop="inventoryCeiling"
+        >
+          <el-input-number
+            v-model="addProductForm.inventoryCeiling"
+          />
+        </el-form-item>
+      </el-form>
+      <div
+        class="drawer-footer"
+        style="display: flex;justify-content: space-evenly;align-items: center;width: 50%;margin: 0 auto;"
+      >
+        <el-button @click="showAddProductDrawer = false">
+          取消
+        </el-button>
+        <el-button
+          type="primary"
+          @click="handleAddProduct"
+        >
+          确定
+        </el-button>
+      </div>
+    </el-drawer>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent, ref } from 'vue'
+import CardsDisplay from '@/components/productsDisplay/CardsDisplay.vue'
+import TableDisplay from '@/components/productsDisplay/TableDisplay.vue'
+import { addProductForm, addProductFormRules } from './addProductFormModel'
+
+export default defineComponent({
+  name: 'ProductDisplay',
+  components: {
+    CardsDisplay,
+    TableDisplay
+  },
+  setup () {
+    const currentTab = ref<'cards' | 'table'>('cards')
+    const showAddProductDrawer = ref<boolean>(false)
+    const addProductFormRef = ref(addProductForm)
+    return {
+      currentTab,
+      showAddProductDrawer,
+      addProductForm: addProductFormRef,
+      addProductFormRules
+    }
+  },
+  watch: {
+    currentTab (tab: 'cards' | 'table') {
+      this.$router.replace({ path: '/productDisplay/' + tab })
+    }
+  },
+  methods: {
+    async handleAddProduct () {
+      const res = await (this as any).$api.addProduct(this.addProductForm)
+      if (res.code === 0) {
+        this.showAddProductDrawer = false
+      }
+    },
+    changeTab (tab: 'cards' | 'table'): void {
+      this.currentTab = tab
+    }
+  }
+})
+</script>
+
+<style>
+
+</style>

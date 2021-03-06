@@ -10,6 +10,6 @@ export interface responseDataType {
 
 export interface requestDataType {
   url: string,
-  data: dataType,
+  data?: dataType,
   method: string
 }

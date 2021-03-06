@@ -18,3 +18,12 @@ export interface userInfoType {
   avatar: string,
   username: string
 }
+
+export interface addProductFormType {
+  productName: string,
+  description: string,
+  price: number,
+  unit: string,
+  inventory: number,
+  inventoryCeiling: number
+}

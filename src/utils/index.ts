@@ -36,7 +36,6 @@ export const getUserFromLocal = async (keyStr = encryptKey) => {
     password: CryptoJS.MD5(password).toString(),
     autoLogin: true
   })
-  console.log(res)
   if (res.code === 0) {
     Store.commit('setUser', userInfo)
   }

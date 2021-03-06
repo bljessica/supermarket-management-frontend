@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import ProductDisplay from '@/views/ProductsDisplay.vue'
+import ProductDisplay from '@/views/ProductsDisplay/index.vue'
 import LoginOrRegister from '@/views/LoginOrRegister.vue'
-import Store from '@/store'
 import { getUserFromLocal } from '@/utils'
+import Store from '@/store'
 
 const routes: Array<RouteRecordRaw> = [
   {
