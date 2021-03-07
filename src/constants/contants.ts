@@ -5,11 +5,11 @@ export const ASIDE_ITEMS = {
     items: [{
       index: '1-1',
       name: '录入信息',
-      urlPath: '/index'
+      urlPath: '/'
     }, {
       index: '1-2',
       name: '查看信息',
-      urlPath: '/index'
+      urlPath: '/'
     }]
   },
   库存管理: {
@@ -18,11 +18,11 @@ export const ASIDE_ITEMS = {
     items: [{
       index: '2-1',
       name: '出/入库操作',
-      urlPath: '/index'
+      urlPath: '/'
     }, {
       index: '2-2',
       name: '出/入库信息查看',
-      urlPath: '/index'
+      urlPath: '/'
     }]
   },
   商品信息: {
@@ -33,7 +33,7 @@ export const ASIDE_ITEMS = {
   统计数据: {
     name: '统计数据',
     index: 4,
-    urlPath: '/index'
+    urlPath: '/'
   }
 }
 

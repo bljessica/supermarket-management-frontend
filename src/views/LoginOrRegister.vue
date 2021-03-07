@@ -204,7 +204,7 @@ export default defineComponent({
             this.$store.commit('setUser', user)
             // 跳转首页
             setTimeout(() => {
-              this.$router.push({ name: 'index' })
+              this.$router.push({ path: '/' })
             }, 1000)
           }
         } else {
