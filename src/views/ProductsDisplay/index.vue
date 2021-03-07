@@ -39,6 +39,12 @@
         >
           添加商品
         </el-button>
+        <el-button
+          v-if="currentTab === 'table'"
+          size="small"
+        >
+          批量删除
+        </el-button>
       </div>
     </div>
     <!-- 商品内容 -->
@@ -160,6 +166,11 @@ export default defineComponent({
   watch: {
     currentTab (tab: 'cards' | 'table') {
       this.$router.replace({ path: '/productDisplay/' + tab })
+    }
+  },
+  mounted () {
+    if (this.$route.params.tab === 'table') {
+      this.currentTab = 'table'
     }
   },
   methods: {

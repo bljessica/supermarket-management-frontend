@@ -2,7 +2,7 @@
   <router-view v-if="$route.meta.noLayout" />
   <Layout
     v-else
-    style="min-width: 580px;"
+    style="min-width: 590px;"
   />
 </template>
 

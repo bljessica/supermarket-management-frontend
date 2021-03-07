@@ -1,11 +1,17 @@
 <template>
-  <div class="cards-display-container">
+  <div
+    v-if="products.length"
+    class="cards-display-container"
+  >
     <ProductCard
       v-for="product in products"
       :key="product.productName"
       :product="product"
     />
   </div>
+  <el-card v-else>
+    暂无商品数据
+  </el-card>
 </template>
 
 <script lang="ts">
@@ -55,22 +61,22 @@ export default defineComponent({
   display: grid;
   gap: 20px;
 }
-@media (min-width: 1400px) {
+@media (min-width: 1500px) {
   .cards-display-container {
     grid-template-columns: repeat(4, 1fr);
   }
 }
-@media (min-width: 1110px) and (max-width: 1400px) {
+@media (min-width: 1180px) and (max-width: 1500px) {
   .cards-display-container {
     grid-template-columns: repeat(3, 1fr);
   }
 }
-@media (min-width: 820px) and (max-width: 1110px) {
+@media (min-width: 920px) and (max-width: 1180px) {
   .cards-display-container {
     grid-template-columns: repeat(2, 1fr);
   }
 }
-@media (max-width: 820px) {
+@media (max-width: 920px) {
   .cards-display-container {
     grid-template-columns: repeat(1, 1fr);
   }

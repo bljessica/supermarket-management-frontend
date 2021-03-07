@@ -5,12 +5,29 @@
       border
     >
       <el-table-column
+        type="selection"
+        width="50"
+      />
+      <el-table-column
         v-for="column in columns"
         :key="column.key"
         :prop="column.key"
         :label="column.label"
         :width="column.width"
+        :fixed="column.fixed"
+        show-overflow-tooltip
       />
+      <el-table-column
+        label="操作"
+        width="150"
+      >
+        <el-button size="small">
+          编辑
+        </el-button>
+        <el-button size="small">
+          删除
+        </el-button>
+      </el-table-column>
     </el-table>
   </div>
 </template>
@@ -54,5 +71,4 @@ export default defineComponent({
 </script>
 
 <style>
-
 </style>
