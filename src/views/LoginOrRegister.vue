@@ -195,7 +195,8 @@ export default defineComponent({
               account: this.loginForm.account,
               username: res.data.username,
               avatar: res.data.avatar,
-              password: this.loginForm.password
+              password: this.loginForm.password,
+              role: res.data.role
             }
             if (this.loginForm.rememberUser) {
               // 记住用户

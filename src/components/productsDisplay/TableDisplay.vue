@@ -21,12 +21,16 @@
         label="操作"
         width="150"
       >
-        <el-button size="small">
-          编辑
-        </el-button>
-        <el-button size="small">
-          删除
-        </el-button>
+        <Auth
+          size="small"
+          text="编辑"
+          action-auth="EDIT_PRODUCT"
+        />
+        <Auth
+          size="small"
+          text="删除"
+          action-auth="EDIT_PRODUCT"
+        />
       </el-table-column>
     </el-table>
   </div>
@@ -35,9 +39,13 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import columns from './tableColumns'
+import Auth from '@/components/common/Auth'
 
 export default defineComponent({
   name: 'TableDisplay',
+  components: {
+    Auth
+  },
   props: {
     refresh: {
       type: Boolean

@@ -16,7 +16,8 @@ export interface userInfoType {
   account: string,
   password: string,
   avatar: string,
-  username: string
+  username: string,
+  role: string
 }
 
 export interface productType {

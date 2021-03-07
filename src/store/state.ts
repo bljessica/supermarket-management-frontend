@@ -3,7 +3,8 @@ import { UserState, RootState } from './types'
 const user: UserState = {
   account: '',
   username: '',
-  avatar: ''
+  avatar: '',
+  role: ''
 }
 
 const state: RootState = {

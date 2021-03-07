@@ -33,18 +33,18 @@
       <div
         class="actions-container"
       >
-        <el-button
+        <Auth
+          action-auth="EDIT_PRODUCT"
           size="small"
+          text="添加商品"
           @click="showAddProductDrawer = true"
-        >
-          添加商品
-        </el-button>
-        <el-button
+        />
+        <Auth
           v-if="currentTab === 'table'"
           size="small"
-        >
-          批量删除
-        </el-button>
+          text="批量删除"
+          action-auth="EDIT_PRODUCT"
+        />
       </div>
     </div>
     <!-- 商品内容 -->
@@ -143,12 +143,14 @@ import { defineComponent, ref } from 'vue'
 import CardsDisplay from '@/components/productsDisplay/CardsDisplay.vue'
 import TableDisplay from '@/components/productsDisplay/TableDisplay.vue'
 import { addProductForm, addProductFormRules } from './addProductFormModel'
+import Auth from '@/components/common/Auth.vue'
 
 export default defineComponent({
   name: 'ProductDisplay',
   components: {
     CardsDisplay,
-    TableDisplay
+    TableDisplay,
+    Auth
   },
   setup () {
     const currentTab = ref<'cards' | 'table'>('cards')
