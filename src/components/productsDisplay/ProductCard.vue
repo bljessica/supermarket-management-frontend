@@ -19,15 +19,15 @@
       </div>
     </template>
     <div class="product-card-content">
-      <span style="grid-area: a">简介</span>
+      <span style="grid-area: a">简介：</span>
       <span style="grid-area: b/b/d/d">{{ product.description }}</span>
-      <span style="grid-area: e">价格</span>
+      <span style="grid-area: e">价格：</span>
       <span style="grid-area: f">{{ product.price }}</span>
-      <span style="grid-area: g">单位</span>
+      <span style="grid-area: g">单位：</span>
       <span style="grid-area: h">{{ product.unit }}</span>
-      <span style="grid-area: i">库存量</span>
+      <span style="grid-area: i">库存量：</span>
       <span style="grid-area: j">{{ product.inventory }}</span>
-      <span style="grid-area: k">库存上限</span>
+      <span style="grid-area: k">库存上限：</span>
       <span style="grid-area: l">{{ product.inventoryCeiling }}</span>
     </div>
   </el-card>
