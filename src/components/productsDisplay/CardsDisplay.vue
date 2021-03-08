@@ -1,6 +1,7 @@
 <template>
   <div
     v-if="products.length"
+    v-loading="loading"
     class="cards-display-container"
   >
     <ProductCard
@@ -18,38 +19,20 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import ProductCard from './ProductCard.vue'
+import productsDisplayMixin from '@/mixins/productsDisplayMixin'
 
 export default defineComponent({
   name: 'CardsDisplay',
   components: {
     ProductCard
   },
-  props: {
-    refresh: {
-      type: Boolean
-    }
-  },
+  mixins: [productsDisplayMixin],
   setup () {
     const products = ref([])
+    const loading = ref<boolean>(false)
     return {
-      products
-    }
-  },
-  watch: {
-    refresh: {
-      async handler () {
-        await this.getProducts()
-      },
-      immediate: true
-    }
-  },
-  async created () {
-    await this.getProducts()
-  },
-  methods: {
-    async getProducts () {
-      const res = await (this as any).$api.getAllProducts()
-      this.products = res.data
+      products,
+      loading
     }
   }
 })

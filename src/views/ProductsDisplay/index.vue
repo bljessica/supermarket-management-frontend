@@ -3,31 +3,46 @@
     class="products-display-container"
     style="padding: 10px 20px;"
   >
-    <!-- 头部 -->
+    <!-- tab -->
     <div
-      class="products-display-header"
-      style="display: flex; align-items: center;justify-content: space-between;"
+      class="tabs-container"
+      style="display: flex; align-items: center;"
     >
-      <!-- tab -->
-      <div
-        class="tabs-container"
-        style="display: flex; align-items: center;"
-      >
-        <SvgIcon
-          name="cards"
-          :size="24"
-          :color="currentTab === 'cards' ? '#409EFF' : '#8a8a8a'"
-          style="cursor: pointer;"
-          @click="changeTab('cards')"
-        />
-        <el-divider direction="vertical" />
-        <SvgIcon
-          name="table"
-          :size="21"
-          :color="currentTab === 'table' ? '#409EFF' : '#8a8a8a'"
-          style="cursor: pointer;margin-left: 2px;"
-          @click="changeTab('table')"
-        />
+      <SvgIcon
+        name="cards"
+        :size="24"
+        :color="currentTab === 'cards' ? '#409EFF' : '#8a8a8a'"
+        style="cursor: pointer;"
+        @click="changeTab('cards')"
+      />
+      <el-divider direction="vertical" />
+      <SvgIcon
+        name="table"
+        :size="21"
+        :color="currentTab === 'table' ? '#409EFF' : '#8a8a8a'"
+        style="cursor: pointer;margin-left: 2px;"
+        @click="changeTab('table')"
+      />
+    </div>
+    <!-- 筛选和操作 -->
+    <div
+      class="filters-and-actions-container"
+      style="margin-top: 20px;display: flex;align-items: center;align-items: center;justify-content: space-between;"
+    >
+      <!-- 筛选 -->
+      <div class="filters-container">
+        <el-select
+          v-model="productStatusFilter"
+          placeholder="请选择商品状态"
+          size="small"
+        >
+          <el-option
+            v-for="item in PRODUCT_STATUS"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
       </div>
       <!-- 操作 -->
       <div
@@ -42,6 +57,8 @@
         <el-popconfirm
           v-if="currentTab === 'table'"
           title="确定删除已选商品？"
+          confirm-button-text="确定"
+          cancel-button-text="取消"
           @confirm="deleteSelectedProducts"
         >
           <template #reference>
@@ -61,12 +78,12 @@
     >
       <CardsDisplay
         v-if="currentTab === 'cards'"
-        :refresh="refresh"
+        :all-filters="allFilters"
       />
       <TableDisplay
         v-if="currentTab === 'table'"
         ref="tableDisplay"
-        :refresh="refresh"
+        :all-filters="allFilters"
         @editProduct="handleEditProduct"
       />
     </div>
@@ -151,8 +168,10 @@
 import { defineComponent, ref } from 'vue'
 import CardsDisplay from '@/components/productsDisplay/CardsDisplay.vue'
 import TableDisplay from '@/components/productsDisplay/TableDisplay.vue'
-import { addProductForm, addProductFormRules } from './addProductFormModel'
+import { addProductForm, addProductFormRules, addProductFormOrigin } from './addProductFormModel'
 import AuthButton from '@/components/common/auth/AuthButton.vue'
+import { PRODUCT_STATUS } from '@/constants/contants.ts'
+import { cloneDeep } from 'lodash'
 
 export default defineComponent({
   name: 'ProductDisplay',
@@ -166,14 +185,25 @@ export default defineComponent({
     const showAddProductDrawer = ref<boolean>(false)
     const addProductFormRef = ref(addProductForm)
     const refresh = ref<boolean>(false)
-    const editingProduct = ref(false)
+    const editingProduct = ref<boolean>(false)
+    const productStatusFilter = ref<string>('')
     return {
       currentTab,
       showAddProductDrawer,
       addProductForm: addProductFormRef,
       addProductFormRules,
       refresh,
-      editingProduct
+      editingProduct,
+      PRODUCT_STATUS,
+      productStatusFilter
+    }
+  },
+  computed: {
+    allFilters () {
+      return {
+        refresh: (this as any).refresh,
+        status: (this as any).productStatusFilter
+      }
     }
   },
   watch: {
@@ -203,6 +233,7 @@ export default defineComponent({
         this.showAddProductDrawer = false
         this.editingProduct = false
         this.refresh = !this.refresh
+        this.addProductForm = cloneDeep(addProductFormOrigin)
       }
     },
     changeTab (tab: 'cards' | 'table'): void {

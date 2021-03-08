@@ -19,6 +19,7 @@ module.exports = {
     '@typescript-eslint/ban-ts-ignore': 0,
     '@typescript-eslint/ban-ts-comment': 0,
     '@typescript-eslint/no-explicit-any': 0,
-    'spaced-comment': [2, 'always']
+    'spaced-comment': [2, 'always'],
+    '@typescript-eslint/no-empty-function': 0
   }
 }

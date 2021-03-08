@@ -1,7 +1,8 @@
 import { ref } from 'vue'
 import { productType } from '@/constants/types'
+import { cloneDeep } from 'lodash'
 
-export const addProductForm: productType = {
+export const addProductFormOrigin: productType = {
   productName: '',
   description: '',
   price: 10,
@@ -9,6 +10,8 @@ export const addProductForm: productType = {
   inventory: 0,
   inventoryCeiling: 5000
 }
+
+export const addProductForm = cloneDeep(addProductFormOrigin)
 
 export const addProductFormRules = {
   productName: [{ required: true, message: '商品名不能为空', trigger: 'blur' }],

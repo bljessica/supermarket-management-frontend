@@ -29,10 +29,11 @@ export const addProduct = (data: productType) => {
   })
 }
 
-export const getAllProducts = () => {
+export const getAllProducts = (data: any) => {
   return request({
     url: '/allProducts',
-    method: 'GET'
+    method: 'GET',
+    data
   })
 }
 

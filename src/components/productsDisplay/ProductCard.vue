@@ -10,9 +10,9 @@
         >状态：
           <el-tag
             size="mini"
-            :type="productStatus === '售罄' ? 'danger' : 'success'"
+            :type="product.status === '售罄' ? 'danger' : 'success'"
           >
-            {{ productStatus }}
+            {{ product.status }}
           </el-tag>
         </span>
       </div>

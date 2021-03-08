@@ -1,6 +1,7 @@
 <template>
   <div class="table-display-container">
     <el-table
+      v-loading="loading"
       :data="products"
       border
       @selection-change="handleSelectionChange"
@@ -25,9 +26,9 @@
         <template #default="scope">
           <el-tag
             size="mini"
-            :type="productStatus(scope) === '售罄' ? 'danger' : 'success'"
+            :type="scope.row.status === '售罄' ? 'danger' : 'success'"
           >
-            {{ productStatus(scope) }}
+            {{ scope.row.status }}
           </el-tag>
         </template>
       </el-table-column>
@@ -44,6 +45,8 @@
           />
           <el-popconfirm
             title="确定删除此商品吗？"
+            confirm-button-text="确定"
+            cancel-button-text="取消"
             @confirm="deleteProduct(scope.row)"
           >
             <template #reference>
@@ -64,45 +67,26 @@
 import { defineComponent, ref } from 'vue'
 import columns from './tableColumns'
 import AuthButton from '@/components/common/auth/AuthButton.vue'
+import productsDisplayMixin from '@/mixins/productsDisplayMixin'
 
 export default defineComponent({
   name: 'TableDisplay',
   components: {
     AuthButton
   },
-  props: {
-    refresh: {
-      type: Boolean
-    }
-  },
+  mixins: [productsDisplayMixin],
   setup () {
     const products = ref([])
     const selectedRows = ref([])
+    const loading = ref<boolean>(false)
     return {
       columns,
       products,
-      selectedRows
+      selectedRows,
+      loading
     }
-  },
-  watch: {
-    refresh: {
-      async handler () {
-        await this.getProducts()
-      },
-      immediate: true
-    }
-  },
-  async created () {
-    await this.getProducts()
   },
   methods: {
-    productStatus (scope: any): string {
-      return scope.row.inventory === 0 ? '售罄' : '正常'
-    },
-    async getProducts () {
-      const res = await (this as any).$api.getAllProducts()
-      this.products = res.data
-    },
     async deleteProduct (row: any) {
       await (this as any).$api.deleteProduct({
         productName: row.productName

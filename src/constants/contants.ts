@@ -50,3 +50,18 @@ export const ROLE_LIST = {
     auth: ['VIEW_ALL', 'PURCHASE_ALL', 'SELL_ALL', 'EDIT_PRODUCT']
   }
 }
+
+export const PRODUCT_STATUS = {
+  全部状态: {
+    label: '全部状态',
+    value: ''
+  },
+  正常: {
+    label: '正常',
+    value: '正常'
+  },
+  售罄: {
+    label: '售罄',
+    value: '售罄'
+  }
+}
