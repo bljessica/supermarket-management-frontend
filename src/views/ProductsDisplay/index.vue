@@ -1,7 +1,7 @@
 <template>
   <div
     class="products-display-container"
-    style="padding: 20px;"
+    style="padding: 10px 20px;"
   >
     <!-- 头部 -->
     <div

@@ -6,11 +6,14 @@
           {{ product.productName }}
         </h3>
         <span
-          style="font-size: 12px"
+          style="font-size: 12px;margin-right: 8px;"
         >状态：
-          <span :style="{ color: productStatus === '售罄' ? 'red' : '' }">
+          <el-tag
+            size="mini"
+            :type="productStatus === '售罄' ? 'danger' : 'success'"
+          >
             {{ productStatus }}
-          </span>
+          </el-tag>
         </span>
       </div>
     </template>
@@ -24,7 +27,7 @@
           grid-area: b/b/d/d;
         "
       >
-        {{ product.description }}
+        {{ product.description || '暂无' }}
       </span>
       <span style="grid-area: e">价格：</span>
       <span style="grid-area: f">{{ product.price }}</span>

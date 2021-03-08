@@ -19,6 +19,19 @@
         show-overflow-tooltip
       />
       <el-table-column
+        label="状态"
+        width="60"
+      >
+        <template #default="scope">
+          <el-tag
+            size="mini"
+            :type="productStatus(scope) === '售罄' ? 'danger' : 'success'"
+          >
+            {{ productStatus(scope) }}
+          </el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column
         label="操作"
         width="150"
       >
@@ -82,6 +95,9 @@ export default defineComponent({
     await this.getProducts()
   },
   methods: {
+    productStatus (scope: any): string {
+      return scope.row.inventory === 0 ? '售罄' : '正常'
+    },
     async getProducts () {
       const res = await (this as any).$api.getAllProducts()
       this.products = res.data

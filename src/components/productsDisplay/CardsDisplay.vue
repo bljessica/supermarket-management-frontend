@@ -9,9 +9,10 @@
       :product="product"
     />
   </div>
-  <el-card v-else>
-    暂无商品数据
-  </el-card>
+  <el-empty
+    v-else
+    description="暂无商品信息"
+  />
 </template>
 
 <script lang="ts">
