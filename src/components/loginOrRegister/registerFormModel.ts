@@ -1,13 +1,15 @@
 import { ref } from 'vue'
 import { registerFormType } from '@/constants/types'
 
-export const registerForm: registerFormType = {
+export const registerFormOrigin: registerFormType = {
   account: '',
   role: '',
   username: '',
   password1: '',
   password2: ''
 }
+
+export const registerForm = registerFormOrigin
 
 const validateAccount = (rule: any, value: string, cb: any) => {
   if (!value) {

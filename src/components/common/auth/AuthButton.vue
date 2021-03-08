@@ -31,6 +31,9 @@ export default defineComponent({
     const { actionAuth } = toRefs(props)
     const store = useStore()
     const disabled = computed(() => {
+      if (!store.state.user.role) {
+        return true
+      }
       return !ROLE_LIST[store.state.user.role].auth.includes(actionAuth.value)
     })
     return {

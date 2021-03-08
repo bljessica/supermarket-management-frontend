@@ -155,8 +155,8 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { loginForm, loginFormRules } from '@/components/loginOrRegister/loginFormModel'
-import { registerFormRules, registerForm } from '@/components/loginOrRegister/registerFormModel'
+import { loginForm, loginFormRules, loginFormOrigin } from '@/components/loginOrRegister/loginFormModel'
+import { registerFormRules, registerForm, registerFormOrigin } from '@/components/loginOrRegister/registerFormModel'
 import { ROLE_LIST } from '@/constants/contants'
 import { saveUserToLocal } from '@/utils'
 import CryptoJS from 'crypto-js'
@@ -198,6 +198,7 @@ export default defineComponent({
               password: this.loginForm.password,
               role: res.data.role
             }
+            this.loginForm = loginFormOrigin
             if (this.loginForm.rememberUser) {
               // 记住用户
               saveUserToLocal(user)
@@ -223,6 +224,7 @@ export default defineComponent({
             role: this.registerForm.role
           })
           if (res.code === 0) {
+            this.registerForm = registerFormOrigin
             this.$router.push({ path: '/loginOrRegister/login' })
           }
         } else {

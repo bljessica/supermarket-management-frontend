@@ -62,7 +62,6 @@ export default defineComponent({
     logout () {
       this.$store.commit('setUser', {})
       localStorage.setItem('userInfo', '')
-      location.reload()
       this.$router.replace({ path: '/loginOrRegister/login' })
     }
   }

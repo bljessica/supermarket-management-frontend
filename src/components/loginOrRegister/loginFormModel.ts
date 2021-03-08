@@ -1,11 +1,12 @@
-import { ref } from 'vue'
 import { loginFormType } from '@/constants/types'
 
-export const loginForm: loginFormType = {
+export const loginFormOrigin: loginFormType = {
   account: '',
   password: '',
   rememberUser: false
 }
+
+export const loginForm: loginFormType = loginFormOrigin
 
 export const loginFormRules = {
   account: [
