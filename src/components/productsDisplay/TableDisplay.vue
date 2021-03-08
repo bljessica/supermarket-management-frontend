@@ -63,9 +63,11 @@ export default defineComponent({
   },
   setup () {
     const products = ref([])
+    const selectedRows = ref([])
     return {
       columns,
-      products
+      products,
+      selectedRows
     }
   },
   watch: {
@@ -87,6 +89,16 @@ export default defineComponent({
     async deleteProduct (row: any) {
       await (this as any).$api.deleteProduct({
         productName: row.productName
+      })
+      await this.getProducts()
+    },
+    handleSelectionChange (selectedRows: any) {
+      this.selectedRows = selectedRows
+    },
+    async deleteSelectedProducts () {
+      const checkedList = this.selectedRows.map(item => item.productName);
+      (this as any).$api.deleteProducts({
+        checkedList
       })
       await this.getProducts()
     }

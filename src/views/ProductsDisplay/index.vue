@@ -39,12 +39,19 @@
           text="添加商品"
           @click="showAddProductDrawer = true"
         />
-        <AuthButton
+        <el-popconfirm
           v-if="currentTab === 'table'"
-          size="small"
-          text="批量删除"
-          action-auth="EDIT_PRODUCT"
-        />
+          title="确定删除已选商品？"
+          @confirm="deleteSelectedProducts"
+        >
+          <template #reference>
+            <AuthButton
+              size="small"
+              text="批量删除"
+              action-auth="EDIT_PRODUCT"
+            />
+          </template>
+        </el-popconfirm>
       </div>
     </div>
     <!-- 商品内容 -->
@@ -58,6 +65,7 @@
       />
       <TableDisplay
         v-if="currentTab === 'table'"
+        ref="tableDisplay"
         :refresh="refresh"
       />
     </div>
@@ -185,6 +193,9 @@ export default defineComponent({
     },
     changeTab (tab: 'cards' | 'table'): void {
       this.currentTab = tab
+    },
+    deleteSelectedProducts () {
+      (this.$refs.tableDisplay as any).deleteSelectedProducts()
     }
   }
 })

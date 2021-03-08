@@ -1,6 +1,6 @@
 import request from './request/request'
 import { loginDataType, registerDataType } from './types/auth'
-import { productNameType } from './types/product'
+import { productNameType, checkedListType } from './types/product'
 import { productType } from '@/constants/types'
 
 // auth
@@ -39,6 +39,14 @@ export const getAllProducts = () => {
 export const deleteProduct = (data: productNameType) => {
   return request({
     url: '/deleteProduct',
+    method: 'DELETE',
+    data
+  })
+}
+
+export const deleteProducts = (data: checkedListType) => {
+  return request({
+    url: '/deleteProducts',
     method: 'DELETE',
     data
   })
