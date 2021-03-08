@@ -23,7 +23,7 @@ export default async ({ url = '', data = {}, method = 'GET' }: requestDataType) 
   } else if (method === 'PUT') {
     res = await axios.put(url, data)
   } else if (method === 'DELETE') {
-    res = await axios.delete(url, data)
+    res = await axios.delete(url, { data }) // axios的delete方法只有url和config两个参数
   } else {
     ElMessage.error('暂不支持该请求类型')
     return

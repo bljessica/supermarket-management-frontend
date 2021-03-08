@@ -3,6 +3,7 @@
     <el-table
       :data="products"
       border
+      @selection-change="handleSelectionChange"
     >
       <el-table-column
         type="selection"
@@ -21,20 +22,25 @@
         label="操作"
         width="150"
       >
-        <AuthButton
-          size="small"
-          text="编辑"
-          action-auth="EDIT_PRODUCT"
-        />
-        <el-popconfirm title="确定删除此商品吗？">
-          <template #reference>
-            <AuthButton
-              size="small"
-              text="删除"
-              action-auth="EDIT_PRODUCT"
-            />
-          </template>
-        </el-popconfirm>
+        <template #default="scope">
+          <AuthButton
+            size="small"
+            text="编辑"
+            action-auth="EDIT_PRODUCT"
+          />
+          <el-popconfirm
+            title="确定删除此商品吗？"
+            @confirm="deleteProduct(scope.row)"
+          >
+            <template #reference>
+              <AuthButton
+                size="small"
+                text="删除"
+                action-auth="EDIT_PRODUCT"
+              />
+            </template>
+          </el-popconfirm>
+        </template>
       </el-table-column>
     </el-table>
   </div>
@@ -77,6 +83,12 @@ export default defineComponent({
     async getProducts () {
       const res = await (this as any).$api.getAllProducts()
       this.products = res.data
+    },
+    async deleteProduct (row: any) {
+      await (this as any).$api.deleteProduct({
+        productName: row.productName
+      })
+      await this.getProducts()
     }
   }
 })

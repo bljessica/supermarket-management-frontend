@@ -1,5 +1,6 @@
 import request from './request/request'
 import { loginDataType, registerDataType } from './types/auth'
+import { productNameType } from './types/product'
 import { productType } from '@/constants/types'
 
 // auth
@@ -32,5 +33,13 @@ export const getAllProducts = () => {
   return request({
     url: '/allProducts',
     method: 'GET'
+  })
+}
+
+export const deleteProduct = (data: productNameType) => {
+  return request({
+    url: '/deleteProduct',
+    method: 'DELETE',
+    data
   })
 }
