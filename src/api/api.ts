@@ -51,3 +51,11 @@ export const deleteProducts = (data: checkedListType) => {
     data
   })
 }
+
+export const editProduct = (data: productType) => {
+  return request({
+    url: '/editProduct',
+    method: 'PUT',
+    data
+  })
+}

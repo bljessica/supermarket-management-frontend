@@ -40,6 +40,7 @@
             size="small"
             text="编辑"
             action-auth="EDIT_PRODUCT"
+            @click="$emit('editProduct', scope.row)"
           />
           <el-popconfirm
             title="确定删除此商品吗？"

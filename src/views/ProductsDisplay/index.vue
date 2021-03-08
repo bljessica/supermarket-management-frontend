@@ -67,6 +67,7 @@
         v-if="currentTab === 'table'"
         ref="tableDisplay"
         :refresh="refresh"
+        @editProduct="handleEditProduct"
       />
     </div>
     <!-- 添加商品 - 抽屉 -->
@@ -165,12 +166,14 @@ export default defineComponent({
     const showAddProductDrawer = ref<boolean>(false)
     const addProductFormRef = ref(addProductForm)
     const refresh = ref<boolean>(false)
+    const editingProduct = ref(false)
     return {
       currentTab,
       showAddProductDrawer,
       addProductForm: addProductFormRef,
       addProductFormRules,
-      refresh
+      refresh,
+      editingProduct
     }
   },
   watch: {
@@ -184,10 +187,21 @@ export default defineComponent({
     }
   },
   methods: {
+    handleEditProduct (row: any) {
+      this.showAddProductDrawer = true
+      this.addProductForm = row
+      this.editingProduct = true
+    },
     async handleAddProduct () {
-      const res = await (this as any).$api.addProduct(this.addProductForm)
+      let res = null
+      if (this.editingProduct) {
+        res = await (this as any).$api.editProduct(this.addProductForm)
+      } else {
+        res = await (this as any).$api.addProduct(this.addProductForm)
+      }
       if (res.code === 0) {
         this.showAddProductDrawer = false
+        this.editingProduct = false
         this.refresh = !this.refresh
       }
     },
