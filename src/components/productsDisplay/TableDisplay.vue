@@ -21,16 +21,20 @@
         label="操作"
         width="150"
       >
-        <Auth
+        <AuthButton
           size="small"
           text="编辑"
           action-auth="EDIT_PRODUCT"
         />
-        <Auth
-          size="small"
-          text="删除"
-          action-auth="EDIT_PRODUCT"
-        />
+        <el-popconfirm title="确定删除此商品吗？">
+          <template #reference>
+            <AuthButton
+              size="small"
+              text="删除"
+              action-auth="EDIT_PRODUCT"
+            />
+          </template>
+        </el-popconfirm>
       </el-table-column>
     </el-table>
   </div>
@@ -39,12 +43,12 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import columns from './tableColumns'
-import Auth from '@/components/common/Auth'
+import AuthButton from '@/components/common/auth/AuthButton.vue'
 
 export default defineComponent({
   name: 'TableDisplay',
   components: {
-    Auth
+    AuthButton
   },
   props: {
     refresh: {
