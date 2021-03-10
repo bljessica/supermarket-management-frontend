@@ -1,12 +1,10 @@
 import { loginFormType } from '@/constants/types'
 
-export const loginFormOrigin: loginFormType = {
+export const loginForm: loginFormType = {
   account: '',
   password: '',
   rememberUser: false
 }
-
-export const loginForm: loginFormType = loginFormOrigin
 
 export const loginFormRules = {
   account: [

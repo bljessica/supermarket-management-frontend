@@ -1,12 +1,17 @@
 export const ASIDE_ITEMS = {
+  商品信息: {
+    name: '商品信息',
+    index: '1',
+    urlPath: '/productDisplay/cards'
+  },
   采购管理: {
     name: '采购管理',
-    index: 1,
-    urlPath: '/productDisplay/cards'
+    index: '2',
+    urlPath: '/purchaseManagement'
   },
   库存管理: {
     name: '库存管理',
-    index: 2,
+    index: '3',
     urlPath: '/productDisplay/cards'
     // items: [{
     //   index: '2-1',
@@ -18,14 +23,9 @@ export const ASIDE_ITEMS = {
     //   urlPath: '/'
     // }]
   },
-  商品信息: {
-    name: '商品信息',
-    index: 3,
-    urlPath: '/productDisplay/cards'
-  },
   统计数据: {
     name: '统计数据',
-    index: 4,
+    index: '4',
     urlPath: '/'
   }
 }

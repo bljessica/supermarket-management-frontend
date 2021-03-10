@@ -135,6 +135,7 @@
         >
           <el-input-number
             v-model="addProductForm.inventory"
+            disabled
           />
         </el-form-item>
         <el-form-item
@@ -168,10 +169,9 @@
 import { defineComponent, ref } from 'vue'
 import CardsDisplay from '@/components/productsDisplay/CardsDisplay.vue'
 import TableDisplay from '@/components/productsDisplay/TableDisplay.vue'
-import { addProductForm, addProductFormRules, addProductFormOrigin } from './addProductFormModel'
+import { addProductForm, addProductFormRules } from './addProductFormModel'
 import AuthButton from '@/components/common/auth/AuthButton.vue'
 import { PRODUCT_STATUS } from '@/constants/contants.ts'
-import { cloneDeep } from 'lodash'
 
 export default defineComponent({
   name: 'ProductDisplay',
@@ -232,8 +232,8 @@ export default defineComponent({
       if (res.code === 0) {
         this.showAddProductDrawer = false
         this.editingProduct = false
-        this.refresh = !this.refresh
-        this.addProductForm = cloneDeep(addProductFormOrigin)
+        this.refresh = !this.refresh;
+        (this as any).$refs.AddProductForm.resetFields()
       }
     },
     changeTab (tab: 'cards' | 'table'): void {

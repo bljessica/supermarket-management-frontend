@@ -28,3 +28,13 @@ export interface productType {
   inventory: number,
   inventoryCeiling: number
 }
+
+export interface purchaseOrderType {
+  orderId: string,
+  productName: string,
+  purchaseQuantity: 56,
+  purchaserName: string,
+  purchaseTime: number,
+  purchaseStatus: string,
+  remark: string
+}

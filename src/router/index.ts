@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import ProductDisplay from '@/views/ProductsDisplay/index.vue'
 import LoginOrRegister from '@/views/LoginOrRegister.vue'
+import PurchaseManagement from '@/views/PurchaseManagement/index.vue'
 import { getUserFromLocal } from '@/utils'
 import Store from '@/store'
 
@@ -23,6 +24,11 @@ const routes: Array<RouteRecordRaw> = [
       noLayout: true
     },
     props: true
+  },
+  {
+    path: '/purchaseManagement',
+    name: 'purchaseManagement',
+    component: PurchaseManagement
   }
 ]
 
