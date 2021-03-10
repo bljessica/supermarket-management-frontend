@@ -9,6 +9,7 @@
       </el-button>
     </div>
     <el-table
+      v-loading="tableLoading"
       style="margin-top: 20px;"
       :data="purchaseOrders"
       border
@@ -136,13 +137,15 @@ export default defineComponent({
       },
       trigger: 'change'
     }
+    const tableLoading = ref<boolean>(false)
     return {
       inventoryTableColumns,
       purchaseOrders,
       showAddPurchaseOrderDrawer,
       addPurchaseOrderForm,
       allProducts,
-      purchaseQuantityRule
+      purchaseQuantityRule,
+      tableLoading
     }
   },
   async created () {
@@ -155,7 +158,9 @@ export default defineComponent({
   },
   methods: {
     async getPurchaseOrders () {
+      this.tableLoading = true
       const res = await (this as any).$api.getAllPurchaseOrders()
+      this.tableLoading = false
       this.purchaseOrders = res.data
     },
     handleAddPurchaseOrder () {
@@ -166,7 +171,7 @@ export default defineComponent({
             remark: this.addPurchaseOrderForm.remark,
             items: this.addPurchaseOrderForm.items,
             purchaserAccount: this.$store.state.user.account,
-            purchaseTime: Date.now()
+            purchaseTime: dayjs().format('YYYY/MM/DD HH:mm:ss')
           })
           if (res.code === 0) {
             (this as any).$refs.AddPurchaseOrderForm.resetFields()
