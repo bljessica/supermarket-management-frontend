@@ -1,11 +1,9 @@
 <template>
-  <div
-    style="position: relative;"
-    @mouseenter="actionsShow = true"
-    @mouseleave="actionsShow = false"
-  >
+  <div>
     <el-card
       class="product-card-container"
+      @mouseenter="actionsShow = true"
+      @mouseleave="actionsShow = false"
     >
       <template #header>
         <div class="product-card-title">
@@ -37,35 +35,35 @@
         <span style="grid-area: l">{{ product.inventory }}</span>
         <span style="grid-area: o">库存上限：</span>
         <span style="grid-area: p">{{ product.inventoryCeiling }}</span>
+        <transition name="fade">
+          <div
+            v-show="actionsShow"
+            class="mask"
+          >
+            <el-button
+              type="primary"
+              icon="el-icon-edit"
+              circle
+              @click="$emit('editProduct')"
+            />
+            <el-popconfirm
+              title="确定删除此商品吗？"
+              confirm-button-text="确定"
+              cancel-button-text="取消"
+              @confirm="deleteProduct"
+            >
+              <template #reference>
+                <el-button
+                  type="danger"
+                  icon="el-icon-delete"
+                  circle
+                />
+              </template>
+            </el-popconfirm>
+          </div>
+        </transition>
       </div>
     </el-card>
-    <transition name="fade">
-      <div
-        v-show="actionsShow"
-        class="mask"
-      >
-        <el-button
-          type="primary"
-          icon="el-icon-edit"
-          circle
-          @click="$emit('editProduct')"
-        />
-        <el-popconfirm
-          title="确定删除此商品吗？"
-          confirm-button-text="确定"
-          cancel-button-text="取消"
-          @confirm="deleteProduct"
-        >
-          <template #reference>
-            <el-button
-              type="danger"
-              icon="el-icon-delete"
-              circle
-            />
-          </template>
-        </el-popconfirm>
-      </div>
-    </transition>
   </div>
 </template>
 
@@ -120,14 +118,15 @@ export default defineComponent({
   grid-template-rows: repeat(4, 1fr);
   gap: 8px;
   font-size: 12px;
+  position: relative;
 }
 .mask {
   background: rgba(0, 0, 0, 0.6);
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
+  left: -20px;
+  right: -20px;
+  top: -20px;
+  bottom: -20px;
   display: flex;
   align-items: center;
   justify-content: center;

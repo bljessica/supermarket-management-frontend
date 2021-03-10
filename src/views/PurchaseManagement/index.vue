@@ -47,10 +47,11 @@
             >
               <el-select
                 v-model="item.productName"
+                filterable
                 placeholder="请选择商品"
               >
                 <el-option
-                  v-for="product in allProducts"
+                  v-for="product in allProductsOptions"
                   :key="product.value"
                   :label="product.label"
                   :value="product.value"
@@ -126,7 +127,7 @@ export default defineComponent({
         key: Date.now()
       }]
     })
-    const allProducts = ref([])
+    const allProductsOptions = ref([])
     const purchaseQuantityRule = {
       validator: (rule: any, value: any, cb: any) => {
         if (value < 1) {
@@ -143,14 +144,14 @@ export default defineComponent({
       purchaseOrders,
       showAddPurchaseOrderDrawer,
       addPurchaseOrderForm,
-      allProducts,
+      allProductsOptions,
       purchaseQuantityRule,
       tableLoading
     }
   },
   async created () {
-    const res = await (this as any).$api.getAllProducts()
-    this.allProducts = res.data.map((item: any) => ({
+    const res = await (this as any).$api.getAllProductNames()
+    this.allProductsOptions = res.data.map((item: any) => ({
       label: item.productName,
       value: item.productName
     }))

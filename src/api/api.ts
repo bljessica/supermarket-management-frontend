@@ -38,6 +38,13 @@ export const getAllProducts = (data: any) => {
   })
 }
 
+export const getAllProductNames = () => {
+  return request({
+    url: '/allProductNames',
+    method: 'GET'
+  })
+}
+
 export const deleteProduct = (data: productNameType) => {
   return request({
     url: '/deleteProduct',

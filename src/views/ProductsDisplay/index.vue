@@ -242,7 +242,12 @@ export default defineComponent({
   },
   methods: {
     beforeProductImageUpload (file: any) {
-      this.addProductForm.image = URL.createObjectURL(file)
+      // 将上传的图片转为base64格式
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        (this as any).addProductForm.image = e.target.result
+      }
+      reader.readAsDataURL(file)
       return false // 屏蔽默认上传
     },
     handleEditProduct (row: any) {
