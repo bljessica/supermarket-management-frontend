@@ -22,7 +22,7 @@ export interface userInfoType {
 
 export interface productType {
   productName: string,
-  description: string,
+  image: string,
   price: number,
   unit: string,
   inventory: number,

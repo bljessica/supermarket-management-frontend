@@ -79,6 +79,7 @@
       <CardsDisplay
         v-if="currentTab === 'cards'"
         :all-filters="allFilters"
+        @editProduct="handleEditProduct"
       />
       <TableDisplay
         v-if="currentTab === 'table'"
@@ -110,10 +111,32 @@
           <el-input v-model="addProductForm.productName" />
         </el-form-item>
         <el-form-item
-          label="商品描述"
-          prop="description"
+          label="商品图片"
+          prop="image"
         >
-          <el-input v-model="addProductForm.description" />
+          <el-upload
+            action="#"
+            :before-upload="beforeProductImageUpload"
+          >
+            <img
+              v-if="addProductForm.image"
+              height="120"
+              :src="addProductForm.image"
+            >
+            <el-button
+              v-else
+              size="small"
+              type="primary"
+            >
+              点击上传
+            </el-button>
+            <template #tip>
+              <div>
+                只能上传 jpg/png 文件，且不超过 500kb
+              </div>
+            </template>
+          </el-upload>
+          <!-- <el-input v-model="addProductForm.image" /> -->
         </el-form-item>
         <el-form-item
           label="价格"
@@ -172,6 +195,7 @@ import TableDisplay from '@/components/productsDisplay/TableDisplay.vue'
 import { addProductForm, addProductFormRules } from './addProductFormModel'
 import AuthButton from '@/components/common/auth/AuthButton.vue'
 import { PRODUCT_STATUS } from '@/constants/contants.ts'
+import { cloneDeep } from 'lodash'
 
 export default defineComponent({
   name: 'ProductDisplay',
@@ -217,9 +241,13 @@ export default defineComponent({
     }
   },
   methods: {
+    beforeProductImageUpload (file: any) {
+      this.addProductForm.image = URL.createObjectURL(file)
+      return false // 屏蔽默认上传
+    },
     handleEditProduct (row: any) {
       this.showAddProductDrawer = true
-      this.addProductForm = row
+      this.addProductForm = cloneDeep(row)
       this.editingProduct = true
     },
     async handleAddProduct () {

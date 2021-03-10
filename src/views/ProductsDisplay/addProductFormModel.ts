@@ -3,7 +3,7 @@ import { productType } from '@/constants/types'
 
 export const addProductForm: productType = {
   productName: '',
-  description: '',
+  image: '',
   price: 10,
   unit: '个',
   inventory: 0,

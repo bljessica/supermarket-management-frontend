@@ -9,6 +9,8 @@
         v-for="product in products"
         :key="product.productName"
         :product="product"
+        @getProducts="getProducts"
+        @editProduct="$emit('editProduct', product)"
       />
     </div>
     <el-pagination

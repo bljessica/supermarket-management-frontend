@@ -1,41 +1,76 @@
 <template>
-  <el-card class="product-card-container">
-    <template #header>
-      <div class="product-card-title">
-        <h3 style="color: #909399;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width: 180px;">
-          {{ product.productName }}
-        </h3>
-        <span
-          style="font-size: 12px;margin-right: 8px;"
-        >状态：
-          <el-tag
-            size="mini"
-            :type="product.status === '售罄' ? 'danger' : 'success'"
-          >
-            {{ product.status }}
-          </el-tag>
-        </span>
+  <div
+    style="position: relative;"
+    @mouseenter="actionsShow = true"
+    @mouseleave="actionsShow = false"
+  >
+    <el-card
+      class="product-card-container"
+    >
+      <template #header>
+        <div class="product-card-title">
+          <h3 style="color: #909399;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width: 180px;">
+            {{ product.productName }}
+          </h3>
+          <span
+            style="font-size: 12px;margin-right: 8px;"
+          >状态：
+            <el-tag
+              size="mini"
+              :type="product.status === '售罄' ? 'danger' : 'success'"
+            >
+              {{ product.status }}
+            </el-tag>
+          </span>
+        </div>
+      </template>
+      <div class="product-card-content">
+        <img
+          style="grid-area: a / a / m / n;width: 120px;height: 100px;"
+          :src="product.image"
+        >
+        <span style="grid-area: c">价格：</span>
+        <span style="grid-area: d">{{ product.price }}</span>
+        <span style="grid-area: g">单位：</span>
+        <span style="grid-area: h">{{ product.unit }}</span>
+        <span style="grid-area: k">库存量：</span>
+        <span style="grid-area: l">{{ product.inventory }}</span>
+        <span style="grid-area: o">库存上限：</span>
+        <span style="grid-area: p">{{ product.inventoryCeiling }}</span>
       </div>
-    </template>
-    <div class="product-card-content">
-      <img
-        style="grid-area: a / a / m / n;width: 120px;height: 100px;"
-        :src="product.image"
+    </el-card>
+    <transition name="fade">
+      <div
+        v-show="actionsShow"
+        class="mask"
       >
-      <span style="grid-area: c">价格：</span>
-      <span style="grid-area: d">{{ product.price }}</span>
-      <span style="grid-area: g">单位：</span>
-      <span style="grid-area: h">{{ product.unit }}</span>
-      <span style="grid-area: k">库存量：</span>
-      <span style="grid-area: l">{{ product.inventory }}</span>
-      <span style="grid-area: o">库存上限：</span>
-      <span style="grid-area: p">{{ product.inventoryCeiling }}</span>
-    </div>
-  </el-card>
+        <el-button
+          type="primary"
+          icon="el-icon-edit"
+          circle
+          @click="$emit('editProduct')"
+        />
+        <el-popconfirm
+          title="确定删除此商品吗？"
+          confirm-button-text="确定"
+          cancel-button-text="取消"
+          @confirm="deleteProduct"
+        >
+          <template #reference>
+            <el-button
+              type="danger"
+              icon="el-icon-delete"
+              circle
+            />
+          </template>
+        </el-popconfirm>
+      </div>
+    </transition>
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
   name: 'ProductCard',
@@ -45,9 +80,23 @@ export default defineComponent({
       required: true
     }
   },
+  setup () {
+    const actionsShow = ref<boolean>(false)
+    return {
+      actionsShow
+    }
+  },
   computed: {
     productStatus (): string {
       return this.product.inventory === 0 ? '售罄' : '正常'
+    }
+  },
+  methods: {
+    async deleteProduct () {
+      await (this as any).$api.deleteProduct({
+        productName: this.product.productName
+      })
+      this.$emit('getProducts')
     }
   }
 })
@@ -71,5 +120,24 @@ export default defineComponent({
   grid-template-rows: repeat(4, 1fr);
   gap: 8px;
   font-size: 12px;
+}
+.mask {
+  background: rgba(0, 0, 0, 0.6);
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  cursor: pointer;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.3s ease-out;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
 }
 </style>
