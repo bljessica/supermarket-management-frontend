@@ -2,7 +2,7 @@
   <el-card class="product-card-container">
     <template #header>
       <div class="product-card-title">
-        <h3 style="color: #909399">
+        <h3 style="color: #909399;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width: 180px;">
           {{ product.productName }}
         </h3>
         <span
@@ -18,25 +18,18 @@
       </div>
     </template>
     <div class="product-card-content">
-      <span style="grid-area: a">简介：</span>
-      <span
-        style="
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          grid-area: b/b/d/d;
-        "
+      <img
+        style="grid-area: a / a / m / n;width: 120px;height: 100px;"
+        :src="product.image"
       >
-        {{ product.description || '暂无' }}
-      </span>
-      <span style="grid-area: e">价格：</span>
-      <span style="grid-area: f">{{ product.price }}</span>
+      <span style="grid-area: c">价格：</span>
+      <span style="grid-area: d">{{ product.price }}</span>
       <span style="grid-area: g">单位：</span>
       <span style="grid-area: h">{{ product.unit }}</span>
-      <span style="grid-area: i">库存量：</span>
-      <span style="grid-area: j">{{ product.inventory }}</span>
-      <span style="grid-area: k">库存上限：</span>
-      <span style="grid-area: l">{{ product.inventoryCeiling }}</span>
+      <span style="grid-area: k">库存量：</span>
+      <span style="grid-area: l">{{ product.inventory }}</span>
+      <span style="grid-area: o">库存上限：</span>
+      <span style="grid-area: p">{{ product.inventoryCeiling }}</span>
     </div>
   </el-card>
 </template>
@@ -72,11 +65,10 @@ export default defineComponent({
   height: 20px;
 }
 .product-card-content {
-  margin-top: 10px;
   display: grid;
-  grid-template-areas: "a b c d" "e f g h" "i j k l";
+  grid-template-areas: "a b c d" "e f g h" "i j k l" 'm n o p';
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
   gap: 8px;
   font-size: 12px;
 }

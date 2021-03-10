@@ -1,19 +1,31 @@
 <template>
-  <div
-    v-if="products.length"
-    v-loading="loading"
-    class="cards-display-container"
-  >
-    <ProductCard
-      v-for="product in products"
-      :key="product.productName"
-      :product="product"
+  <div>
+    <div
+      v-if="products.length || loading"
+      v-loading="loading"
+      class="cards-display-container"
+    >
+      <ProductCard
+        v-for="product in products"
+        :key="product.productName"
+        :product="product"
+      />
+    </div>
+    <el-pagination
+      v-if="products.length || loading"
+      style="margin-top: 20px;"
+      background
+      layout="prev, pager, next"
+      :page-size="pagination.pageSize"
+      :total="pagination.total"
+      :current-page="pagination.pageIdx"
+      @current-change="getProducts($event)"
+    />
+    <el-empty
+      v-else
+      description="暂无商品信息"
     />
   </div>
-  <el-empty
-    v-else
-    description="暂无商品信息"
-  />
 </template>
 
 <script lang="ts">
@@ -30,9 +42,15 @@ export default defineComponent({
   setup () {
     const products = ref([])
     const loading = ref<boolean>(false)
+    const pagination = {
+      total: 0,
+      pageIdx: 1,
+      pageSize: 10
+    }
     return {
       products,
-      loading
+      loading,
+      pagination
     }
   }
 })

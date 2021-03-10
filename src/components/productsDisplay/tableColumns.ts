@@ -2,12 +2,7 @@ export default [
   {
     key: 'productName',
     label: '商品名',
-    width: '150',
     fixed: true
-  },
-  {
-    key: 'description',
-    label: '简介'
   },
   {
     key: 'price',

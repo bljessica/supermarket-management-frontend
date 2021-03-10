@@ -60,6 +60,16 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination
+      v-if="products.length || loading"
+      style="margin-top: 20px;"
+      background
+      layout="prev, pager, next"
+      :page-size="pagination.pageSize"
+      :total="pagination.total"
+      :current-page="pagination.pageIdx"
+      @current-change="getProducts($event)"
+    />
   </div>
 </template>
 
@@ -79,11 +89,17 @@ export default defineComponent({
     const products = ref([])
     const selectedRows = ref([])
     const loading = ref<boolean>(false)
+    const pagination = {
+      total: 0,
+      pageIdx: 1,
+      pageSize: 10
+    }
     return {
       columns,
       products,
       selectedRows,
-      loading
+      loading,
+      pagination
     }
   },
   methods: {
