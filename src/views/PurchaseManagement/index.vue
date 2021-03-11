@@ -11,7 +11,8 @@
     <el-table
       v-loading="tableLoading"
       style="margin-top: 20px;"
-      :data="purchaseOrders"
+      :data="purchaseOrdersData"
+      :span-method="spanMethod"
       border
     >
       <el-table-column
@@ -117,7 +118,8 @@ import dayjs from 'dayjs'
 export default defineComponent({
   name: 'PurchaseManagement',
   setup () {
-    const purchaseOrders = ref<Array<purchaseOrderType> | null>(null)
+    const purchaseOrders = ref([])
+    const purchaseOrdersData = ref<Array<purchaseOrderType> | null>(null)
     const showAddPurchaseOrderDrawer = ref<boolean>(false)
     const addPurchaseOrderForm = ref({
       remark: '',
@@ -142,6 +144,7 @@ export default defineComponent({
     return {
       inventoryTableColumns,
       purchaseOrders,
+      purchaseOrdersData,
       showAddPurchaseOrderDrawer,
       addPurchaseOrderForm,
       allProductsOptions,
@@ -158,11 +161,43 @@ export default defineComponent({
     await this.getPurchaseOrders()
   },
   methods: {
+    // @ts-ignore
+    spanMethod ({ row, column, rowIndex, columnIndex }) {
+      if (columnIndex === 0) {
+        let idx = 0
+        for (const item of this.purchaseOrders) {
+          if (rowIndex === idx) {
+            return {
+              rowspan: item.count,
+              colspan: 1
+            }
+          } else if (idx > rowIndex) {
+            return {
+              rowspan: 0,
+              colspan: 0
+            }
+          }
+          idx += item.count
+        }
+        return {
+          rowspan: 0,
+          colspan: 0
+        }
+      } else {
+        return {
+          rowspan: 1,
+          colspan: 1
+        }
+      }
+    },
     async getPurchaseOrders () {
       this.tableLoading = true
       const res = await (this as any).$api.getAllPurchaseOrders()
       this.tableLoading = false
       this.purchaseOrders = res.data
+      this.purchaseOrdersData = res.data.reduce((res: Array<any>, cur: any) => {
+        return res.concat(cur.orders)
+      }, [])
     },
     handleAddPurchaseOrder () {
       (this as any).$refs.AddPurchaseOrderForm.validate(async (valid: boolean) => {

@@ -2,13 +2,12 @@ export default [
   {
     key: 'orderId',
     label: '订单ID',
-    width: '120',
+    width: '150',
     fixed: true
   },
   {
     key: 'productName',
-    label: '商品名',
-    width: '120'
+    label: '商品名'
   },
   {
     key: 'purchaseQuantity',
@@ -32,6 +31,7 @@ export default [
   },
   {
     key: 'remark',
-    label: '备注'
+    label: '备注',
+    width: '100'
   }
 ]
