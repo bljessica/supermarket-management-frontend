@@ -193,11 +193,11 @@ export default defineComponent({
     async getPurchaseOrders () {
       this.tableLoading = true
       const res = await (this as any).$api.getAllPurchaseOrders()
-      this.tableLoading = false
       this.purchaseOrders = res.data
       this.purchaseOrdersData = res.data.reduce((res: Array<any>, cur: any) => {
         return res.concat(cur.orders)
       }, [])
+      this.tableLoading = false
     },
     handleAddPurchaseOrder () {
       (this as any).$refs.AddPurchaseOrderForm.validate(async (valid: boolean) => {

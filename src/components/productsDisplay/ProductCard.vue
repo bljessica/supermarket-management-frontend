@@ -2,8 +2,6 @@
   <div>
     <el-card
       class="product-card-container"
-      @mouseenter="actionsShow = true"
-      @mouseleave="actionsShow = false"
     >
       <template #header>
         <div class="product-card-title">
@@ -22,7 +20,11 @@
           </span>
         </div>
       </template>
-      <div class="product-card-content">
+      <div
+        class="product-card-content"
+        @mouseenter="actionsShow = true"
+        @mouseleave="actionsShow = false"
+      >
         <img
           style="grid-area: a / a / m / n;width: 120px;height: 100px;"
           :src="product.image"
