@@ -11,6 +11,16 @@
         width="50"
       />
       <el-table-column
+        label="商品名"
+        :fixed="true"
+      >
+        <template #default="scope">
+          <router-link :to="{path: '/productDetail/' + scope.row._id}">
+            {{ scope.row.productName }}
+          </router-link>
+        </template>
+      </el-table-column>
+      <el-table-column
         v-for="column in columns"
         :key="column.key"
         :prop="column.key"

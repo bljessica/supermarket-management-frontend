@@ -15,3 +15,7 @@ export interface editProductType {
   inventory: number,
   inventoryCeiling: number
 }
+
+export interface getProductType {
+  _id: string
+}

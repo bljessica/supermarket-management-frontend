@@ -1,6 +1,6 @@
 import request from './request/request'
 import { loginDataType, registerDataType } from './types/auth'
-import { productNameType, checkedListType } from './types/product'
+import { productNameType, checkedListType, getProductType } from './types/product'
 import { addPurchaseOrderType } from './types/purchase'
 import { productType } from '@/constants/types'
 
@@ -33,6 +33,14 @@ export const addProduct = (data: productType) => {
 export const getAllProducts = (data: any) => {
   return request({
     url: '/allProducts',
+    method: 'GET',
+    data
+  })
+}
+
+export const getProduct = (data: getProductType) => {
+  return request({
+    url: '/product',
     method: 'GET',
     data
   })

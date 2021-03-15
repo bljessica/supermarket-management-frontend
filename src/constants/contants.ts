@@ -4,22 +4,18 @@ export const ASIDE_ITEMS = {
     index: '1',
     items: [{
       index: '1-1',
-      name: '商品信息',
-      urlPath: '/productDisplay/cards'
-    }, {
-      index: '1-2',
       name: '销售记录',
       urlPath: '/'
     }, {
-      index: '1-3',
+      index: '1-2',
       name: '销售图表',
       urlPath: '/'
     }, {
-      index: '1-4',
+      index: '1-3',
       name: '商品推荐',
       urlPath: '/'
     }, {
-      index: '1-5',
+      index: '1-4',
       name: '销售报表',
       urlPath: '/'
     }]
@@ -34,11 +30,11 @@ export const ASIDE_ITEMS = {
     index: '3',
     items: [{
       index: '3-1',
-      name: '出/入库历史',
-      urlPath: '/'
+      name: '商品信息',
+      urlPath: '/productDisplay/cards'
     }, {
       index: '3-2',
-      name: '库存信息',
+      name: '出/入库历史',
       urlPath: '/'
     }]
   }

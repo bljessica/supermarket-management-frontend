@@ -34,7 +34,7 @@ const routes: Array<RouteRecordRaw> = [
     component: PurchaseManagement
   },
   {
-    path: '/productDetail/:id',
+    path: '/productDetail/:_id',
     name: 'productDetail',
     component: ProductDetail,
     props: true

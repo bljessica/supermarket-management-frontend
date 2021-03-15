@@ -1,10 +1,5 @@
 export default [
   {
-    key: 'productName',
-    label: '商品名',
-    fixed: true
-  },
-  {
     key: 'price',
     label: '价格',
     width: '100'
