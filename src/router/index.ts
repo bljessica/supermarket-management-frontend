@@ -2,13 +2,16 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import ProductDisplay from '@/views/ProductsDisplay/index.vue'
 import LoginOrRegister from '@/views/LoginOrRegister.vue'
 import PurchaseManagement from '@/views/PurchaseManagement/index.vue'
+import ProductDetail from '@/views/ProductDetail/index.vue'
+import Blank from '@/views/Blank.vue'
 import { getUserFromLocal } from '@/utils'
 import Store from '@/store'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/productDisplay/cards'
+    component: Blank
+    // redirect: '/productDisplay/cards'
   },
   {
     path: '/productDisplay/:tab',
@@ -29,6 +32,12 @@ const routes: Array<RouteRecordRaw> = [
     path: '/purchaseManagement',
     name: 'purchaseManagement',
     component: PurchaseManagement
+  },
+  {
+    path: '/productDetail/:id',
+    name: 'productDetail',
+    component: ProductDetail,
+    props: true
   }
 ]
 

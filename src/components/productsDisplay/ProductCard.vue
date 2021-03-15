@@ -5,7 +5,10 @@
     >
       <template #header>
         <div class="product-card-title">
-          <h3 style="color: #909399;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width: 180px;">
+          <h3
+            style="color: #909399;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width: 180px;cursor: pointer;"
+            @click="$router.push({path: '/productDetail/' + product._id})"
+          >
             {{ product.productName }}
           </h3>
           <span

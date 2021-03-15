@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-menu
-      :default-active="ASIDE_ITEMS['商品信息'].index"
+      :default-active="ASIDE_ITEMS['销售管理'].items[0].index"
       background-color="#E9EEF3"
     >
       <div
