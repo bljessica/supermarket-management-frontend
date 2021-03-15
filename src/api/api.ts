@@ -101,3 +101,12 @@ export const changePurchaseOrderStatus = (data: any) => {
     data
   })
 }
+
+// productInventoryChange
+export const getProductInventoryChange = (data: any) => {
+  return request({
+    url: '/productInventoryChange',
+    method: 'GET',
+    data
+  })
+}

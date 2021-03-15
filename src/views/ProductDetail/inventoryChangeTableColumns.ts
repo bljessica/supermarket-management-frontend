@@ -1,6 +1,6 @@
 export default [
   {
-    key: 'purchaserName',
+    key: 'users.username',
     label: '采购人',
     width: '100'
   },

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="product-detail">
     <el-button
       round
       plain
@@ -17,7 +17,7 @@
     <el-table
       v-loading="tableLoading"
       style="margin-top: 20px;"
-      :data="[]"
+      :data="productInventoryChangeTableData"
       border
     >
       <el-table-column
@@ -29,6 +29,16 @@
         :prop="column.key"
         show-overflow-tooltip
       />
+      <el-table-column
+        label="类型"
+        width="100"
+      >
+        <template #default="scope">
+          <el-tag :type="(scope.row.type === '购入') ? 'success' : 'warning'">
+            {{ scope.row.type }}
+          </el-tag>
+        </template>
+      </el-table-column>
     </el-table>
   </div>
 </template>
@@ -46,21 +56,27 @@ export default defineComponent({
   setup () {
     const product = ref({})
     const tableLoading = ref<boolean>(false)
+    const productInventoryChangeTableData = ref([])
     return {
       product,
       tableLoading,
-      inventoryChangeTableColumns
+      inventoryChangeTableColumns,
+      productInventoryChangeTableData
     }
   },
   async mounted () {
-    const res = await (this as any).$api.getProduct({ _id: this.$route.params._id })
+    let res = await (this as any).$api.getProduct({ _id: this.$route.params._id })
     this.product = res.data
+    this.tableLoading = true
+    res = await (this as any).$api.getProductInventoryChange({ _id: this.$route.params._id })
+    this.productInventoryChangeTableData = res.data
+    this.tableLoading = false
   }
 })
 </script>
 
 <style lang="scss" scoped>
-:deep(.product-card-title) h3 {
+.product-detail :deep(.product-card-title) h3 {
   width: 70% !important;
 }
 </style>
