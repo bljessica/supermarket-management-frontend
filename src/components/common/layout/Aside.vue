@@ -1,12 +1,13 @@
 <template>
   <div>
     <el-menu
-      default-active="3-1"
+      :router="true"
+      :default-active="ASIDE_ITEMS['库存管理'].index"
       background-color="#E9EEF3"
     >
       <div
         v-for="submenu in Object.values(ASIDE_ITEMS)"
-        :key="submenu.index"
+        :key="submenu.name"
       >
         <el-submenu
           v-if="submenu.items"
@@ -19,7 +20,6 @@
             v-for="item in submenu.items"
             :key="item.index"
             :index="item.index"
-            @click="changeUrl(item.urlPath)"
           >
             {{ item.name }}
           </el-menu-item>
@@ -27,7 +27,6 @@
         <el-menu-item
           v-else
           :index="submenu.index"
-          @click="changeUrl(submenu.urlPath)"
         >
           <template #title>
             {{ submenu.name }}
@@ -47,11 +46,6 @@ export default defineComponent({
   setup () {
     return {
       ASIDE_ITEMS
-    }
-  },
-  methods: {
-    changeUrl (urlPath: string) {
-      this.$router.replace({ path: urlPath })
     }
   }
 })

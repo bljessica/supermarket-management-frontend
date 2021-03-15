@@ -20,7 +20,7 @@ export default [
     width: '100'
   },
   {
-    key: 'purchaseTime',
+    key: 'createTime',
     label: '采购时间',
     width: '180'
   },

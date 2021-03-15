@@ -32,6 +32,7 @@
         <template #default="scope">
           <el-select
             v-model="scope.row.purchaseStatus"
+            :disabled="scope.row.purchaseStatus === '已完成'"
             @change="handlePurchaseStatusChange(scope.row, $event)"
           >
             <el-option
@@ -184,9 +185,12 @@ export default defineComponent({
   },
   methods: {
     async handlePurchaseStatusChange (row: any, e: any) {
+      console.log(e, e === '已完成')
       await (this as any).$api.changePurchaseOrderStatus({
         ...row,
-        purchaseStatus: e
+        purchaseStatus: e,
+        endTime: (e === '已完成') ? dayjs().format('YYYY/MM/DD HH:mm:ss') : '',
+        operatorAccount: this.$store.state.user.account
       })
     },
     // @ts-ignore
@@ -235,7 +239,7 @@ export default defineComponent({
             remark: this.addPurchaseOrderForm.remark,
             items: this.addPurchaseOrderForm.items,
             purchaserAccount: this.$store.state.user.account,
-            purchaseTime: dayjs().format('YYYY/MM/DD HH:mm:ss')
+            createTime: dayjs().format('YYYY/MM/DD HH:mm:ss')
           })
           if (res.code === 0) {
             (this as any).$refs.AddPurchaseOrderForm.resetFields()

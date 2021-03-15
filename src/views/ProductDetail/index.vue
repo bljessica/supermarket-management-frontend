@@ -10,15 +10,33 @@
       返回
     </el-button>
     <ProductCard
+      :show-hover-actions="false"
       style="margin-top: 20px;"
       :product="product"
     />
+    <el-table
+      v-loading="tableLoading"
+      style="margin-top: 20px;"
+      :data="[]"
+      border
+    >
+      <el-table-column
+        v-for="column in inventoryChangeTableColumns"
+        :key="column.key"
+        :width="column.width"
+        :fixed="column.fixed"
+        :label="column.label"
+        :prop="column.key"
+        show-overflow-tooltip
+      />
+    </el-table>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref } from 'vue'
-import ProductCard from '@/components/productsDisplay/ProductCard'
+import ProductCard from '@/components/productsDisplay/ProductCard.vue'
+import inventoryChangeTableColumns from './inventoryChangeTableColumns'
 
 export default defineComponent({
   name: 'ProductDetail',
@@ -27,12 +45,15 @@ export default defineComponent({
   },
   setup () {
     const product = ref({})
+    const tableLoading = ref<boolean>(false)
     return {
-      product
+      product,
+      tableLoading,
+      inventoryChangeTableColumns
     }
   },
   async mounted () {
-    const res = await this.$api.getProduct({ _id: this.$route.params._id })
+    const res = await (this as any).$api.getProduct({ _id: this.$route.params._id })
     this.product = res.data
   }
 })

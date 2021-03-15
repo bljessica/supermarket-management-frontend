@@ -25,8 +25,8 @@
       </template>
       <div
         class="product-card-content"
-        @mouseenter="actionsShow = true"
-        @mouseleave="actionsShow = false"
+        @mouseenter="showHoverActions && (actionsShow = true)"
+        @mouseleave="showHoverActions && (actionsShow = false)"
       >
         <img
           style="grid-area: a / a / m / n;width: 120px;height: 100px;"
@@ -81,6 +81,10 @@ export default defineComponent({
     product: {
       type: Object,
       required: true
+    },
+    showHoverActions: {
+      type: Boolean,
+      default: true
     }
   },
   setup () {

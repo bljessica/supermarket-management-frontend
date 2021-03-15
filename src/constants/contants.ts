@@ -1,42 +1,28 @@
 export const ASIDE_ITEMS = {
   销售管理: {
     name: '销售管理',
-    index: '1',
+    index: '/',
     items: [{
-      index: '1-1',
-      name: '销售记录',
-      urlPath: '/'
+      index: '/',
+      name: '销售记录'
     }, {
-      index: '1-2',
-      name: '销售图表',
-      urlPath: '/'
+      index: '/',
+      name: '销售图表'
     }, {
-      index: '1-3',
-      name: '商品推荐',
-      urlPath: '/'
+      index: '/',
+      name: '商品推荐'
     }, {
-      index: '1-4',
-      name: '销售报表',
-      urlPath: '/'
+      index: '/',
+      name: '销售报表'
     }]
   },
   采购管理: {
     name: '采购管理',
-    index: '2',
-    urlPath: '/purchaseManagement'
+    index: '/purchaseManagement'
   },
   库存管理: {
     name: '库存管理',
-    index: '3',
-    items: [{
-      index: '3-1',
-      name: '商品信息',
-      urlPath: '/productDisplay/cards'
-    }, {
-      index: '3-2',
-      name: '出/入库历史',
-      urlPath: '/'
-    }]
+    index: '/productDisplay/cards'
   }
 }
 
