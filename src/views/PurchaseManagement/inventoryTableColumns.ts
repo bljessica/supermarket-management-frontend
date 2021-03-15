@@ -25,11 +25,6 @@ export default [
     width: '180'
   },
   {
-    key: 'purchaseStatus',
-    label: '采购状态',
-    width: '100'
-  },
-  {
     key: 'remark',
     label: '备注',
     width: '100'

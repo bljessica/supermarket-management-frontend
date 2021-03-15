@@ -93,3 +93,11 @@ export const getAllPurchaseOrders = (data: any) => {
     data
   })
 }
+
+export const changePurchaseOrderStatus = (data: any) => {
+  return request({
+    url: '/changePurchaseOrderStatus',
+    method: 'PUT',
+    data
+  })
+}

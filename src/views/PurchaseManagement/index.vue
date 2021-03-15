@@ -8,6 +8,7 @@
         添加采购单
       </el-button>
     </div>
+    <!-- 订单表 -->
     <el-table
       v-loading="tableLoading"
       style="margin-top: 20px;"
@@ -24,7 +25,26 @@
         :prop="column.key"
         show-overflow-tooltip
       />
+      <el-table-column
+        label="采购状态"
+        width="130"
+      >
+        <template #default="scope">
+          <el-select
+            v-model="scope.row.purchaseStatus"
+            @change="handlePurchaseStatusChange(scope.row, $event)"
+          >
+            <el-option
+              v-for="item in Object.values(PURCHASE_ORDER_STATUS)"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </template>
+      </el-table-column>
     </el-table>
+    <!-- 添加采购单 - 抽屉 -->
     <el-drawer
       v-model="showAddPurchaseOrderDrawer"
       destroy-on-close
@@ -113,6 +133,7 @@
 import { defineComponent, ref } from 'vue'
 import inventoryTableColumns from './inventoryTableColumns'
 import { purchaseOrderType } from '@/constants/types'
+import { PURCHASE_ORDER_STATUS } from '@/constants/contants'
 import dayjs from 'dayjs'
 
 export default defineComponent({
@@ -149,7 +170,8 @@ export default defineComponent({
       addPurchaseOrderForm,
       allProductsOptions,
       purchaseQuantityRule,
-      tableLoading
+      tableLoading,
+      PURCHASE_ORDER_STATUS
     }
   },
   async created () {
@@ -161,9 +183,15 @@ export default defineComponent({
     await this.getPurchaseOrders()
   },
   methods: {
+    async handlePurchaseStatusChange (row: any, e: any) {
+      await (this as any).$api.changePurchaseOrderStatus({
+        ...row,
+        purchaseStatus: e
+      })
+    },
     // @ts-ignore
     spanMethod ({ row, column, rowIndex, columnIndex }) {
-      if (columnIndex === 0) {
+      if ((columnIndex !== 1) && (columnIndex !== 2)) {
         let idx = 0
         for (const item of this.purchaseOrders) {
           if (rowIndex === idx) {
