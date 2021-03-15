@@ -209,7 +209,7 @@ export default defineComponent({
     const showAddProductDrawer = ref<boolean>(false)
     const addProductFormRef = ref(addProductForm)
     const refresh = ref<boolean>(false)
-    const editingProduct = ref<boolean>(false)
+    const editingProductId = ref<string | null>(null)
     const productStatusFilter = ref<string>('')
     return {
       currentTab,
@@ -217,7 +217,7 @@ export default defineComponent({
       addProductForm: addProductFormRef,
       addProductFormRules,
       refresh,
-      editingProduct,
+      editingProductId,
       PRODUCT_STATUS,
       productStatusFilter
     }
@@ -253,18 +253,21 @@ export default defineComponent({
     handleEditProduct (row: any) {
       this.showAddProductDrawer = true
       this.addProductForm = cloneDeep(row)
-      this.editingProduct = true
+      this.editingProductId = row._id
     },
     async handleAddProduct () {
       let res = null
-      if (this.editingProduct) {
-        res = await (this as any).$api.editProduct(this.addProductForm)
+      if (this.editingProductId) {
+        res = await (this as any).$api.editProduct({
+          ...this.addProductForm,
+          _id: this.editingProductId
+        })
       } else {
         res = await (this as any).$api.addProduct(this.addProductForm)
       }
       if (res.code === 0) {
         this.showAddProductDrawer = false
-        this.editingProduct = false
+        this.editingProductId = null
         this.refresh = !this.refresh;
         (this as any).$refs.AddProductForm.resetFields()
       }

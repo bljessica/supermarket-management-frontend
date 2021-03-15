@@ -5,3 +5,13 @@ export interface productNameType {
 export interface checkedListType {
   checkedList: Array<string>
 }
+
+export interface editProductType {
+  _id: string,
+  productName: string,
+  image: string,
+  price: number,
+  unit: string,
+  inventory: number,
+  inventoryCeiling: number
+}
