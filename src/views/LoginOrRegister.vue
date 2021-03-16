@@ -185,9 +185,9 @@ export default defineComponent({
   },
   methods: {
     async login () {
-      (this as any).$refs.LoginForm.validate(async (isValid: boolean) => {
+      this.$refs.LoginForm.validate(async (isValid: boolean) => {
         if (isValid) {
-          const res = await (this as any).$api.login({
+          const res = await this.$api.login({
             account: this.loginForm.account,
             password: CryptoJS.MD5(this.loginForm.password).toString()
           })
@@ -203,8 +203,8 @@ export default defineComponent({
               // 记住用户
               saveUserToLocal(user)
             }
-            this.$store.commit('setUser', user);
-            (this as any).$refs.LoginForm.resetFields()
+            this.$store.commit('setUser', user)
+            this.$refs.LoginForm.resetFields()
             // 跳转首页
             setTimeout(() => {
               this.$router.push({ path: '/' })
@@ -216,9 +216,9 @@ export default defineComponent({
       })
     },
     async register () {
-      (this as any).$refs.RegisterForm.validate(async (isValid: boolean) => {
+      this.$refs.RegisterForm.validate(async (isValid: boolean) => {
         if (isValid) {
-          const res = await (this as any).$api.register({
+          const res = await this.$api.register({
             account: this.registerForm.account,
             password: CryptoJS.MD5(this.registerForm.password2).toString(),
             username: this.registerForm.username,
@@ -226,7 +226,7 @@ export default defineComponent({
             entryTime: dayjs().format('YYYY/MM/DD HH:mm:ss')
           })
           if (res.code === 0) {
-            (this as any).$refs.RegisterForm.resetFields()
+            this.$refs.RegisterForm.resetFields()
             this.$router.push({ path: '/loginOrRegister/login' })
           }
         } else {

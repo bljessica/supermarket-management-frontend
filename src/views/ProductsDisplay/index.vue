@@ -30,7 +30,10 @@
       style="margin-top: 20px;display: flex;align-items: center;align-items: center;justify-content: space-between;"
     >
       <!-- 筛选 -->
-      <div class="filters-container">
+      <div
+        class="filters-container"
+        style="display: flex;"
+      >
         <el-select
           v-model="productStatusFilter"
           placeholder="请选择商品状态"
@@ -43,6 +46,12 @@
             :value="item.value"
           />
         </el-select>
+        <el-input
+          v-model="searchText"
+          style="margin-left: 20px;"
+          size="small"
+          placeholder="请输入商品名"
+        />
       </div>
       <!-- 操作 -->
       <div
@@ -211,6 +220,7 @@ export default defineComponent({
     const refresh = ref<boolean>(false)
     const editingProductId = ref<string | null>(null)
     const productStatusFilter = ref<string>('')
+    const searchText = ref<string>('')
     return {
       currentTab,
       showAddProductDrawer,
@@ -219,14 +229,16 @@ export default defineComponent({
       refresh,
       editingProductId,
       PRODUCT_STATUS,
-      productStatusFilter
+      productStatusFilter,
+      searchText
     }
   },
   computed: {
     allFilters () {
       return {
-        refresh: (this as any).refresh,
-        status: (this as any).productStatusFilter
+        refresh: this.refresh,
+        status: this.productStatusFilter,
+        searchText: this.searchText
       }
     }
   },
@@ -245,7 +257,7 @@ export default defineComponent({
       // 将上传的图片转为base64格式
       const reader = new FileReader()
       reader.onload = (e) => {
-        (this as any).addProductForm.image = e.target.result
+        this.addProductForm.image = e.target.result
       }
       reader.readAsDataURL(file)
       return false // 屏蔽默认上传
@@ -258,18 +270,18 @@ export default defineComponent({
     async handleAddProduct () {
       let res = null
       if (this.editingProductId) {
-        res = await (this as any).$api.editProduct({
+        res = await this.$api.editProduct({
           ...this.addProductForm,
           _id: this.editingProductId
         })
       } else {
-        res = await (this as any).$api.addProduct(this.addProductForm)
+        res = await this.$api.addProduct(this.addProductForm)
       }
       if (res.code === 0) {
         this.showAddProductDrawer = false
         this.editingProductId = null
-        this.refresh = !this.refresh;
-        (this as any).$refs.AddProductForm.resetFields()
+        this.refresh = !this.refresh
+        this.$refs.AddProductForm.resetFields()
       }
     },
     changeTab (tab: 'cards' | 'table'): void {

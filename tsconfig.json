@@ -8,6 +8,8 @@
     "moduleResolution": "node",
     "skipLibCheck": true,
     "strictPropertyInitialization": false,
+    "noImplicitThis": false,
+    "noImplicitAny": false,
     "strictNullChecks": false,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,

@@ -7,7 +7,7 @@ export const ASIDE_ITEMS = {
       name: '销售记录'
     }, {
       index: '/',
-      name: '销售图表'
+      name: '统计图表'
     }, {
       index: '/',
       name: '商品推荐'

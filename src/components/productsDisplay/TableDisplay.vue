@@ -114,7 +114,7 @@ export default defineComponent({
   },
   methods: {
     async deleteProduct (row: any) {
-      await (this as any).$api.deleteProduct({
+      await this.$api.deleteProduct({
         productName: row.productName
       })
       await this.getProducts()
@@ -123,8 +123,8 @@ export default defineComponent({
       this.selectedRows = selectedRows
     },
     async deleteSelectedProducts () {
-      const checkedList = this.selectedRows.map(item => item.productName);
-      (this as any).$api.deleteProducts({
+      const checkedList = this.selectedRows.map(item => item.productName)
+      this.$api.deleteProducts({
         checkedList
       })
       await this.getProducts()

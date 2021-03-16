@@ -1,4 +1,5 @@
 import { defineComponent } from 'vue'
+import { debounce } from 'lodash'
 
 export default defineComponent({
   props: {
@@ -19,22 +20,22 @@ export default defineComponent({
     await this.getProducts()
   },
   methods: {
-    async getProducts (pageIdx = 1) {
+    getProducts: debounce(async function (pageIdx = 1) {
       const filters = Object.keys(this.allFilters).reduce((res: any, key: string) => {
         if (key !== 'refresh' && this.allFilters[key]) {
           res[key] = this.allFilters[key]
         }
         return res
-      }, {});
-      (this as any).pagination.pageIdx = pageIdx;
-      (this as any).loading = true
-      const res = await (this as any).$api.getAllProducts({
+      }, {})
+      this.pagination.pageIdx = pageIdx
+      this.loading = true
+      const res = await this.$api.getAllProducts({
         ...filters,
-        ...(this as any).pagination
-      });
-      (this as any).loading = false;
-      (this as any).products = res.data;
-      (this as any).pagination.total = res.total
-    }
+        ...this.pagination
+      })
+      this.loading = false
+      this.products = res.data
+      this.pagination.total = res.total
+    }, 200)
   }
 })

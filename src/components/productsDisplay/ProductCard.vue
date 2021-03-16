@@ -5,12 +5,19 @@
     >
       <template #header>
         <div class="product-card-title">
-          <h3
-            style="color: #909399;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width: 180px;cursor: pointer;"
-            @click="$router.push({path: '/productDetail/' + product._id})"
+          <el-tooltip
+            class="item"
+            effect="dark"
+            :content="product.productName"
+            placement="bottom"
           >
-            {{ product.productName }}
-          </h3>
+            <h3
+              style="color: #909399;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width: 180px;cursor: pointer;"
+              @click="$router.push({path: '/productDetail/' + product._id})"
+            >
+              {{ product.productName }}
+            </h3>
+          </el-tooltip>
           <span
             style="font-size: 12px;margin-right: 8px;"
           >状态：
@@ -100,7 +107,7 @@ export default defineComponent({
   },
   methods: {
     async deleteProduct () {
-      await (this as any).$api.deleteProduct({
+      await this.$api.deleteProduct({
         productName: this.product.productName
       })
       this.$emit('getProducts')

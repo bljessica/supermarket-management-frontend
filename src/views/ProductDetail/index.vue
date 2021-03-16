@@ -65,10 +65,10 @@ export default defineComponent({
     }
   },
   async mounted () {
-    let res = await (this as any).$api.getProduct({ _id: this.$route.params._id })
+    let res = await this.$api.getProduct({ _id: this.$route.params._id })
     this.product = res.data
     this.tableLoading = true
-    res = await (this as any).$api.getProductInventoryChange({ _id: this.$route.params._id })
+    res = await this.$api.getProductInventoryChange({ _id: this.$route.params._id })
     this.productInventoryChangeTableData = res.data
     this.tableLoading = false
   }

@@ -176,7 +176,7 @@ export default defineComponent({
     }
   },
   async created () {
-    const res = await (this as any).$api.getAllProductNames()
+    const res = await this.$api.getAllProductNames()
     this.allProductsOptions = res.data.map((item: any) => ({
       label: item.productName,
       value: item.productName
@@ -186,15 +186,14 @@ export default defineComponent({
   methods: {
     async handlePurchaseStatusChange (row: any, e: any) {
       console.log(e, e === '已完成')
-      await (this as any).$api.changePurchaseOrderStatus({
+      await this.$api.changePurchaseOrderStatus({
         ...row,
         purchaseStatus: e,
         endTime: (e === '已完成') ? dayjs().format('YYYY/MM/DD HH:mm:ss') : '',
         operatorAccount: this.$store.state.user.account
       })
     },
-    // @ts-ignore
-    spanMethod ({ row, column, rowIndex, columnIndex }) {
+    spanMethod ({ rowIndex, columnIndex }) {
       if ((columnIndex !== 1) && (columnIndex !== 2)) {
         let idx = 0
         for (const item of this.purchaseOrders) {
@@ -224,7 +223,7 @@ export default defineComponent({
     },
     async getPurchaseOrders () {
       this.tableLoading = true
-      const res = await (this as any).$api.getAllPurchaseOrders()
+      const res = await this.$api.getAllPurchaseOrders()
       this.purchaseOrders = res.data
       this.purchaseOrdersData = res.data.reduce((res: Array<any>, cur: any) => {
         return res.concat(cur.orders)
@@ -232,9 +231,9 @@ export default defineComponent({
       this.tableLoading = false
     },
     handleAddPurchaseOrder () {
-      (this as any).$refs.AddPurchaseOrderForm.validate(async (valid: boolean) => {
+      this.$refs.AddPurchaseOrderForm.validate(async (valid: boolean) => {
         if (valid) {
-          const res = await (this as any).$api.addPurchaseOrder({
+          const res = await this.$api.addPurchaseOrder({
             orderId: Date.now(),
             remark: this.addPurchaseOrderForm.remark,
             items: this.addPurchaseOrderForm.items,
@@ -242,7 +241,7 @@ export default defineComponent({
             createTime: dayjs().format('YYYY/MM/DD HH:mm:ss')
           })
           if (res.code === 0) {
-            (this as any).$refs.AddPurchaseOrderForm.resetFields()
+            this.$refs.AddPurchaseOrderForm.resetFields()
             this.showAddPurchaseOrderDrawer = false
             await this.getPurchaseOrders()
           }
