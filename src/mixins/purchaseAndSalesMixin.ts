@@ -3,14 +3,26 @@ import dayjs from 'dayjs'
 
 export default defineComponent({
   async created () {
-    const res = await this.$api.getAllProductNames()
-    this.allProductsOptions = res.data.map((item: any) => ({
-      label: item.productName,
-      value: item.productName
-    }))
     await this.getOrders()
   },
   methods: {
+    async showAddingDrawer () {
+      this.showDrawer = true
+      await this.getAllProductNames()
+    },
+    async getAllProductNames () {
+      let filters = {}
+      if (this.$options.name === 'SalesRecords') {
+        filters = {
+          inventory: true
+        }
+      }
+      const res = await this.$api.getAllProductNames(filters)
+      this.allProductsOptions = res.data.map((item: any) => ({
+        label: item.productName,
+        value: item.productName
+      }))
+    },
     spanMethod ({ rowIndex, columnIndex }) {
       if ((columnIndex !== 1) && (columnIndex !== 2)) {
         let idx = 0
@@ -94,15 +106,23 @@ export default defineComponent({
         this.addOrderForm.items.push({
           productName: '',
           purchaseQuantity: 100,
+          inventory: 0,
+          inventoryCeiling: 0,
           key: Date.now()
         })
       } else if (this.$options.name === 'SalesRecords') {
         this.addOrderForm.items.push({
           productName: '',
+          inventory: 0,
           salesVolume: 100,
           key: Date.now()
         })
       }
+    },
+    async getProduct (item) {
+      const res = await this.$api.getProduct({ productName: escape(item.productName) })
+      item.inventory = res.data.inventory
+      item.inventoryCeiling = res.data.inventoryCeiling
     }
   }
 })

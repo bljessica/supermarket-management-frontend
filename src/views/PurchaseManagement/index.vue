@@ -3,7 +3,7 @@
     <div class="actions-container">
       <el-button
         size="small"
-        @click="showDrawer = true"
+        @click="showAddingDrawer"
       >
         添加采购单
       </el-button>
@@ -67,21 +67,24 @@
         ref="AddOrderForm"
         :model="addOrderForm"
         style="padding: 20px;"
+        label-position="left"
       >
         <el-row
           v-for="(item, index) in addOrderForm.items"
           :key="item.index"
         >
-          <el-col :span="10">
+          <el-col :span="6">
             <el-form-item
               label="商品名"
               :prop="'items.' + index + '.productName'"
-              :rules="{required: true, message: '商品名不能为空', trigger: 'blur'}"
+              :rules="productNameRule"
             >
               <el-select
                 v-model="item.productName"
+                size="small"
                 filterable
                 placeholder="请选择商品"
+                @change="getProduct(item)"
               >
                 <el-option
                   v-for="product in allProductsOptions"
@@ -92,13 +95,38 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="10">
+          <el-col :span="6">
             <el-form-item
               label="商品数量"
               :prop="'items.' + index + '.purchaseQuantity'"
               :rules="purchaseQuantityRule"
             >
-              <el-input-number v-model="item.purchaseQuantity" />
+              <el-input-number
+                v-model="item.purchaseQuantity"
+                size="small"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item
+              label="库存量"
+              size="small"
+              :prop="'items.' + index + '.inventory'"
+            >
+              <el-tag size="medium">
+                {{ item.inventory || 0 }}
+              </el-tag>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item
+              label="库存上限"
+              size="small"
+              :prop="'items.' + index + '.inventoryCeiling'"
+            >
+              <el-tag size="medium">
+                {{ item.inventoryCeiling || 0 }}
+              </el-tag>
             </el-form-item>
           </el-col>
           <el-col :span="4">
@@ -160,14 +188,37 @@ export default defineComponent({
       items: [{
         productName: '',
         purchaseQuantity: 100,
+        inventory: 0,
+        inventoryCeiling: 0,
         key: Date.now()
       }]
     })
     const allProductsOptions = ref([])
+    const productNameRule = {
+      validator: (rule: any, value: any, cb: any) => {
+        if (!value) {
+          cb(new Error('商品名不能为空'))
+        } else {
+          const sameNameItems = addOrderForm.value.items.filter(item => {
+            return item.productName === value
+          })
+          if (sameNameItems.length > 1) {
+            cb(new Error('商品名不能重复'))
+          } else {
+            cb()
+          }
+        }
+      },
+      trigger: 'change'
+    }
     const purchaseQuantityRule = {
       validator: (rule: any, value: any, cb: any) => {
+        const idx = rule.field.split('.')[1]
+        const item = addOrderForm.value.items[idx]
         if (value < 1) {
           cb(new Error('数量不能小于1'))
+        } else if (value > item.inventoryCeiling - item.inventory) {
+          cb(new Error('数量不能超过库存上限'))
         } else {
           cb()
         }
@@ -187,6 +238,7 @@ export default defineComponent({
       showDrawer,
       addOrderForm,
       allProductsOptions,
+      productNameRule,
       purchaseQuantityRule,
       loading,
       PURCHASE_ORDER_STATUS
@@ -209,5 +261,9 @@ export default defineComponent({
 <style lang="scss" scoped>
 :deep(.el-drawer.rtl) {
   overflow: scroll !important;
+}
+:deep(.el-col) {
+  display: flex;
+  align-items:center;
 }
 </style>

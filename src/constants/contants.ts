@@ -70,9 +70,5 @@ export const PURCHASE_ORDER_STATUS = {
   已完成: {
     label: '已完成',
     value: '已完成'
-  },
-  故障: {
-    label: '故障',
-    value: '故障'
   }
 }

@@ -47,10 +47,11 @@ export const getProduct = (data: getProductType) => {
   })
 }
 
-export const getAllProductNames = () => {
+export const getAllProductNames = (data: any) => {
   return request({
     url: '/allProductNames',
-    method: 'GET'
+    method: 'GET',
+    data
   })
 }
 
