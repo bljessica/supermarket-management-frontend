@@ -5,7 +5,8 @@ import PurchaseManagement from '@/views/PurchaseManagement/index.vue'
 import ProductDetail from '@/views/ProductDetail/index.vue'
 import Blank from '@/views/Blank.vue'
 import SalesRecords from '@/views/SalesManagement/SalesRecords.vue'
-import StatisticCharts from '@/views/SalesManagement/StatisticCharts.vue'
+import StatisticCharts from '@/views/SalesManagement/StatisticCharts/index.vue'
+import SalesReport from '@/views/SalesManagement/SalesReport/index.vue'
 import { getUserFromLocal } from '@/utils'
 import Store from '@/store'
 
@@ -49,6 +50,12 @@ const routes: Array<RouteRecordRaw> = [
     path: '/statisticCharts',
     name: 'statisticCharts',
     component: StatisticCharts
+  },
+  {
+    path: '/salesReport/:type',
+    name: 'salesReport',
+    component: SalesReport,
+    props: true
   }
 ]
 

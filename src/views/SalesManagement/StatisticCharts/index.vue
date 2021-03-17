@@ -2,15 +2,15 @@
   <div style="display: flex;flex-direction: column;align-items: center;">
     <div
       id="week-sales-chart"
-      style="width: 70%;height: 400px;"
+      class="sales-chart"
     />
     <div
       id="month-sales-chart"
-      style="width: 70%;height: 400px;"
+      class="sales-chart"
     />
     <div
       id="year-sales-chart"
-      style="width: 70%;height: 400px;"
+      class="sales-chart"
     />
   </div>
 </template>
@@ -57,6 +57,9 @@ export default defineComponent({
 })
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.sales-chart {
+  width: 70%;
+  height: 400px;
+}
 </style>
