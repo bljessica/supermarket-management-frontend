@@ -15,12 +15,12 @@ export default [
     width: '100'
   },
   {
-    key: 'seller',
+    key: 'sellerName',
     label: '销售员',
     width: '100'
   },
   {
-    key: 'saleTime',
+    key: 'createTime',
     label: '销售时间',
     width: '180'
   },
