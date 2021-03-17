@@ -1,5 +1,4 @@
 import { defineComponent } from 'vue'
-import dayjs from 'dayjs'
 
 export default defineComponent({
   async created () {
@@ -69,21 +68,22 @@ export default defineComponent({
       this.$refs.AddOrderForm.validate(async (valid: boolean) => {
         if (valid) {
           let res = null
+          const time = Date.now()
           if (this.$options.name === 'PurchaseManagement') {
             res = await this.$api.addPurchaseOrder({
-              orderId: Date.now(),
+              orderId: time,
               remark: this.addOrderForm.remark,
               items: this.addOrderForm.items,
               purchaserAccount: this.$store.state.user.account,
-              createTime: dayjs().format('YYYY/MM/DD HH:mm:ss')
+              createTime: time
             })
           } else if (this.$options.name === 'SalesRecords') {
             res = await this.$api.addSalesOrder({
-              orderId: Date.now(),
+              orderId: time,
               remark: this.addOrderForm.remark,
               items: this.addOrderForm.items,
               sellerAccount: this.$store.state.user.account,
-              createTime: dayjs().format('YYYY/MM/DD HH:mm:ss')
+              createTime: time
             })
           }
           if (res.code === 0) {

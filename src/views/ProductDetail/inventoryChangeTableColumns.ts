@@ -1,22 +1,22 @@
 export default [
   {
     key: 'users.username',
-    label: '采购人',
+    label: '经办人',
     width: '100'
   },
   {
     key: 'num',
-    label: '采购数量',
+    label: '变动数量',
     width: '100'
   },
   {
     key: 'inventory',
-    label: '库存量',
-    width: '100'
+    label: '变动后库存量',
+    width: '150'
   },
   {
     key: 'time',
-    label: '采购时间',
+    label: '变动时间',
     width: '180'
   },
   {

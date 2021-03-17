@@ -21,8 +21,13 @@ export default [
   },
   {
     key: 'createTime',
-    label: '采购时间',
-    width: '180'
+    label: '创建时间',
+    width: '160'
+  },
+  {
+    key: 'endTime',
+    label: '完成时间',
+    width: '160'
   },
   {
     key: 'remark',

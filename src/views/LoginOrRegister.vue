@@ -160,7 +160,6 @@ import { registerFormRules, registerForm } from '@/components/loginOrRegister/re
 import { ROLE_LIST } from '@/constants/contants'
 import { saveUserToLocal } from '@/utils'
 import CryptoJS from 'crypto-js'
-import dayjs from 'dayjs'
 
 export default defineComponent({
   name: 'LoginOrRegister',
@@ -223,7 +222,7 @@ export default defineComponent({
             password: CryptoJS.MD5(this.registerForm.password2).toString(),
             username: this.registerForm.username,
             role: this.registerForm.role,
-            entryTime: dayjs().format('YYYY/MM/DD HH:mm:ss')
+            entryTime: Date.now()
           })
           if (res.code === 0) {
             this.$refs.RegisterForm.resetFields()

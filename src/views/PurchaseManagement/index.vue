@@ -174,7 +174,6 @@ import { defineComponent, ref } from 'vue'
 import tableColumns from './tableColumns'
 import { PURCHASE_ORDER_STATUS } from '@/constants/contants'
 import purchaseAndSalesMixin from '@/mixins/purchaseAndSalesMixin'
-import dayjs from 'dayjs'
 
 export default defineComponent({
   name: 'PurchaseManagement',
@@ -250,9 +249,10 @@ export default defineComponent({
       await this.$api.changePurchaseOrderStatus({
         ...row,
         purchaseStatus: e,
-        endTime: (e === '已完成') ? dayjs().format('YYYY/MM/DD HH:mm:ss') : '',
+        endTime: (e === '已完成') ? (Date.now()) : '',
         operatorAccount: this.$store.state.user.account
       })
+      await this.getOrders()
     }
   }
 })

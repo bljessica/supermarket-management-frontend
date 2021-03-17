@@ -8,5 +8,5 @@ export interface addPurchaseOrderType {
   remark: string
   items: Array<purchaseOrderType>,
   purchaserAccount: string,
-  createTime: string
+  createTime: number
 }

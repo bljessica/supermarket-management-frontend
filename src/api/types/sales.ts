@@ -8,5 +8,5 @@ export interface addSalesOrderType {
   remark: string
   items: Array<salesOrderType>,
   sellerAccount: string,
-  createTime: string
+  createTime: number
 }
