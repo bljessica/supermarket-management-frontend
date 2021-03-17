@@ -129,3 +129,11 @@ export const getAllSalesOrders = (data: any) => {
     data
   })
 }
+
+export const getTotalSales = (data: any) => {
+  return request({
+    url: '/totalSales',
+    method: 'GET',
+    data
+  })
+}

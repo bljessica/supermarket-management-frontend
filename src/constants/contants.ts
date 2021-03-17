@@ -6,7 +6,7 @@ export const ASIDE_ITEMS = {
       index: '/salesRecords',
       name: '销售记录'
     }, {
-      index: '/',
+      index: '/statisticCharts',
       name: '统计图表'
     }, {
       index: '/',

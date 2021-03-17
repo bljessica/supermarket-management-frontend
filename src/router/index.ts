@@ -5,14 +5,14 @@ import PurchaseManagement from '@/views/PurchaseManagement/index.vue'
 import ProductDetail from '@/views/ProductDetail/index.vue'
 import Blank from '@/views/Blank.vue'
 import SalesRecords from '@/views/SalesManagement/SalesRecords.vue'
+import StatisticCharts from '@/views/SalesManagement/StatisticCharts.vue'
 import { getUserFromLocal } from '@/utils'
 import Store from '@/store'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    component: Blank
-    // redirect: '/inventoryManagement/cards'
+    redirect: '/inventoryManagement/cards'
   },
   {
     path: '/inventoryManagement/:tab',
@@ -42,8 +42,13 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/salesRecords',
-    name: 'SalesRecords',
+    name: 'salesRecords',
     component: SalesRecords
+  },
+  {
+    path: '/statisticCharts',
+    name: 'statisticCharts',
+    component: StatisticCharts
   }
 ]
 
