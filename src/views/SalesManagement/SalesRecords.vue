@@ -5,7 +5,7 @@
         size="small"
         @click="showDrawer = true"
       >
-        添加采购单
+        添加销售记录
       </el-button>
     </div>
     <!-- 订单表 -->
@@ -25,25 +25,6 @@
         :prop="column.key"
         show-overflow-tooltip
       />
-      <el-table-column
-        label="采购状态"
-        width="130"
-      >
-        <template #default="scope">
-          <el-select
-            v-model="scope.row.purchaseStatus"
-            :disabled="scope.row.purchaseStatus === '已完成'"
-            @change="handlePurchaseStatusChange(scope.row, $event)"
-          >
-            <el-option
-              v-for="item in Object.values(PURCHASE_ORDER_STATUS)"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-        </template>
-      </el-table-column>
     </el-table>
     <!-- 分页 -->
     <!-- <el-pagination
@@ -56,12 +37,12 @@
       :current-page="pagination.pageIdx"
       @current-change="getProducts($event)"
     /> -->
-    <!-- 添加采购单 - 抽屉 -->
+    <!-- 添加销售订单 - 抽屉 -->
     <el-drawer
       v-model="showDrawer"
       destroy-on-close
       size="70%"
-      title="添加采购单"
+      title="添加销售订单"
     >
       <el-form
         ref="AddOrderForm"
@@ -95,10 +76,10 @@
           <el-col :span="10">
             <el-form-item
               label="商品数量"
-              :prop="'items.' + index + '.purchaseQuantity'"
-              :rules="purchaseQuantityRule"
+              :prop="'items.' + index + '.salesVolume'"
+              :rules="salesVolumeRule"
             >
-              <el-input-number v-model="item.purchaseQuantity" />
+              <el-input-number v-model="item.salesVolume" />
             </el-form-item>
           </el-col>
           <el-col :span="4">
@@ -144,12 +125,10 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import tableColumns from './tableColumns'
-import { PURCHASE_ORDER_STATUS } from '@/constants/contants'
 import purchaseAndSalesMixin from '@/mixins/purchaseAndSalesMixin'
-import dayjs from 'dayjs'
 
 export default defineComponent({
-  name: 'PurchaseManagement',
+  name: 'SalesRecords',
   mixins: [purchaseAndSalesMixin],
   setup () {
     const orders = ref([])
@@ -159,12 +138,12 @@ export default defineComponent({
       remark: '',
       items: [{
         productName: '',
-        purchaseQuantity: 100,
+        salesVolume: 100,
         key: Date.now()
       }]
     })
     const allProductsOptions = ref([])
-    const purchaseQuantityRule = {
+    const salesVolumeRule = {
       validator: (rule: any, value: any, cb: any) => {
         if (value < 1) {
           cb(new Error('数量不能小于1'))
@@ -187,27 +166,14 @@ export default defineComponent({
       showDrawer,
       addOrderForm,
       allProductsOptions,
-      purchaseQuantityRule,
-      loading,
-      PURCHASE_ORDER_STATUS
+      salesVolumeRule,
+      loading
       // pagination
-    }
-  },
-  methods: {
-    async handlePurchaseStatusChange (row: any, e: any) {
-      await this.$api.changePurchaseOrderStatus({
-        ...row,
-        purchaseStatus: e,
-        endTime: (e === '已完成') ? dayjs().format('YYYY/MM/DD HH:mm:ss') : '',
-        operatorAccount: this.$store.state.user.account
-      })
     }
   }
 })
 </script>
 
-<style lang="scss" scoped>
-:deep(.el-drawer.rtl) {
-  overflow: scroll !important;
-}
+<style>
+
 </style>

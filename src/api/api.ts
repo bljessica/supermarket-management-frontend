@@ -2,6 +2,7 @@ import request from './request/request'
 import { loginDataType, registerDataType } from './types/auth'
 import { productNameType, checkedListType, getProductType } from './types/product'
 import { addPurchaseOrderType } from './types/purchase'
+import { addSalesOrderType } from './types/sales'
 import { productType } from '@/constants/types'
 
 // auth
@@ -106,6 +107,23 @@ export const changePurchaseOrderStatus = (data: any) => {
 export const getProductInventoryChange = (data: any) => {
   return request({
     url: '/productInventoryChange',
+    method: 'GET',
+    data
+  })
+}
+
+// sales
+export const addSalesOrder = (data: addSalesOrderType) => {
+  return request({
+    url: '/addSalesOrder',
+    method: 'POST',
+    data
+  })
+}
+
+export const getAllSalesOrders = (data: any) => {
+  return request({
+    url: '/allSalesOrders',
     method: 'GET',
     data
   })

@@ -4,6 +4,7 @@ import LoginOrRegister from '@/views/LoginOrRegister.vue'
 import PurchaseManagement from '@/views/PurchaseManagement/index.vue'
 import ProductDetail from '@/views/ProductDetail/index.vue'
 import Blank from '@/views/Blank.vue'
+import SalesRecords from '@/views/SalesManagement/SalesRecords.vue'
 import { getUserFromLocal } from '@/utils'
 import Store from '@/store'
 
@@ -38,6 +39,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'productDetail',
     component: ProductDetail,
     props: true
+  },
+  {
+    path: '/salesRecords',
+    name: 'SalesRecords',
+    component: SalesRecords
   }
 ]
 

@@ -1,9 +1,9 @@
 export const ASIDE_ITEMS = {
   销售管理: {
     name: '销售管理',
-    index: '/',
+    index: '/salesRecords',
     items: [{
-      index: '/',
+      index: '/salesRecords',
       name: '销售记录'
     }, {
       index: '/',
