@@ -22,7 +22,7 @@ export const ASIDE_ITEMS = {
   },
   库存管理: {
     name: '库存管理',
-    index: '/productDisplay/cards'
+    index: '/inventoryManagement/cards'
   }
 }
 

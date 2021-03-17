@@ -207,7 +207,7 @@ import { PRODUCT_STATUS } from '@/constants/contants.ts'
 import { cloneDeep } from 'lodash'
 
 export default defineComponent({
-  name: 'ProductDisplay',
+  name: 'InventoryManagement',
   components: {
     CardsDisplay,
     TableDisplay,
@@ -244,7 +244,7 @@ export default defineComponent({
   },
   watch: {
     currentTab (tab: 'cards' | 'table') {
-      this.$router.replace({ path: '/productDisplay/' + tab })
+      this.$router.replace({ path: '/inventoryManagement/' + tab })
     }
   },
   mounted () {

@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import ProductDisplay from '@/views/ProductsDisplay/index.vue'
+import InventoryManagement from '@/views/InventoryManagement/index.vue'
 import LoginOrRegister from '@/views/LoginOrRegister.vue'
 import PurchaseManagement from '@/views/PurchaseManagement/index.vue'
 import ProductDetail from '@/views/ProductDetail/index.vue'
@@ -12,12 +12,12 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     component: Blank
-    // redirect: '/productDisplay/cards'
+    // redirect: '/inventoryManagement/cards'
   },
   {
-    path: '/productDisplay/:tab',
-    name: 'productDisplay',
-    component: ProductDisplay,
+    path: '/inventoryManagement/:tab',
+    name: 'inventoryManagement',
+    component: InventoryManagement,
     props: true
   },
   {
