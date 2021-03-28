@@ -137,3 +137,11 @@ export const getTotalSales = (data: any) => {
     data
   })
 }
+
+export const getSalesReport = (data: any) => {
+  return request({
+    url: '/salesReport',
+    method: 'GET',
+    data
+  })
+}

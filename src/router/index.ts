@@ -52,10 +52,9 @@ const routes: Array<RouteRecordRaw> = [
     component: StatisticCharts
   },
   {
-    path: '/salesReport/:type',
+    path: '/salesReport',
     name: 'salesReport',
-    component: SalesReport,
-    props: true
+    component: SalesReport
   }
 ]
 

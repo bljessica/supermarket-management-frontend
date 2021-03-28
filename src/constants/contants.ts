@@ -12,7 +12,7 @@ export const ASIDE_ITEMS = {
       index: '/',
       name: '商品推荐'
     }, {
-      index: '/salesReport/week',
+      index: '/salesReport',
       name: '销售报表'
     }]
   },
