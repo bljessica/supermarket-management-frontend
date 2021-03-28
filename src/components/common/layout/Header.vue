@@ -11,7 +11,7 @@
       class="header__user"
       style="display: flex; align-items: center; justify-content: space-between;"
     >
-      <UserAvatar />
+      <UserAvatar :avatar="$store.state.user.avatar" />
       <span style="margin-left: 8px;">{{ username }}</span>
       <el-divider direction="vertical" />
       <el-link

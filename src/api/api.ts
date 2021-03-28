@@ -169,3 +169,20 @@ export const getUserGroups = () => {
     method: 'GET'
   })
 }
+
+// chat
+export const sendMsg = (data: any) => {
+  return request({
+    url: '/sendMsg',
+    method: 'POST',
+    data
+  })
+}
+
+export const getChatHistory = (data: any) => {
+  return request({
+    url: '/chatHistory',
+    method: 'GET',
+    data
+  })
+}

@@ -4,20 +4,90 @@
     class="personal-center-container"
     style="display: flex;justify-content: space-between;"
   >
-    <!-- 用户信息 -->
     <el-card
       shadow="hover"
       style="width: 60%;"
     >
+      <!-- 聊天界面 -->
+      <div v-if="chatPartner">
+        <div
+          class="chatting-title"
+          style="display: flex;align-items: center;"
+        >
+          <SvgIcon
+            name="left-arrow"
+            size="20"
+            color="black"
+            :hover-change-color="false"
+            style="cursor: pointer;"
+            @click="chatPartner = null"
+          />
+          <span style="margin-left: 8px;font-size: 18px;">{{ chatPartner.username }}</span>
+        </div>
+        <!-- 聊天内容 -->
+        <div
+          class="chatting-content-wrapper"
+          style="font-size: 14px;padding: 20px;margin-top: 20px;"
+          :style="{backgroundColor: chatPartner && '#f5f5f5'}"
+        >
+          <div
+            v-if="!chatContents.length"
+            style="text-align: center;font-size: 12px;color: #999;"
+          >
+            暂无聊天记录
+          </div>
+          <div
+            v-for="content in chatContents"
+            :key="content._id"
+            class="chatting-content-wrapper__content"
+            style="overflow: hidden;margin: 10px 0;"
+          >
+            <UserAvatar
+              :avatar="content.senderAvatar"
+              :style="{float: isSelf(content.senderAccount) ? 'right' : 'left',
+                       marginRight: !isSelf(content.senderAccount) && '6px', marginLeft: isSelf(content.senderAccount) && '6px'}"
+            />
+            <div
+              style="padding: 6px;max-width: 50%;border-radius: 4px;letter-spacing: 1px;"
+              :style="{float: isSelf(content.senderAccount) ? 'right' : 'left',
+                       backgroundColor: isSelf(content.senderAccount) ? '#98e165' : '#fff'}"
+            >
+              {{ content.content }}
+            </div>
+          </div>
+        </div>
+        <!-- 聊天输入框 -->
+        <div class="chatting-input-wrapper">
+          <el-input
+            v-model="chattingContent"
+            type="textarea"
+            :rows="4"
+            placeholder="请输入内容"
+            @keyup.enter="sendMsg"
+          />
+          <el-button
+            size="mini"
+            style="margin: 10px 0;float: right"
+            @click="sendMsg"
+          >
+            发送
+          </el-button>
+        </div>
+      </div>
+      <!-- 用户信息 -->
       <div
+        v-else
         class="user-info-wrapper"
-        style="display: flex;align-items: center;flex-direction: column;"
+        style="display: flex;align-items: center;flex-direction: column;min-width: 400px;"
       >
         <div
           class="user-info__avatar-wrapper user-info__item-wrapper"
-          style="height: 150px;"
+          style="height: 170px;"
         >
-          <UserAvatar :size="80" />
+          <UserAvatar
+            :size="80"
+            :avatar="$store.state.user.avatar"
+          />
           <el-upload
             action="#"
             :before-upload="beforeProductImageUpload"
@@ -59,7 +129,7 @@
         </div>
       </div>
     </el-card>
-    <!-- 聊天选择 -->
+    <!-- 聊天用户选择 -->
     <el-collapse
       v-model="activeGroups"
       style="width: 30%;border-bottom: none;"
@@ -73,13 +143,23 @@
         <div
           v-for="user in userGroup.users"
           :key="user.account"
-          style="line-height: 30px;cursor: pointer;"
+          style="line-height: 30px;height: 30px;cursor: pointer;display: flex;justify-content: space-between;align-items: center;"
+          @click="selectChatPartner(user)"
         >
-          <i
-            class="el-icon-user"
-            style="margin-right: 5px;"
-          />
-          {{ user.username }}
+          <div>
+            <UserAvatar
+              :size="10"
+              :avatar="user.avatar"
+              style="margin-right: 5px;"
+            />
+            {{ user.username }}
+          </div>
+          <span
+            v-if="isSelf(user.account)"
+            style="color: #999;font-size: 12px;margin-right: 6px;"
+          >
+            本人
+          </span>
         </div>
       </el-collapse-item>
     </el-collapse>
@@ -103,13 +183,19 @@ export default defineComponent({
     const username = ref<string>('')
     const editingUsername = ref<boolean>(false)
     const loading = ref<boolean>(false)
+    const chatPartner = ref(null)
+    const chatContents = ref([])
+    const chattingContent = ref('')
     return {
       activeGroups,
       userGroups,
       userInfo,
       username,
       editingUsername,
-      loading
+      loading,
+      chatPartner,
+      chatContents,
+      chattingContent
     }
   },
   async created () {
@@ -117,6 +203,34 @@ export default defineComponent({
     await this.getUserGroups()
   },
   methods: {
+    async selectChatPartner (user) {
+      if (!this.isSelf(user.account)) {
+        this.chatPartner = user
+        await this.getChatHistory()
+      }
+    },
+    async getChatHistory () {
+      const res = await this.$api.getChatHistory({
+        senderAccount: this.$store.state.user.account,
+        recipientAccount: this.chatPartner.account
+      })
+      this.chatContents = res.data
+    },
+    async sendMsg () {
+      await this.$api.sendMsg({
+        senderAccount: this.$store.state.user.account,
+        senderAvatar: this.$store.state.user.avatar,
+        recipientAccount: this.chatPartner.account,
+        recipientAvatar: this.chatPartner.avatar,
+        content: this.chattingContent,
+        time: Date.now()
+      })
+      await this.getChatHistory()
+      this.chattingContent = ''
+    },
+    isSelf (userAccount) {
+      return userAccount === this.$store.state.user.account
+    },
     async getUserGroups () {
       this.loading = true
       const res = await this.$api.getUserGroups()
@@ -131,6 +245,9 @@ export default defineComponent({
         this.username = this.userInfo.username
       }
       this.editingUsername = !this.editingUsername
+      this.loading = true
+      await this.getUserGroups()
+      this.loading = false
     },
     async getUserInfo () {
       this.loading = true
