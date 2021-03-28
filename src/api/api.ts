@@ -145,3 +145,27 @@ export const getSalesReport = (data: any) => {
     data
   })
 }
+
+// user
+export const getUserInfo = (data: any) => {
+  return request({
+    url: '/userInfo',
+    method: 'GET',
+    data
+  })
+}
+
+export const updateUserInfo = (data: any) => {
+  return request({
+    url: '/userInfo',
+    method: 'PUT',
+    data
+  })
+}
+
+export const getUserGroups = () => {
+  return request({
+    url: '/userGroups',
+    method: 'GET'
+  })
+}

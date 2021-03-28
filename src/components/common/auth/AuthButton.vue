@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { ROLE_LIST } from '@/constants/contants'
+import { ROLE_LIST } from '@/constants/constants'
 import { defineComponent, computed, toRefs } from 'vue'
 import { useStore } from 'vuex'
 

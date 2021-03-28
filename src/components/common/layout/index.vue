@@ -1,12 +1,13 @@
 <template>
   <el-container style="height: 100vh;width: 100vw;">
-    <el-header style="background:#B3C0D1;">
+    <el-header style="padding: 0;">
       <Header />
     </el-header>
     <el-container>
       <el-aside
+        v-if="showAside"
         width="200px"
-        style="background: #D3DCE6;"
+        style="background-color: #D3DCE6;"
       >
         <Aside />
       </el-aside>
@@ -27,6 +28,12 @@ export default defineComponent({
   components: {
     Header,
     Aside
+  },
+  props: {
+    showAside: {
+      type: Boolean,
+      default: true
+    }
   }
 })
 </script>

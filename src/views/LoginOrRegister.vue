@@ -157,7 +157,7 @@
 import { defineComponent, ref } from 'vue'
 import { loginForm, loginFormRules } from '@/components/loginOrRegister/loginFormModel'
 import { registerFormRules, registerForm } from '@/components/loginOrRegister/registerFormModel'
-import { ROLE_LIST } from '@/constants/contants'
+import { ROLE_LIST } from '@/constants/constants'
 import { saveUserToLocal } from '@/utils'
 import CryptoJS from 'crypto-js'
 

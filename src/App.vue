@@ -3,6 +3,7 @@
   <Layout
     v-else
     style="min-width: 590px;"
+    :show-aside="$route.meta.showAside"
   />
 </template>
 

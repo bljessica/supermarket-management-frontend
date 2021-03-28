@@ -1,45 +1,43 @@
 <template>
-  <div>
-    <el-menu
-      :router="true"
-      :default-active="ASIDE_ITEMS['库存管理'].index"
-      background-color="#E9EEF3"
+  <el-menu
+    :router="true"
+    :default-active="ASIDE_ITEMS['库存管理'].index"
+    background-color="#E9EEF3"
+  >
+    <div
+      v-for="submenu in Object.values(ASIDE_ITEMS)"
+      :key="submenu.name"
     >
-      <div
-        v-for="submenu in Object.values(ASIDE_ITEMS)"
-        :key="submenu.name"
+      <el-submenu
+        v-if="submenu.items"
+        :index="submenu.index"
       >
-        <el-submenu
-          v-if="submenu.items"
-          :index="submenu.index"
-        >
-          <template #title>
-            {{ submenu.name }}
-          </template>
-          <el-menu-item
-            v-for="item in submenu.items"
-            :key="item.index"
-            :index="item.index"
-          >
-            {{ item.name }}
-          </el-menu-item>
-        </el-submenu>
+        <template #title>
+          {{ submenu.name }}
+        </template>
         <el-menu-item
-          v-else
-          :index="submenu.index"
+          v-for="item in submenu.items"
+          :key="item.index"
+          :index="item.index"
         >
-          <template #title>
-            {{ submenu.name }}
-          </template>
+          {{ item.name }}
         </el-menu-item>
-      </div>
-    </el-menu>
-  </div>
+      </el-submenu>
+      <el-menu-item
+        v-else
+        :index="submenu.index"
+      >
+        <template #title>
+          {{ submenu.name }}
+        </template>
+      </el-menu-item>
+    </div>
+  </el-menu>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { ASIDE_ITEMS } from '@/constants/contants'
+import { ASIDE_ITEMS } from '@/constants/constants'
 
 export default defineComponent({
   name: 'Aside',

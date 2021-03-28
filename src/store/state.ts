@@ -4,7 +4,8 @@ const user: UserState = {
   account: '',
   username: '',
   avatar: '',
-  role: ''
+  role: '',
+  entryTime: ''
 }
 
 const state: RootState = {

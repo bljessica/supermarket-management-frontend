@@ -1,7 +1,7 @@
 <template>
   <div
     class="header"
-    style="height: 100%; display: flex; align-items: center; justify-content: space-between;"
+    style="height: 100%; display: flex; align-items: center; justify-content: space-between;padding: 0 20px;background-color:#B3C0D1;"
   >
     <h1 class="header__title">
       超市进销存管理系统
@@ -11,22 +11,14 @@
       class="header__user"
       style="display: flex; align-items: center; justify-content: space-between;"
     >
-      <div
-        class="avatar-container"
-        style="background: #CCC;border-radius: 50%;width: 30px;height: 30px;text-align: center;"
-      >
-        <SvgIcon
-          name="user"
-          :size="24"
-          color="#8a8a8a"
-          style="cursor: pointer;verticle-align: middle;"
-          :hover-change-color="false"
-        />
-      </div>
+      <UserAvatar />
       <span style="margin-left: 8px;">{{ username }}</span>
       <el-divider direction="vertical" />
-      <el-link type="primary">
-        个人中心
+      <el-link
+        type="primary"
+        @click="$router.push({name: routeName === 'personalCenter' ? 'index' : 'personalCenter'})"
+      >
+        {{ routeName === 'personalCenter' ? '主页' : '个人中心' }}
       </el-link>
       <el-divider direction="vertical" />
       <span
@@ -45,17 +37,19 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import UserAvatar from '../UserAvatar.vue'
 
 export default defineComponent({
   name: 'Header',
-  setup () {
-    return {
-
-    }
+  components: {
+    UserAvatar
   },
   computed: {
     username () {
       return this.$store.state.user.username
+    },
+    routeName () {
+      return this.$route.name
     }
   },
   methods: {

@@ -3,16 +3,17 @@ import InventoryManagement from '@/views/InventoryManagement/index.vue'
 import LoginOrRegister from '@/views/LoginOrRegister.vue'
 import PurchaseManagement from '@/views/PurchaseManagement/index.vue'
 import ProductDetail from '@/views/ProductDetail/index.vue'
-import Blank from '@/views/Blank.vue'
 import SalesRecords from '@/views/SalesManagement/SalesRecords.vue'
 import StatisticCharts from '@/views/SalesManagement/StatisticCharts/index.vue'
 import SalesReport from '@/views/SalesManagement/SalesReport/index.vue'
+import PersonalCenter from '@/views/PersonalCenter/index.vue'
 import { getUserFromLocal } from '@/utils'
 import Store from '@/store'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
+    name: 'index',
     redirect: '/inventoryManagement/cards'
   },
   {
@@ -55,6 +56,14 @@ const routes: Array<RouteRecordRaw> = [
     path: '/salesReport',
     name: 'salesReport',
     component: SalesReport
+  },
+  {
+    path: '/personalCenter',
+    name: 'personalCenter',
+    meta: {
+      showAside: false
+    },
+    component: PersonalCenter
   }
 ]
 

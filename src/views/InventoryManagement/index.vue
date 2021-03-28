@@ -203,7 +203,7 @@ import CardsDisplay from '@/components/productsDisplay/CardsDisplay.vue'
 import TableDisplay from '@/components/productsDisplay/TableDisplay.vue'
 import { addProductForm, addProductFormRules } from './addProductFormModel'
 import AuthButton from '@/components/common/auth/AuthButton.vue'
-import { PRODUCT_STATUS } from '@/constants/contants.ts'
+import { PRODUCT_STATUS } from '@/constants/constants.ts'
 import { cloneDeep } from 'lodash'
 
 export default defineComponent({

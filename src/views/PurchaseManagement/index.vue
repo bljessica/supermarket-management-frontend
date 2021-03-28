@@ -172,7 +172,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import tableColumns from './tableColumns'
-import { PURCHASE_ORDER_STATUS } from '@/constants/contants'
+import { PURCHASE_ORDER_STATUS } from '@/constants/constants'
 import purchaseAndSalesMixin from '@/mixins/purchaseAndSalesMixin'
 
 export default defineComponent({
