@@ -298,4 +298,7 @@ export default defineComponent({
   justify-content: space-between;
   align-items: center;
 }
+:deep(.el-divider) {
+  background-color: #EBEEF5;
+}
 </style>
