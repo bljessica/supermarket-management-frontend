@@ -30,8 +30,8 @@ export default {
       default: 24
     },
     avatar: {
-      type: Object,
-      default: () => {}
+      type: String,
+      default: ''
     }
   }
 }

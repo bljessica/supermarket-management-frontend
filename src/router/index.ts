@@ -9,6 +9,7 @@ import SalesReport from '@/views/SalesManagement/SalesReport/index.vue'
 import PersonalCenter from '@/views/PersonalCenter/index.vue'
 import { getUserFromLocal } from '@/utils'
 import Store from '@/store'
+import { socket } from '@/main'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -80,6 +81,11 @@ router.beforeEach(async (to, from, next) => {
     if (!Store.state.user.account) {
       await getUserFromLocal()
       if (Store.state.user.account) {
+        // 用户登录后发送用户信息
+        if (!Store.state.socketConnected) {
+          socket.emit('userLogin', Store.state.user.account)
+          Store.state.socketConnected = true
+        }
         next()
       } else {
         next({ path: '/loginOrRegister/login' })

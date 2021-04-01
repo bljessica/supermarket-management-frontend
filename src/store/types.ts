@@ -7,5 +7,6 @@ export interface UserState {
 }
 
 export interface RootState {
-  user: UserState
+  user: UserState,
+  socketConnected: boolean
 }

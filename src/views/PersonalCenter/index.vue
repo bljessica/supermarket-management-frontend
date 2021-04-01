@@ -27,7 +27,7 @@
         <!-- 聊天内容 -->
         <div
           class="chatting-content-wrapper"
-          style="font-size: 14px;padding: 20px;margin-top: 20px;"
+          style="font-size: 14px;padding: 20px;margin-top: 20px;height: 60vh;overflow: auto;"
           :style="{backgroundColor: chatPartner && '#f5f5f5'}"
         >
           <div
@@ -48,7 +48,7 @@
                        marginRight: !isSelf(content.senderAccount) && '6px', marginLeft: isSelf(content.senderAccount) && '6px'}"
             />
             <div
-              style="padding: 6px;max-width: 50%;border-radius: 4px;letter-spacing: 1px;"
+              style="padding: 6px;max-width: 50%;border-radius: 4px;letter-spacing: 1px;min-height: 18px;"
               :style="{float: isSelf(content.senderAccount) ? 'right' : 'left',
                        backgroundColor: isSelf(content.senderAccount) ? '#98e165' : '#fff'}"
             >
@@ -201,6 +201,9 @@ export default defineComponent({
   async created () {
     await this.getUserInfo()
     await this.getUserGroups()
+    this.$socket.on('newMsg', async () => {
+      await this.getChatHistory()
+    })
   },
   methods: {
     async selectChatPartner (user) {
@@ -225,6 +228,7 @@ export default defineComponent({
         content: this.chattingContent,
         time: Date.now()
       })
+      this.$socket.emit('sendMsg', this.chatPartner.account)
       await this.getChatHistory()
       this.chattingContent = ''
     },

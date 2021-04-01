@@ -247,9 +247,6 @@ export default defineComponent({
       this.$router.replace({ path: '/inventoryManagement/' + tab })
     }
   },
-  created () {
-    this.$socket.emit('userLogin', this.$store.state.user.account)
-  },
   mounted () {
     if (this.$route.params.tab === 'table') {
       this.currentTab = 'table'

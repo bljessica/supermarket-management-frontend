@@ -9,7 +9,8 @@ const user: UserState = {
 }
 
 const state: RootState = {
-  user
+  user,
+  socketConnected: false
 }
 
 export default state
