@@ -6,10 +6,14 @@ import ElementPlus from 'element-plus'
 import 'element-plus/lib/theme-chalk/index.css'
 import plugin from './plugin'
 import * as API from '@/api/api'
+import io from 'socket.io-client'
 
 const app = createApp(App)
 
+const socket = io('http://localhost:3000')
+
 app.config.globalProperties.$api = API
+app.config.globalProperties.$socket = socket
 
 // 全局错误处理
 app.config.errorHandler = (err: any, vm: any, info: any) => {
