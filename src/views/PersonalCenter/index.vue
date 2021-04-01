@@ -26,6 +26,7 @@
         </div>
         <!-- 聊天内容 -->
         <div
+          ref="chatContentWapper"
           class="chatting-content-wrapper"
           style="font-size: 14px;padding: 20px;margin-top: 20px;height: 60vh;overflow: auto;"
           :style="{backgroundColor: chatPartner && '#f5f5f5'}"
@@ -43,7 +44,7 @@
             style="overflow: hidden;margin: 10px 0;"
           >
             <UserAvatar
-              :avatar="content.senderAvatar"
+              :avatar="content.user.avatar"
               :style="{float: isSelf(content.senderAccount) ? 'right' : 'left',
                        marginRight: !isSelf(content.senderAccount) && '6px', marginLeft: isSelf(content.senderAccount) && '6px'}"
             />
@@ -204,12 +205,21 @@ export default defineComponent({
     this.$socket.on('newMsg', async () => {
       await this.getChatHistory()
     })
+    this.$socket.on('someUserUpdate', async () => {
+      await this.getUserGroups()
+    })
   },
   methods: {
+    scrollToNewestMsg () {
+      this.$nextTick(() => {
+        this.$refs.chatContentWapper.scrollTop = this.$refs.chatContentWapper.scrollHeight
+      })
+    },
     async selectChatPartner (user) {
       if (!this.isSelf(user.account)) {
         this.chatPartner = user
         await this.getChatHistory()
+        this.scrollToNewestMsg()
       }
     },
     async getChatHistory () {
@@ -222,14 +232,13 @@ export default defineComponent({
     async sendMsg () {
       await this.$api.sendMsg({
         senderAccount: this.$store.state.user.account,
-        senderAvatar: this.$store.state.user.avatar,
         recipientAccount: this.chatPartner.account,
-        recipientAvatar: this.chatPartner.avatar,
         content: this.chattingContent,
         time: Date.now()
       })
       this.$socket.emit('sendMsg', this.chatPartner.account)
       await this.getChatHistory()
+      this.scrollToNewestMsg()
       this.chattingContent = ''
     },
     isSelf (userAccount) {
@@ -275,6 +284,8 @@ export default defineComponent({
     },
     async updateUserInfo () {
       await this.$api.updateUserInfo(this.userInfo)
+      this.$socket.emit('userUpdate')
+      await this.getUserGroups()
     }
   }
 })
