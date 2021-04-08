@@ -14,12 +14,12 @@
       <UserAvatar :avatar="$store.state.user.avatar" />
       <span style="margin-left: 8px;">{{ username }}</span>
       <el-divider direction="vertical" />
-      <el-link
-        type="primary"
+      <span
+        class="header__link"
         @click="$router.push({name: routeName === 'personalCenter' ? 'index' : 'personalCenter'})"
       >
         {{ routeName === 'personalCenter' ? '主页' : '个人中心' }}
-      </el-link>
+      </span>
       <el-divider direction="vertical" />
       <span
         style="cursor: pointer;"
@@ -62,6 +62,11 @@ export default defineComponent({
 })
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.header__link {
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+}
 </style>
