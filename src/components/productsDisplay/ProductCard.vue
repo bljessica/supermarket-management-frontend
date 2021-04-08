@@ -108,6 +108,7 @@ export default defineComponent({
   methods: {
     async deleteProduct () {
       await this.$api.deleteProduct({
+        _id: this.product._id,
         productName: this.product.productName
       })
       this.$emit('getProducts')

@@ -239,7 +239,8 @@ export default defineComponent({
 
 <style lang="scss">
 .login-page-container {
-  background:  linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url('../assets/imgs/loginOrRegisterBgImg.jpg') 100% 100%;
+  background:  linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url('../assets/imgs/loginOrRegisterBgImg.jpg') no-repeat;
+  background-size: cover;
   position: absolute;
   left: 0;
   right: 0;

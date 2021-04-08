@@ -100,7 +100,7 @@
     <!-- 添加商品 - 抽屉 -->
     <el-drawer
       v-model="showAddProductDrawer"
-      title="添加商品"
+      :title="editingProductId ? '编辑商品' : '添加商品'"
       size="70%"
       direction="rtl"
       destroy-on-close
