@@ -37,13 +37,13 @@ export const ROLE_LIST = {
     auth: ['VIEW_ALL', 'SELL_SELF', 'EDIT_PRODUCT']
   },
   采购总管: {
-    auth: ['VIEW_ALL', 'PURCHASE_ALL']
+    auth: ['VIEW_ALL', 'PURCHASE_SELF', 'PURCHASE_ALL']
   },
   销售总管: {
-    auth: ['VIEW_ALL', 'SELL_ALL', 'EDIT_PRODUCT']
+    auth: ['VIEW_ALL', 'SELL_SELF', 'SELL_ALL', 'EDIT_PRODUCT']
   },
   总领导: {
-    auth: ['VIEW_ALL', 'PURCHASE_ALL', 'SELL_ALL', 'EDIT_PRODUCT']
+    auth: ['VIEW_ALL', 'PURCHASE_SELF', 'PURCHASE_ALL', 'SELL_SELF', 'SELL_ALL', 'EDIT_PRODUCT']
   }
 }
 

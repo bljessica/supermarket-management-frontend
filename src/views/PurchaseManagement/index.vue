@@ -3,6 +3,7 @@
     <div class="actions-container">
       <el-button
         size="small"
+        :disabled="!hasAuth(['PURCHASE_SELF', 'PURCHASE_ALL'])"
         @click="showAddingDrawer"
       >
         添加采购单
@@ -32,7 +33,7 @@
         <template #default="scope">
           <el-select
             v-model="scope.row.purchaseStatus"
-            :disabled="scope.row.purchaseStatus === '已完成'"
+            :disabled="(scope.row.purchaseStatus === '已完成') || !hasAuth(['PURCHASE_SELF', 'PURCHASE_ALL'])"
             @change="handlePurchaseStatusChange(scope.row, $event)"
           >
             <el-option
@@ -174,10 +175,11 @@ import { defineComponent, ref } from 'vue'
 import tableColumns from './tableColumns'
 import { PURCHASE_ORDER_STATUS } from '@/constants/constants'
 import purchaseAndSalesMixin from '@/mixins/purchaseAndSalesMixin'
+import authMixin from '@/mixins/authMixin'
 
 export default defineComponent({
   name: 'PurchaseManagement',
-  mixins: [purchaseAndSalesMixin],
+  mixins: [purchaseAndSalesMixin, authMixin],
   setup () {
     const orders = ref([])
     const ordersData = ref([])

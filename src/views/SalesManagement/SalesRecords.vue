@@ -3,6 +3,7 @@
     <div class="actions-container">
       <el-button
         size="small"
+        :disabled="!hasAuth(['SELL_SELF', 'SELL_ALL'])"
         @click="showAddingDrawer"
       >
         添加销售记录
@@ -143,10 +144,11 @@
 import { defineComponent, ref } from 'vue'
 import tableColumns from './tableColumns'
 import purchaseAndSalesMixin from '@/mixins/purchaseAndSalesMixin'
+import authMixin from '@/mixins/authMixin'
 
 export default defineComponent({
   name: 'SalesRecords',
-  mixins: [purchaseAndSalesMixin],
+  mixins: [purchaseAndSalesMixin, authMixin],
   setup () {
     const orders = ref([])
     const ordersData = ref([])

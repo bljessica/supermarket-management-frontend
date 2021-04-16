@@ -56,6 +56,7 @@
               type="primary"
               icon="el-icon-edit"
               circle
+              :disabled="!hasAuth('EDIT_PRODUCT')"
               @click="$emit('editProduct')"
             />
             <el-popconfirm
@@ -69,6 +70,7 @@
                   type="danger"
                   icon="el-icon-delete"
                   circle
+                  :disabled="!hasAuth('EDIT_PRODUCT')"
                 />
               </template>
             </el-popconfirm>
@@ -81,9 +83,11 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
+import authMixin from '@/mixins/authMixin'
 
 export default defineComponent({
   name: 'ProductCard',
+  mixins: [authMixin],
   props: {
     product: {
       type: Object,

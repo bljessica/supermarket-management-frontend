@@ -57,12 +57,13 @@
       <div
         class="actions-container"
       >
-        <AuthButton
-          action-auth="EDIT_PRODUCT"
+        <el-button
           size="small"
-          text="添加商品"
+          :disabled="!hasAuth('EDIT_PRODUCT')"
           @click="showAddProductDrawer = true"
-        />
+        >
+          添加商品
+        </el-button>
         <el-popconfirm
           v-if="currentTab === 'table'"
           title="确定删除已选商品？"
@@ -71,11 +72,12 @@
           @confirm="deleteSelectedProducts"
         >
           <template #reference>
-            <AuthButton
+            <el-button
               size="small"
-              text="批量删除"
-              action-auth="EDIT_PRODUCT"
-            />
+              :disabled="!hasAuth('EDIT_PRODUCT')"
+            >
+              批量删除
+            </el-button>
           </template>
         </el-popconfirm>
       </div>
@@ -202,17 +204,17 @@ import { defineComponent, ref } from 'vue'
 import CardsDisplay from '@/components/productsDisplay/CardsDisplay.vue'
 import TableDisplay from '@/components/productsDisplay/TableDisplay.vue'
 import { addProductForm, addProductFormRules } from './addProductFormModel'
-import AuthButton from '@/components/common/auth/AuthButton.vue'
 import { PRODUCT_STATUS } from '@/constants/constants.ts'
 import { cloneDeep } from 'lodash'
+import authMixin from '@/mixins/authMixin'
 
 export default defineComponent({
   name: 'InventoryManagement',
   components: {
     CardsDisplay,
-    TableDisplay,
-    AuthButton
+    TableDisplay
   },
+  mixins: [authMixin],
   setup () {
     const currentTab = ref<'cards' | 'table'>('cards')
     const showAddProductDrawer = ref<boolean>(false)

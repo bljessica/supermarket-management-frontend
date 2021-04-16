@@ -47,12 +47,13 @@
         width="150"
       >
         <template #default="scope">
-          <AuthButton
+          <el-button
             size="small"
-            text="编辑"
-            action-auth="EDIT_PRODUCT"
+            :disabled="!hasAuth('EDIT_PRODUCT')"
             @click="$emit('editProduct', scope.row)"
-          />
+          >
+            编辑
+          </el-button>
           <el-popconfirm
             title="确定删除此商品吗？"
             confirm-button-text="确定"
@@ -60,11 +61,12 @@
             @confirm="deleteProduct(scope.row)"
           >
             <template #reference>
-              <AuthButton
+              <el-button
                 size="small"
-                text="删除"
-                action-auth="EDIT_PRODUCT"
-              />
+                :disabled="!hasAuth('EDIT_PRODUCT')"
+              >
+                删除
+              </el-button>
             </template>
           </el-popconfirm>
         </template>
@@ -86,15 +88,12 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import columns from './tableColumns'
-import AuthButton from '@/components/common/auth/AuthButton.vue'
 import productsDisplayMixin from '@/mixins/productsDisplayMixin'
+import authMixin from '@/mixins/authMixin'
 
 export default defineComponent({
   name: 'TableDisplay',
-  components: {
-    AuthButton
-  },
-  mixins: [productsDisplayMixin],
+  mixins: [productsDisplayMixin, authMixin],
   setup () {
     const products = ref([])
     const selectedRows = ref([])
