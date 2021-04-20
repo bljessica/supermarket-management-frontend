@@ -23,7 +23,7 @@
           style="width: 160px;height: 200px;display: block;border: 1px solid #ccc;border-radius: 20px;overflow: hidden;"
           :style="{width: 160 * getScale(i) + 'px', height: 200 * getScale(i) + 'px'}"
         >
-        <div style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width: 100%;">
+        <div style="margin-top: 5px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width: 100%;">
           {{ list[getIdx(i)]?._id || '暂无' }}
         </div>
         <SvgIcon
