@@ -4,11 +4,11 @@
     class="product-suggest-container"
   >
     <ProductRank
-      title="销量排行榜"
+      title="月销量排行榜"
       :list="salesVolumnRankList"
     />
     <ProductRank
-      title="总销售额排行榜"
+      title="月总销售额排行榜"
       :list="totalAmountRankList"
     />
   </div>
