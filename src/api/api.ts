@@ -79,6 +79,14 @@ export const editProduct = (data: productType) => {
   })
 }
 
+export const productSuggest = (data: any) => {
+  return request({
+    url: '/productSuggest',
+    method: 'GET',
+    data
+  })
+}
+
 // purchase
 export const addPurchaseOrder = (data: addPurchaseOrderType) => {
   return request({

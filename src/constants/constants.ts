@@ -9,7 +9,7 @@ export const ASIDE_ITEMS = {
       index: '/statisticCharts',
       name: '统计图表'
     }, {
-      index: '/',
+      index: '/productSuggest',
       name: '商品推荐'
     }, {
       index: '/salesReport',
