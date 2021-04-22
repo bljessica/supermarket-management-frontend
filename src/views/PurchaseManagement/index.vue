@@ -46,6 +46,30 @@
           </el-select>
         </template>
       </el-table-column>
+      <el-table-column
+        label="操作"
+        width="100"
+        fixed="right"
+      >
+        <template #default="scope">
+          <el-popconfirm
+            title="确定删除此采购单吗？"
+            confirm-button-text="确定"
+            cancel-button-text="取消"
+            @confirm="deletePurchaseOrder(scope.row)"
+          >
+            <template #reference>
+              <el-button
+                size="small"
+                type="danger"
+                :disabled="!hasAuth(['PURCHASE_SELF', 'PURCHASE_ALL'])"
+              >
+                删除
+              </el-button>
+            </template>
+          </el-popconfirm>
+        </template>
+      </el-table-column>
     </el-table>
     <!-- 分页 -->
     <!-- <el-pagination
@@ -248,7 +272,16 @@ export default defineComponent({
     }
   },
   methods: {
+    async deletePurchaseOrder (row) {
+      this.loading = true
+      await this.$api.deletePurchaseOrder({
+        orderId: row.orderId
+      })
+      await this.getOrders()
+      this.loading = false
+    },
     async handlePurchaseStatusChange (row: any, e: any) {
+      this.loading = true
       await this.$api.changePurchaseOrderStatus({
         ...row,
         purchaseStatus: e,
@@ -256,6 +289,7 @@ export default defineComponent({
         operatorAccount: this.$store.state.user.account
       })
       await this.getOrders()
+      this.loading = false
     }
   }
 })

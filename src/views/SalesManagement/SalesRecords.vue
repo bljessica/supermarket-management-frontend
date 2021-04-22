@@ -28,7 +28,7 @@
       />
       <el-table-column
         label="操作"
-        width="150"
+        width="100"
         fixed="right"
       >
         <template #default="scope">

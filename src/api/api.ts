@@ -96,6 +96,14 @@ export const addPurchaseOrder = (data: addPurchaseOrderType) => {
   })
 }
 
+export const deletePurchaseOrder = (data: any) => {
+  return request({
+    url: '/purchaseOrder',
+    method: 'DELETE',
+    data
+  })
+}
+
 export const getAllPurchaseOrders = (data: any) => {
   return request({
     url: '/allPurchaseOrders',
