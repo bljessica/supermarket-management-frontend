@@ -18,6 +18,9 @@ export default defineComponent({
         })
       }
       return ROLE_LIST[this.userRole].auth.includes(actionAuth)
+    },
+    isOperator (operatorAccount) {
+      return this.$store.state.user.account === operatorAccount
     }
   }
 })

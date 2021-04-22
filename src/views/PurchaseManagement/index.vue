@@ -3,7 +3,7 @@
     <div class="actions-container">
       <el-button
         size="small"
-        :disabled="!hasAuth(['PURCHASE_SELF', 'PURCHASE_ALL'])"
+        :disabled="!hasAuth(['PURCHASE_SELF'])"
         @click="showAddingDrawer"
       >
         添加采购单
@@ -34,7 +34,7 @@
         <template #default="scope">
           <el-select
             v-model="scope.row.purchaseStatus"
-            :disabled="(scope.row.purchaseStatus === '已完成') || !hasAuth(['PURCHASE_SELF', 'PURCHASE_ALL'])"
+            :disabled="(scope.row.purchaseStatus === '已完成') || !(hasAuth(['PURCHASE_ALL']) || isOperator(scope.row.purchaserAccount))"
             @change="handlePurchaseStatusChange(scope.row, $event)"
           >
             <el-option
@@ -62,7 +62,7 @@
               <el-button
                 size="small"
                 type="danger"
-                :disabled="!hasAuth(['PURCHASE_SELF', 'PURCHASE_ALL'])"
+                :disabled="!(hasAuth(['PURCHASE_ALL']) || isOperator(scope.row.purchaserAccount))"
               >
                 删除
               </el-button>

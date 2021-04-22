@@ -28,22 +28,22 @@ export const ASIDE_ITEMS = {
 
 export const ROLE_LIST = {
   普通职员: {
-    auth: ['VIEW_ALL']
+    auth: []
   },
   采购员: {
-    auth: ['VIEW_ALL', 'PURCHASE_SELF']
+    auth: ['PURCHASE_SELF']
   },
   销售员: {
-    auth: ['VIEW_ALL', 'SELL_SELF', 'EDIT_PRODUCT']
+    auth: ['SELL_SELF', 'EDIT_PRODUCT']
   },
   采购总管: {
-    auth: ['VIEW_ALL', 'PURCHASE_SELF', 'PURCHASE_ALL']
+    auth: ['PURCHASE_SELF', 'PURCHASE_ALL']
   },
   销售总管: {
-    auth: ['VIEW_ALL', 'SELL_SELF', 'SELL_ALL', 'EDIT_PRODUCT']
+    auth: ['SELL_SELF', 'SELL_ALL', 'EDIT_PRODUCT']
   },
   总领导: {
-    auth: ['VIEW_ALL', 'PURCHASE_SELF', 'PURCHASE_ALL', 'SELL_SELF', 'SELL_ALL', 'EDIT_PRODUCT']
+    auth: ['PURCHASE_SELF', 'PURCHASE_ALL', 'SELL_SELF', 'SELL_ALL', 'EDIT_PRODUCT']
   }
 }
 

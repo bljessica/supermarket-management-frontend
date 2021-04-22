@@ -3,7 +3,7 @@
     <div class="actions-container">
       <el-button
         size="small"
-        :disabled="!hasAuth(['SELL_SELF', 'SELL_ALL'])"
+        :disabled="!hasAuth(['SELL_SELF'])"
         @click="showAddingDrawer"
       >
         添加销售记录
@@ -42,7 +42,7 @@
               <el-button
                 size="small"
                 type="danger"
-                :disabled="!hasAuth(['SELL_SELF', 'SELL_ALL'])"
+                :disabled="!(hasAuth(['SELL_ALL']) || isOperator(scope.row.sellerAccount))"
               >
                 删除
               </el-button>
