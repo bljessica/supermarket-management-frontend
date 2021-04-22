@@ -6,7 +6,7 @@ export default [
   },
   {
     key: 'price',
-    label: '价格',
+    label: '价格（元）',
     width: '100'
   },
   {
@@ -15,11 +15,16 @@ export default [
     width: '100'
   },
   {
+    key: 'unit',
+    label: '单位',
+    width: '100'
+  },
+  {
     key: 'amount',
-    label: '销售额'
+    label: '总销售额（元）'
   },
   {
     key: 'profit',
-    label: '利润'
+    label: '总利润（元）'
   }
 ]

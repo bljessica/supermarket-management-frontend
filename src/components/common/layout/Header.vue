@@ -15,7 +15,7 @@
       <span style="margin-left: 8px;">{{ username }}</span>
       <el-divider direction="vertical" />
       <span
-        class="header__link"
+        style="cursor: pointer;"
         @click="$router.push({name: routeName === 'personalCenter' ? 'index' : 'personalCenter'})"
       >
         {{ routeName === 'personalCenter' ? '主页' : '个人中心' }}
@@ -62,11 +62,6 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss" scoped>
-.header__link {
-  cursor: pointer;
-  &:hover {
-    text-decoration: underline;
-  }
-}
+<style>
+
 </style>
