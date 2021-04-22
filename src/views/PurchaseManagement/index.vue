@@ -29,6 +29,7 @@
       <el-table-column
         label="采购状态"
         width="130"
+        fixed="right"
       >
         <template #default="scope">
           <el-select

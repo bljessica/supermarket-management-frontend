@@ -5,6 +5,7 @@ export const addProductForm: productType = {
   productName: '',
   image: '',
   price: 10,
+  purchasePrice: 9,
   unit: '个',
   inventory: 0,
   inventoryCeiling: 5000

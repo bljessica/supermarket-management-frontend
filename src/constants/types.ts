@@ -24,6 +24,7 @@ export interface productType {
   productName: string,
   image: string,
   price: number,
+  purchasePrice: number,
   unit: string,
   inventory: number,
   inventoryCeiling: number

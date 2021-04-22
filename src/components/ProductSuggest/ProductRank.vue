@@ -20,11 +20,11 @@
       >
         <img
           :src="list[getIdx(i)]?.image || defaultImgUrl.default"
-          style="width: 160px;height: 200px;display: block;border: 1px solid #ccc;border-radius: 20px;overflow: hidden;"
+          style="display: block;border: 1px solid #ddd;border-radius: 20px;overflow: hidden;"
           :style="{width: 160 * getScale(i) + 'px', height: 200 * getScale(i) + 'px'}"
         >
         <div style="margin-top: 5px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width: 100%;">
-          {{ list[getIdx(i)]?._id || '暂无' }}
+          {{ (getIdx(i) + 1) + '. ' + list[getIdx(i)]?._id || '暂无' }}
         </div>
         <SvgIcon
           name="crown"
@@ -34,11 +34,42 @@
         />
       </div>
     </div>
+    <div
+      v-if="showMoreList"
+      class="more-list-container"
+    >
+      <div
+        v-for="(item, idx) in list.slice(3)"
+        :key="item._id"
+        class="more-list__item"
+        @click="$router.push({path: '/productDetail/' + item.id})"
+      >
+        {{ (3 + idx) + '. ' + item._id }}
+      </div>
+      <div
+        v-if="list.length <= 3"
+        style="padding-top: 10px;font-size: 14px;color: #999;"
+      >
+        暂无更多商品
+      </div>
+    </div>
+    <span
+      class="show-more"
+      @click="showMoreList = !showMoreList"
+    >
+      <span>{{ showMoreList ? '收起' : '查看更多' }}</span>
+      <SvgIcon
+        name="up-arrow"
+        :hover-change-color="false"
+        color="rgb(71, 174, 243)"
+        :style="{transform: showMoreList ? 'rotate(0)' : 'rotate(180deg)'}"
+      />
+    </span>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
   props: {
@@ -52,9 +83,11 @@ export default defineComponent({
     }
   },
   setup () {
+    const showMoreList = ref(false)
     return {
-      defaultImgUrl: require('../../assets/imgs/product.jpg'),
-      crownColor: ['#f2c105', '#cccccc', '#935a15']
+      defaultImgUrl: require('@/assets/imgs/product.png'),
+      crownColor: ['#f2c105', '#cccccc', '#935a15'],
+      showMoreList
     }
   },
   methods: {
@@ -68,6 +101,27 @@ export default defineComponent({
 })
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.show-more {
+  display: inline-flex;
+  align-items: center;
+  font-size: 14px;
+  margin-top: 10px;
+  color: rgb(71, 174, 243);
+  cursor: pointer;
+}
+.more-list-container {
+  display: grid;
+  gap: 10px;
+  width: 80%;
+  margin: 10px auto 0;
+  grid-template-columns: repeat(4, 1fr);
+}
+.more-list__item {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+  text-align: left;
+}
 </style>

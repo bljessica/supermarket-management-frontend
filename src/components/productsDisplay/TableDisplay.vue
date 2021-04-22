@@ -3,6 +3,7 @@
     <el-table
       v-loading="loading"
       :data="products"
+      empty-text="暂无"
       border
       @selection-change="handleSelectionChange"
     >
@@ -45,6 +46,7 @@
       <el-table-column
         label="操作"
         width="150"
+        fixed="right"
       >
         <template #default="scope">
           <el-button
@@ -63,6 +65,7 @@
             <template #reference>
               <el-button
                 size="small"
+                type="danger"
                 :disabled="!hasAuth('EDIT_PRODUCT')"
               >
                 删除

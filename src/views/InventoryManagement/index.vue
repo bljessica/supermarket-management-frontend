@@ -74,6 +74,7 @@
           <template #reference>
             <el-button
               size="small"
+              type="danger"
               :disabled="!hasAuth('EDIT_PRODUCT')"
             >
               批量删除
@@ -150,7 +151,15 @@
           <!-- <el-input v-model="addProductForm.image" /> -->
         </el-form-item>
         <el-form-item
-          label="价格"
+          label="进价"
+          prop="purchasePrice"
+        >
+          <el-input-number
+            v-model="addProductForm.purchasePrice"
+          />
+        </el-form-item>
+        <el-form-item
+          label="售价"
           prop="price"
         >
           <el-input-number

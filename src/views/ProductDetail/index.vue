@@ -76,7 +76,12 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.product-detail :deep(.product-card-title) h3 {
-  width: 70% !important;
+.product-detail {
+  :deep(.product-card-title) h3 {
+    width: 70% !important;
+  }
+  :deep(.product-card-content__img) {
+    width: 50% !important;
+  }
 }
 </style>

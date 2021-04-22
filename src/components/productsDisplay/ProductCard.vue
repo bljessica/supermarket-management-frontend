@@ -36,17 +36,20 @@
         @mouseleave="showHoverActions && (actionsShow = false)"
       >
         <img
-          style="grid-area: a / a / m / n;width: 120px;height: 100px;"
-          :src="product.image"
+          class="product-card-content__img"
+          style="grid-area: a / a / r / r;width: 90%;height: 90%;"
+          :src="product.image || defaultImgUrl.default"
         >
-        <span style="grid-area: c">价格：</span>
-        <span style="grid-area: d">{{ product.price }}</span>
-        <span style="grid-area: g">单位：</span>
-        <span style="grid-area: h">{{ product.unit }}</span>
-        <span style="grid-area: k">库存量：</span>
-        <span style="grid-area: l">{{ product.inventory }}</span>
-        <span style="grid-area: o">库存上限：</span>
-        <span style="grid-area: p">{{ product.inventoryCeiling }}</span>
+        <span style="grid-area: c">进价</span>
+        <span style="grid-area: d">{{ product.purchasePrice }}</span>
+        <span style="grid-area: g">售价</span>
+        <span style="grid-area: h">{{ product.price }}</span>
+        <span style="grid-area: k">单位：</span>
+        <span style="grid-area: l">{{ product.unit }}</span>
+        <span style="grid-area: o">库存量：</span>
+        <span style="grid-area: p">{{ product.inventory }}</span>
+        <span style="grid-area: s">库存上限：</span>
+        <span style="grid-area: t">{{ product.inventoryCeiling }}</span>
         <transition name="fade">
           <div
             v-show="actionsShow"
@@ -101,7 +104,8 @@ export default defineComponent({
   setup () {
     const actionsShow = ref<boolean>(false)
     return {
-      actionsShow
+      actionsShow,
+      defaultImgUrl: require('@/assets/imgs/product.png')
     }
   },
   computed: {
@@ -133,10 +137,15 @@ export default defineComponent({
   height: 20px;
 }
 .product-card-content {
+  height: 164px;
   display: grid;
-  grid-template-areas: "a b c d" "e f g h" "i j k l" 'm n o p';
+  grid-template-areas: "a b c d"
+                       "e f g h"
+                       "i j k l"
+                       "m n o p"
+                       "q r s t";
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 1fr);
   gap: 8px;
   font-size: 12px;
   position: relative;

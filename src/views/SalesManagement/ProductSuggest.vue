@@ -11,6 +11,10 @@
       title="月总销售额排行榜"
       :list="totalAmountRankList"
     />
+    <ProductRank
+      title="月总利润排行榜"
+      :list="totalProfitRankList"
+    />
   </div>
 </template>
 
@@ -35,12 +39,17 @@ export default defineComponent({
     salesVolumnRankList () {
       const list = this.list.slice()
       list.sort((a, b) => (b.num - a.num))
-      return list.length > 3 ? list.slice(0, 3) : list
+      return list
     },
     totalAmountRankList () {
       const list = this.list.slice()
       list.sort((a, b) => (b.amount - a.amount))
-      return list.length > 3 ? list.slice(0, 3) : list
+      return list
+    },
+    totalProfitRankList () {
+      const list = this.list.slice()
+      list.sort((a, b) => (b.profit - a.profit))
+      return list
     }
   },
   async created () {

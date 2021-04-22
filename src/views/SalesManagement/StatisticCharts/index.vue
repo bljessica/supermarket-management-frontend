@@ -45,11 +45,12 @@ export default defineComponent({
         const salesChartDom = document.getElementById(type + '-sales-chart')
         const salesChart = echarts.init(salesChartDom)
         const res = await this.$api.getTotalSales({ type })
-        const data = res.data.map(item => item.total)
+        const data = res.data.map(item => item.totalSales)
         if (type !== 'week') {
           option.xAxis.data = res.data.map((item, idx) => (idx + 1))
         }
         option.series[0].data = data
+        option.series[1].data = res.data.map(item => item.totalProfit)
         salesChart.setOption(option)
       })
     }

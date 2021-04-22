@@ -1,13 +1,15 @@
 export default {
   title: {
-    text: '一周内日销售额变化',
-    left: 'center'
+    text: '一周内日销售额和利润变化'
   },
   tooltip: {
     trigger: 'axis'
   },
   toolbox: {
     show: true
+  },
+  legend: {
+    data: ['销售额', '利润']
   },
   xAxis: {
     type: 'category',
@@ -22,6 +24,23 @@ export default {
   },
   series: [
     {
+      name: '销售额',
+      type: 'line',
+      data: [],
+      markPoint: {
+        data: [
+          { type: 'max', name: '最大值' },
+          { type: 'min', name: '最小值' }
+        ]
+      },
+      markLine: {
+        data: [
+          { type: 'average', name: '平均值' }
+        ]
+      }
+    },
+    {
+      name: '利润',
       type: 'line',
       data: [],
       markPoint: {

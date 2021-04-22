@@ -1,7 +1,12 @@
 export default [
   {
+    key: 'purchasePrice',
+    label: '进价',
+    width: '100'
+  },
+  {
     key: 'price',
-    label: '价格',
+    label: '售价',
     width: '100'
   },
   {

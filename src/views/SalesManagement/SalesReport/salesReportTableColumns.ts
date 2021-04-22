@@ -16,6 +16,10 @@ export default [
   },
   {
     key: 'amount',
-    label: '金额'
+    label: '销售额'
+  },
+  {
+    key: 'profit',
+    label: '利润'
   }
 ]

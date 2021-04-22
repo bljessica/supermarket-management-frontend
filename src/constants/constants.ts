@@ -10,7 +10,7 @@ export const ASIDE_ITEMS = {
       name: '统计图表'
     }, {
       index: '/productSuggest',
-      name: '商品推荐'
+      name: '进货推荐'
     }, {
       index: '/salesReport',
       name: '销售报表'
