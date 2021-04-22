@@ -24,7 +24,7 @@
           :style="{width: 160 * getScale(i) + 'px', height: 200 * getScale(i) + 'px'}"
         >
         <div style="margin-top: 5px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width: 100%;">
-          {{ (getIdx(i) + 1) + '. ' + list[getIdx(i)]?._id || '暂无' }}
+          {{ (getIdx(i) + 1) + '. ' + (list[getIdx(i)]?._id || '暂无') }}
         </div>
         <SvgIcon
           name="crown"
@@ -37,14 +37,17 @@
     <div
       v-if="showMoreList"
       class="more-list-container"
+      :style="{display: list.length <= 3 ? 'block' : 'grid',
+               gridTemplateColumns: list.length < 7 ? 'repeat(' + (list.length - 3) + ', 1fr)' : 'repeat(4, 1fr)'}"
     >
       <div
         v-for="(item, idx) in list.slice(3)"
         :key="item._id"
         class="more-list__item"
+        :style="{textAlign: list.length < 7 ? 'center' : 'left',}"
         @click="$router.push({path: '/productDetail/' + item.id})"
       >
-        {{ (3 + idx) + '. ' + item._id }}
+        {{ (4 + idx) + '. ' + item._id }}
       </div>
       <div
         v-if="list.length <= 3"
@@ -111,11 +114,9 @@ export default defineComponent({
   cursor: pointer;
 }
 .more-list-container {
-  display: grid;
   gap: 10px;
   width: 80%;
   margin: 10px auto 0;
-  grid-template-columns: repeat(4, 1fr);
 }
 .more-list__item {
   overflow: hidden;
