@@ -2,7 +2,6 @@
   <el-menu
     :router="true"
     :default-active="ASIDE_ITEMS['库存管理'].index"
-    background-color="#E9EEF3"
   >
     <div
       v-for="submenu in Object.values(ASIDE_ITEMS)"
@@ -48,7 +47,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style>
-
-</style>

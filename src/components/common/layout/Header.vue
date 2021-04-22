@@ -1,9 +1,12 @@
 <template>
   <div
     class="header"
-    style="height: 100%; display: flex; align-items: center; justify-content: space-between;padding: 0 20px;background-color:#B3C0D1;"
+    style="display: flex; align-items: center; justify-content: space-between;height: 70px;line-height: 70px;"
   >
-    <h1 class="header__title">
+    <h1
+      class="header__title"
+      style="color: #66b1ff;"
+    >
       超市进销存管理系统
     </h1>
     <div

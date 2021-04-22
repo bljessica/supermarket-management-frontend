@@ -1,17 +1,17 @@
 <template>
   <el-container style="height: 100vh;width: 100vw;">
-    <el-header style="padding: 0;">
+    <el-header style="height: unset;border-bottom: 1px solid #ddd;">
       <Header />
     </el-header>
-    <el-container>
+    <el-container style="height: 100%;">
       <el-aside
         v-if="showAside"
-        width="200px"
-        style="background-color: #D3DCE6;"
+        width="220px"
+        style="background-color: #fff;border-right: 1px solid #ddd;"
       >
         <Aside />
       </el-aside>
-      <el-main>
+      <el-main style="height: calc(100vh - 71px);overflow: auto;">
         <router-view />
       </el-main>
     </el-container>
@@ -37,3 +37,9 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="scss" scoped>
+.el-aside :deep(.el-menu) {
+  border-right: none !important;
+}
+</style>
