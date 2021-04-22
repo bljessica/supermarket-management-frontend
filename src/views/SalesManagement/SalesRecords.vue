@@ -26,6 +26,30 @@
         :prop="column.key"
         show-overflow-tooltip
       />
+      <el-table-column
+        label="操作"
+        width="150"
+        fixed="right"
+      >
+        <template #default="scope">
+          <el-popconfirm
+            title="确定删除此销售记录吗？"
+            confirm-button-text="确定"
+            cancel-button-text="取消"
+            @confirm="deleteSalesOrder(scope.row)"
+          >
+            <template #reference>
+              <el-button
+                size="small"
+                type="danger"
+                :disabled="!hasAuth(['SELL_SELF', 'SELL_ALL'])"
+              >
+                删除
+              </el-button>
+            </template>
+          </el-popconfirm>
+        </template>
+      </el-table-column>
     </el-table>
     <!-- 分页 -->
     <!-- <el-pagination
@@ -211,6 +235,16 @@ export default defineComponent({
       salesVolumeRule,
       loading
       // pagination
+    }
+  },
+  methods: {
+    async deleteSalesOrder (row: any) {
+      this.loading = true
+      await this.$api.deleteSalesOrder({
+        orderId: row.orderId
+      })
+      await this.getOrders()
+      this.loading = false
     }
   }
 })

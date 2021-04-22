@@ -130,6 +130,14 @@ export const addSalesOrder = (data: addSalesOrderType) => {
   })
 }
 
+export const deleteSalesOrder = (data: any) => {
+  return request({
+    url: '/salesOrder',
+    method: 'DELETE',
+    data
+  })
+}
+
 export const getAllSalesOrders = (data: any) => {
   return request({
     url: '/allSalesOrders',
