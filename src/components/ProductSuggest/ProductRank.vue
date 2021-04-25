@@ -35,7 +35,7 @@
       </div>
     </div>
     <div
-      v-if="showMoreList"
+      ref="moreList"
       class="more-list-container"
       :style="{display: list.length <= 3 ? 'block' : 'grid',
                gridTemplateColumns: list.length < 7 ? 'repeat(' + (list.length - 3) + ', 1fr)' : 'repeat(4, 1fr)'}"
@@ -62,6 +62,7 @@
     >
       <span>{{ showMoreList ? '收起' : '查看更多' }}</span>
       <SvgIcon
+        class="show-more__icon"
         name="up-arrow"
         :hover-change-color="false"
         color="rgb(71, 174, 243)"
@@ -93,6 +94,22 @@ export default defineComponent({
       showMoreList
     }
   },
+  watch: {
+    showMoreList: {
+      handler (val) {
+        if (val) {
+          this.$nextTick(() => {
+            this.$refs.moreList.style.maxHeight = '200px'
+          })
+        } else {
+          this.$nextTick(() => {
+            this.$refs.moreList.style.maxHeight = 0
+          })
+        }
+      },
+      immediate: true
+    }
+  },
   methods: {
     getIdx (idx: number) {
       return idx === 2 ? 0 : (idx === 1 ? 1 : 2)
@@ -112,11 +129,16 @@ export default defineComponent({
   margin-top: 10px;
   color: rgb(71, 174, 243);
   cursor: pointer;
+  .show-more__icon {
+    transition: all .3s ease-in-out;
+  }
 }
 .more-list-container {
   gap: 10px;
   width: 80%;
   margin: 10px auto 0;
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
 }
 .more-list__item {
   overflow: hidden;
