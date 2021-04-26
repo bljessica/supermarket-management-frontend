@@ -152,7 +152,6 @@ export default defineComponent({
       })
       this.detailData = res.data
       this.purchaseStatus = this.detailData.purchaseStatus.value
-      console.log(res.data)
     },
     async changePurchaseStatus () {
       if (this.nextActionName === '采购完成') {
