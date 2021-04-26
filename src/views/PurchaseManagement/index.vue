@@ -75,7 +75,7 @@
       </el-table-column>
     </el-table>
     <!-- 分页 -->
-    <!-- <el-pagination
+    <el-pagination
       v-if="ordersData?.length || loading"
       style="margin-top: 20px;"
       background
@@ -83,8 +83,8 @@
       :page-size="pagination.pageSize"
       :total="pagination.total"
       :current-page="pagination.pageIdx"
-      @current-change="getProducts($event)"
-    /> -->
+      @current-change="pageChange($event)"
+    />
     <!-- 添加采购订单 - 抽屉 -->
     <el-drawer
       v-model="showDrawer"
@@ -287,11 +287,11 @@ export default defineComponent({
       trigger: 'change'
     }
     const loading = ref<boolean>(false)
-    // const pagination = {
-    //   total: 0,
-    //   pageIdx: 1,
-    //   pageSize: 10
-    // }
+    const pagination = ref({
+      total: 0,
+      pageIdx: 1,
+      pageSize: 10
+    })
     return {
       tableColumns,
       ordersData,
@@ -302,19 +302,32 @@ export default defineComponent({
       purchaseQuantityRule,
       loading,
       PURCHASE_ORDER_STATUS,
-      INVENTORY_LOCATION_OPTIONS
-      // pagination
+      INVENTORY_LOCATION_OPTIONS,
+      pagination
+    }
+  },
+  watch: {
+    pagination: {
+      async handler () {
+        await this.getOrders()
+      },
+      deep: true,
+      immediate: true
     }
   },
   methods: {
+    pageChange (pageIdx) {
+      this.pagination.pageIdx = pageIdx
+    },
     async getOrders () {
       this.loading = true
       let res = null
-      res = await this.$api.getAllPurchaseOrders()
+      res = await this.$api.getAllPurchaseOrders({ ...this.pagination })
       this.ordersData = res.data.reduce((res: Array<any>, cur: any) => {
         res.push(cur.orders[0])
         return res
       }, [])
+      this.pagination.total = res.total
       this.loading = false
     },
     async deletePurchaseOrder (row) {
