@@ -104,6 +104,14 @@ export const deletePurchaseOrder = (data: any) => {
   })
 }
 
+export const getPurchaseOrder = (data: any) => {
+  return request({
+    url: '/purchaseOrder',
+    method: 'GET',
+    data
+  })
+}
+
 export const getAllPurchaseOrders = (data: any) => {
   return request({
     url: '/allPurchaseOrders',

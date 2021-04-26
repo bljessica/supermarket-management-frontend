@@ -15,7 +15,7 @@
     "core-js": "^3.8.3",
     "crypto-js": "^4.0.0",
     "echarts": "^5.0.2",
-    "element-plus": "^1.0.2-beta.33",
+    "element-plus": "^1.0.2-beta.41",
     "socket.io-client": "^4.0.1",
     "svg-sprite-loader": "^5.2.1",
     "vue": "^3.0.4",

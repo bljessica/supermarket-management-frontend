@@ -22,48 +22,6 @@ export default defineComponent({
         value: item.productName
       }))
     },
-    spanMethod ({ rowIndex, columnIndex }) {
-      if ((columnIndex !== 1) && (columnIndex !== 2)) {
-        let idx = 0
-        for (const item of this.orders) {
-          if (rowIndex === idx) {
-            return {
-              rowspan: item.count,
-              colspan: 1
-            }
-          } else if (idx > rowIndex) {
-            return {
-              rowspan: 0,
-              colspan: 0
-            }
-          }
-          idx += item.count
-        }
-        return {
-          rowspan: 0,
-          colspan: 0
-        }
-      } else {
-        return {
-          rowspan: 1,
-          colspan: 1
-        }
-      }
-    },
-    async getOrders () {
-      this.loading = true
-      let res = null
-      if (this.$options.name === 'PurchaseManagement') {
-        res = await this.$api.getAllPurchaseOrders()
-      } else if (this.$options.name === 'SalesRecords') {
-        res = await this.$api.getAllSalesOrders()
-      }
-      this.orders = res.data
-      this.ordersData = res.data.reduce((res: Array<any>, cur: any) => {
-        return res.concat(cur.orders)
-      }, [])
-      this.loading = false
-    },
     handleAddOrder () {
       this.$refs.AddOrderForm.validate(async (valid: boolean) => {
         if (valid) {
@@ -72,6 +30,8 @@ export default defineComponent({
           if (this.$options.name === 'PurchaseManagement') {
             res = await this.$api.addPurchaseOrder({
               orderId: time,
+              name: this.addOrderForm.name,
+              inventoryLocation: this.addOrderForm.inventoryLocation,
               remark: this.addOrderForm.remark,
               items: this.addOrderForm.items,
               purchaserAccount: this.$store.state.user.account,

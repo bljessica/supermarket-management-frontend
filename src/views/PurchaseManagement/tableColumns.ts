@@ -1,18 +1,7 @@
 export default [
   {
-    key: 'orderId',
-    label: '订单ID',
-    width: '150',
-    fixed: true
-  },
-  {
-    key: 'productName',
-    label: '商品名'
-  },
-  {
-    key: 'purchaseQuantity',
-    label: '采购数量',
-    width: '100'
+    key: 'name',
+    label: '订单名'
   },
   {
     key: 'purchaserName',
@@ -27,6 +16,11 @@ export default [
   {
     key: 'endTime',
     label: '完成时间',
+    width: '160'
+  },
+  {
+    key: 'inventoryLocation',
+    label: '存货地点',
     width: '160'
   },
   {

@@ -238,6 +238,43 @@ export default defineComponent({
     }
   },
   methods: {
+    spanMethod ({ rowIndex, columnIndex }) {
+      if ((columnIndex !== 1) && (columnIndex !== 2)) {
+        let idx = 0
+        for (const item of this.orders) {
+          if (rowIndex === idx) {
+            return {
+              rowspan: item.count,
+              colspan: 1
+            }
+          } else if (idx > rowIndex) {
+            return {
+              rowspan: 0,
+              colspan: 0
+            }
+          }
+          idx += item.count
+        }
+        return {
+          rowspan: 0,
+          colspan: 0
+        }
+      } else {
+        return {
+          rowspan: 1,
+          colspan: 1
+        }
+      }
+    },
+    async getOrders () {
+      this.loading = true
+      const res = await this.$api.getAllSalesOrders()
+      this.orders = res.data
+      this.ordersData = res.data.reduce((res: Array<any>, cur: any) => {
+        return res.concat(cur.orders)
+      }, [])
+      this.loading = false
+    },
     async deleteSalesOrder (row: any) {
       this.loading = true
       await this.$api.deleteSalesOrder({

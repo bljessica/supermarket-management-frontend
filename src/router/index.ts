@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import InventoryManagement from '@/views/InventoryManagement/index.vue'
 import LoginOrRegister from '@/views/LoginOrRegister.vue'
 import PurchaseManagement from '@/views/PurchaseManagement/index.vue'
+import PurchaseOrderDetail from '@/views/PurchaseManagement/OrderDetail.vue'
 import ProductDetail from '@/views/ProductDetail/index.vue'
 import SalesRecords from '@/views/SalesManagement/SalesRecords.vue'
 import StatisticCharts from '@/views/SalesManagement/StatisticCharts/index.vue'
@@ -37,6 +38,12 @@ const routes: Array<RouteRecordRaw> = [
     path: '/purchaseManagement',
     name: 'purchaseManagement',
     component: PurchaseManagement
+  },
+  {
+    path: '/purchaseManagement/orderDetail/:orderId',
+    name: 'purchaseOrderDetail',
+    component: PurchaseOrderDetail,
+    props: true
   },
   {
     path: '/productDetail/:_id',

@@ -6,7 +6,7 @@
         :disabled="!hasAuth(['PURCHASE_SELF'])"
         @click="showAddingDrawer"
       >
-        添加采购单
+        添加采购订单
       </el-button>
     </div>
     <!-- 订单表 -->
@@ -14,9 +14,22 @@
       v-loading="loading"
       style="margin-top: 20px;"
       :data="ordersData"
-      :span-method="spanMethod"
       border
     >
+      <el-table-column
+        label="订单ID"
+        width="150"
+        fixed="left"
+      >
+        <template #default="scope">
+          <span
+            class="order-table-item__orderId"
+            @click="$router.push({path: '/purchaseManagement/orderDetail/' + scope.row.orderId})"
+          >
+            {{ scope.row.orderId }}
+          </span>
+        </template>
+      </el-table-column>
       <el-table-column
         v-for="column in tableColumns"
         :key="column.key"
@@ -28,22 +41,12 @@
       />
       <el-table-column
         label="采购状态"
-        width="130"
-        fixed="right"
+        width="100"
       >
         <template #default="scope">
-          <el-select
-            v-model="scope.row.purchaseStatus"
-            :disabled="(scope.row.purchaseStatus === '已完成') || !(hasAuth(['PURCHASE_ALL']) || isOperator(scope.row.purchaserAccount))"
-            @change="handlePurchaseStatusChange(scope.row, $event)"
-          >
-            <el-option
-              v-for="item in Object.values(PURCHASE_ORDER_STATUS)"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
+          <el-tag :type="PURCHASE_ORDER_STATUS[scope.row.purchaseStatus].tagType">
+            {{ scope.row.purchaseStatus }}
+          </el-tag>
         </template>
       </el-table-column>
       <el-table-column
@@ -53,7 +56,7 @@
       >
         <template #default="scope">
           <el-popconfirm
-            title="确定删除此采购单吗？"
+            title="确定删除此采购订单吗？"
             confirm-button-text="确定"
             cancel-button-text="取消"
             @confirm="deletePurchaseOrder(scope.row)"
@@ -82,12 +85,12 @@
       :current-page="pagination.pageIdx"
       @current-change="getProducts($event)"
     /> -->
-    <!-- 添加采购单 - 抽屉 -->
+    <!-- 添加采购订单 - 抽屉 -->
     <el-drawer
       v-model="showDrawer"
       destroy-on-close
       size="70%"
-      title="添加采购单"
+      title="添加采购订单"
     >
       <el-form
         ref="AddOrderForm"
@@ -95,11 +98,21 @@
         style="padding: 20px;"
         label-position="left"
       >
+        <el-form-item
+          label="订单名"
+          prop="name"
+          :rules="{ required: true, message: '订单名不能为空', trigger: 'blur' }"
+        >
+          <el-input
+            v-model="addOrderForm.name"
+            size="small"
+          />
+        </el-form-item>
         <el-row
           v-for="(item, index) in addOrderForm.items"
           :key="item.index"
         >
-          <el-col :span="6">
+          <el-col :span="7">
             <el-form-item
               label="商品名"
               :prop="'items.' + index + '.productName'"
@@ -117,13 +130,15 @@
                   :key="product.value"
                   :label="product.label"
                   :value="product.value"
+                  size="small"
                 />
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="7">
             <el-form-item
               label="商品数量"
+              style="margin-left: 10px;"
               :prop="'items.' + index + '.purchaseQuantity'"
               :rules="purchaseQuantityRule"
             >
@@ -133,7 +148,7 @@
               />
             </el-form-item>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="3">
             <el-form-item
               label="库存量"
               size="small"
@@ -144,7 +159,7 @@
               </el-tag>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="3">
             <el-form-item
               label="库存上限"
               size="small"
@@ -170,6 +185,25 @@
             />
           </el-col>
         </el-row>
+        <el-form-item
+          label="存货地点"
+          prop="inventoryLocation"
+        >
+          <el-select
+            v-model="addOrderForm.inventoryLocation"
+            size="small"
+            filterable
+            placeholder="请选择存货地点"
+          >
+            <el-option
+              v-for="location in INVENTORY_LOCATION_OPTIONS"
+              :key="location.value"
+              :label="location.label"
+              :value="location.value"
+              size="small"
+            />
+          </el-select>
+        </el-form-item>
         <el-form-item
           label="备注"
           prop="remark"
@@ -198,7 +232,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import tableColumns from './tableColumns'
-import { PURCHASE_ORDER_STATUS } from '@/constants/constants'
+import { PURCHASE_ORDER_STATUS, INVENTORY_LOCATION_OPTIONS } from '@/constants/constants'
 import purchaseAndSalesMixin from '@/mixins/purchaseAndSalesMixin'
 import authMixin from '@/mixins/authMixin'
 
@@ -206,11 +240,12 @@ export default defineComponent({
   name: 'PurchaseManagement',
   mixins: [purchaseAndSalesMixin, authMixin],
   setup () {
-    const orders = ref([])
     const ordersData = ref([])
     const showDrawer = ref<boolean>(false)
     const addOrderForm = ref({
+      name: '',
       remark: '',
+      inventoryLocation: '默认仓库',
       items: [{
         productName: '',
         purchaseQuantity: 100,
@@ -259,7 +294,6 @@ export default defineComponent({
     // }
     return {
       tableColumns,
-      orders,
       ordersData,
       showDrawer,
       addOrderForm,
@@ -267,11 +301,22 @@ export default defineComponent({
       productNameRule,
       purchaseQuantityRule,
       loading,
-      PURCHASE_ORDER_STATUS
+      PURCHASE_ORDER_STATUS,
+      INVENTORY_LOCATION_OPTIONS
       // pagination
     }
   },
   methods: {
+    async getOrders () {
+      this.loading = true
+      let res = null
+      res = await this.$api.getAllPurchaseOrders()
+      this.ordersData = res.data.reduce((res: Array<any>, cur: any) => {
+        res.push(cur.orders[0])
+        return res
+      }, [])
+      this.loading = false
+    },
     async deletePurchaseOrder (row) {
       this.loading = true
       await this.$api.deletePurchaseOrder({
@@ -302,5 +347,11 @@ export default defineComponent({
 :deep(.el-col) {
   display: flex;
   align-items:center;
+}
+.order-table-item__orderId {
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
 }
 </style>

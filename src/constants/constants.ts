@@ -36,6 +36,9 @@ export const ROLE_LIST = {
   销售员: {
     auth: ['SELL_SELF', 'EDIT_PRODUCT']
   },
+  仓库管理员: {
+    auth: ['STORAGE']
+  },
   采购总管: {
     auth: ['PURCHASE_SELF', 'PURCHASE_ALL']
   },
@@ -43,7 +46,7 @@ export const ROLE_LIST = {
     auth: ['SELL_SELF', 'SELL_ALL', 'EDIT_PRODUCT']
   },
   总领导: {
-    auth: ['PURCHASE_SELF', 'PURCHASE_ALL', 'SELL_SELF', 'SELL_ALL', 'EDIT_PRODUCT']
+    auth: ['PURCHASE_SELF', 'PURCHASE_ALL', 'SELL_SELF', 'SELL_ALL', 'EDIT_PRODUCT', 'STORAGE']
   }
 }
 
@@ -62,13 +65,40 @@ export const PRODUCT_STATUS = {
   }
 }
 
+export const INVENTORY_LOCATION_OPTIONS = [
+  {
+    label: '默认仓库',
+    value: '默认仓库'
+  },
+  {
+    label: '备用仓库',
+    value: '备用仓库'
+  }
+]
+
 export const PURCHASE_ORDER_STATUS = {
   未开始: {
-    label: '未开始',
-    value: '未开始'
+    index: 1,
+    tagType: 'info'
   },
-  已完成: {
-    label: '已完成',
-    value: '已完成'
+  采购完成: {
+    index: 2,
+    tagType: 'warning'
+  },
+  入库完成: {
+    index: 3,
+    tagType: 'primary'
+  },
+  订单完成: {
+    index: 4,
+    tagType: 'success'
   }
+  // 未开始: {
+  //   label: '未开始',
+  //   value: '未开始'
+  // },
+  // 已完成: {
+  //   label: '已完成',
+  //   value: '已完成'
+  // }
 }
