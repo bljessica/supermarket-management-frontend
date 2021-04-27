@@ -172,6 +172,7 @@
               v-model="userInfo.role"
               style="width: 50%;"
               size="mini"
+              :disabled="userAccount === showingUserAccount"
               placeholder="请选择职位"
               @change="updateUserInfo"
             >
@@ -229,9 +230,9 @@ export default defineComponent({
       chatPartner,
       chatContents,
       chattingContent,
-      showingUserAccount,
+      showingUserAccount, // 显示的用户
       ROLE_LIST,
-      selectingUserAccount
+      selectingUserAccount // 点击选中的用户
     }
   },
   computed: {
