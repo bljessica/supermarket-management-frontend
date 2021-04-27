@@ -81,7 +81,7 @@ export default defineComponent({
     width: 70% !important;
   }
   :deep(.product-card-content__img) {
-    width: 240px !important;
+    width: 220px !important;
   }
 }
 </style>
