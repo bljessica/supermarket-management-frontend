@@ -3,27 +3,30 @@
     class="product-rank-container"
     style="text-align: center;margin-bottom: 40px;overflow: hidden;"
   >
-    <h3 class="product-rank__title">
+    <h3
+      v-if="showTitle"
+      class="product-rank__title"
+    >
       {{ title }}
     </h3>
     <div
       class="rank-list-container"
-      style="display: flex;align-items: flex-end;justify-content: center;"
+      style="display: flex;align-items: flex-end;justify-content: center;margin-top: 30px;"
     >
       <div
         v-for="i in 3"
         :key="i"
         class="rank-list__item"
-        style="width: 160px;position: relative;margin: 0 5px;display: flex;flex-direction: column;align-items: center;justify-content: flex-end;"
-        :style="{width: 160 * getScale(i) + 'px', cursor: list[getIdx(i)]?.id && 'pointer'}"
+        style="position: relative;margin: 0 5px;display: flex;flex-direction: column;align-items: center;justify-content: flex-end;"
+        :style="{width: 200 * getScale(i) + 'px', cursor: list[getIdx(i)]?.id && 'pointer'}"
         @click=" list[getIdx(i)]?.id && $router.push({path: '/productDetail/' + list[getIdx(i)].id})"
       >
         <img
           :src="list[getIdx(i)]?.image || defaultImgUrl.default"
           style="display: block;border: 1px solid #ddd;border-radius: 20px;overflow: hidden;"
-          :style="{width: 160 * getScale(i) + 'px', height: 200 * getScale(i) + 'px'}"
+          :style="{width: 200 * getScale(i) + 'px', height: 240 * getScale(i) + 'px'}"
         >
-        <div style="margin-top: 5px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width: 100%;">
+        <div style="margin-top: 10px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width: 100%;">
           {{ (getIdx(i) + 1) + '. ' + (list[getIdx(i)]?._id || '暂无') }}
         </div>
         <SvgIcon
@@ -84,6 +87,10 @@ export default defineComponent({
     list: {
       type: Array,
       default: () => []
+    },
+    showTitle: {
+      type: Boolean,
+      default: false
     }
   },
   setup () {

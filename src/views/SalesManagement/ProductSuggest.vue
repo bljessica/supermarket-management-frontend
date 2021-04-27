@@ -3,16 +3,31 @@
     v-loading="loading"
     class="product-suggest-container"
   >
+    <el-menu
+      default-active="salesVolumn"
+      mode="horizontal"
+      @select="typeShow = $event"
+    >
+      <el-menu-item index="salesVolumn">
+        月销量排行榜
+      </el-menu-item>
+      <el-menu-item index="totalAmount">
+        月总销售额排行榜
+      </el-menu-item>
+      <el-menu-item index="totalProfit">
+        月总利润排行榜
+      </el-menu-item>
+    </el-menu>
     <ProductRank
-      title="月销量排行榜"
+      v-if="typeShow === 'salesVolumn'"
       :list="salesVolumnRankList"
     />
     <ProductRank
-      title="月总销售额排行榜"
+      v-if="typeShow === 'totalAmount'"
       :list="totalAmountRankList"
     />
     <ProductRank
-      title="月总利润排行榜"
+      v-if="typeShow === 'totalProfit'"
       :list="totalProfitRankList"
     />
   </div>
@@ -30,9 +45,11 @@ export default defineComponent({
   setup () {
     const loading = ref(false)
     const list = ref([])
+    const typeShow = ref('salesVolumn')
     return {
       loading,
-      list
+      list,
+      typeShow
     }
   },
   computed: {
@@ -61,6 +78,9 @@ export default defineComponent({
 })
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+:deep(.el-menu) {
+  display: flex;
+  justify-content: space-evenly;
+}
 </style>
