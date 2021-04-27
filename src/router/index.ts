@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import InventoryManagement from '@/views/InventoryManagement/index.vue'
-import LoginOrRegister from '@/views/LoginOrRegister.vue'
+import Login from '@/views/Login/index.vue'
 import PurchaseManagement from '@/views/PurchaseManagement/index.vue'
 import PurchaseOrderDetail from '@/views/PurchaseManagement/OrderDetail.vue'
 import ProductDetail from '@/views/ProductDetail/index.vue'
@@ -9,6 +9,7 @@ import StatisticCharts from '@/views/SalesManagement/StatisticCharts/index.vue'
 import ProductSuggest from '@/views/SalesManagement/ProductSuggest.vue'
 import SalesReport from '@/views/SalesManagement/SalesReport/index.vue'
 import PersonalCenter from '@/views/PersonalCenter/index.vue'
+import UserManagement from '@/views/UserManagement/index.vue'
 import { getUserFromLocal } from '@/utils'
 import Store from '@/store'
 import { socket } from '@/main'
@@ -26,9 +27,9 @@ const routes: Array<RouteRecordRaw> = [
     props: true
   },
   {
-    path: '/loginOrRegister/:type',
-    name: 'loginOrRegister',
-    component: LoginOrRegister,
+    path: '/login',
+    name: 'login',
+    component: Login,
     meta: {
       noLayout: true
     },
@@ -78,6 +79,11 @@ const routes: Array<RouteRecordRaw> = [
       showAside: false
     },
     component: PersonalCenter
+  },
+  {
+    path: '/userManagement',
+    name: 'userManagement',
+    component: UserManagement
   }
 ]
 
@@ -88,7 +94,7 @@ const router = createRouter({
 
 // 路由守卫
 router.beforeEach(async (to, from, next) => {
-  if (to.name === 'loginOrRegister') {
+  if (to.name === 'login') {
     next()
   } else {
     if (!Store.state.user.account) {
@@ -101,7 +107,7 @@ router.beforeEach(async (to, from, next) => {
         }
         next()
       } else {
-        next({ path: '/loginOrRegister/login' })
+        next({ path: '/login' })
       }
     } else {
       next()

@@ -30,6 +30,9 @@ export const ROLE_LIST = {
   普通职员: {
     auth: []
   },
+  人事管理员: {
+    auth: ['USER_MANAGEMENT']
+  },
   采购员: {
     auth: ['PURCHASE_SELF']
   },
@@ -46,7 +49,7 @@ export const ROLE_LIST = {
     auth: ['SELL_SELF', 'SELL_ALL', 'EDIT_PRODUCT']
   },
   总领导: {
-    auth: ['PURCHASE_SELF', 'PURCHASE_ALL', 'SELL_SELF', 'SELL_ALL', 'EDIT_PRODUCT', 'STORAGE']
+    auth: ['PURCHASE_SELF', 'PURCHASE_ALL', 'SELL_SELF', 'SELL_ALL', 'EDIT_PRODUCT', 'STORAGE', 'USER_MANAGEMENT']
   }
 }
 
