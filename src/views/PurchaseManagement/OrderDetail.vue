@@ -51,7 +51,7 @@
     <!-- 订单详情 -->
     <el-card
       class="order-detail-wrapper"
-      style="margin: 30px 0;width: 100%;"
+      style="width: 100%;"
     >
       <template #header>
         <div style="text-align: center;">
@@ -60,7 +60,7 @@
       </template>
       <el-descriptions
         direction="horizontal"
-        :column="1"
+        :column="2"
         border
       >
         <el-descriptions-item
@@ -93,7 +93,10 @@
               </el-tag>
             </div>
           </div>
-          <el-tag v-else-if="key === 'purchaseStatus'">
+          <el-tag
+            v-else-if="key === 'purchaseStatus'"
+            :type="PURCHASE_ORDER_STATUS[detailData[key].value].tagType"
+          >
             {{ detailData[key].value }}
           </el-tag>
           <span v-else>{{ detailData[key].value }}</span>
@@ -250,7 +253,7 @@ export default defineComponent({
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 50vw;
+  width: 40vw;
   margin-right: 10px;
   display: inline-block;
   cursor: pointer;

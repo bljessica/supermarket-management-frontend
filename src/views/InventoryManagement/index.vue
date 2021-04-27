@@ -279,21 +279,27 @@ export default defineComponent({
       this.editingProductId = row._id
     },
     async handleAddProduct () {
-      let res = null
-      if (this.editingProductId) {
-        res = await this.$api.editProduct({
-          ...this.addProductForm,
-          _id: this.editingProductId
-        })
-      } else {
-        res = await this.$api.addProduct(this.addProductForm)
-      }
-      if (res.code === 0) {
-        this.showAddProductDrawer = false
-        this.editingProductId = null
-        this.refresh = !this.refresh
-        this.$refs.AddProductForm.resetFields()
-      }
+      this.$refs.AddProductForm.validate(async (isValid: boolean) => {
+        if (isValid) {
+          let res = null
+          if (this.editingProductId) {
+            res = await this.$api.editProduct({
+              ...this.addProductForm,
+              _id: this.editingProductId
+            })
+          } else {
+            res = await this.$api.addProduct(this.addProductForm)
+          }
+          if (res.code === 0) {
+            this.showAddProductDrawer = false
+            this.editingProductId = null
+            this.refresh = !this.refresh
+            this.$refs.AddProductForm.resetFields()
+          }
+        } else {
+          return false
+        }
+      })
     },
     changeTab (tab: 'cards' | 'table'): void {
       this.currentTab = tab

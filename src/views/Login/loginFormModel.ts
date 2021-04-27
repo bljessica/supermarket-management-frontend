@@ -8,9 +8,7 @@ export const loginForm: loginFormType = {
 
 export const loginFormRules = {
   account: [
-    {
-      required: true, message: '账号不能为空', trigger: 'blur'
-    }
+    { required: true, message: '账号不能为空', trigger: 'blur' }
   ],
   password: [
     { required: true, message: '密码不能为空', trigger: 'blur' }

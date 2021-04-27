@@ -1,6 +1,7 @@
 <template>
   <div>
     <el-menu
+      ref="tabMenu"
       default-active="edit"
       mode="horizontal"
       style="margin-bottom: 30px;"
@@ -137,9 +138,7 @@ export default defineComponent({
             entryTime: Date.now()
           })
           if (res.code === 0) {
-            setTimeout(() => {
-              this.typeShow = 'edit'
-            }, 1000)
+            this.$refs.RegisterForm.resetFields()
           }
         } else {
           return false

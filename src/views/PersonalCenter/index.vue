@@ -52,7 +52,7 @@
       <div v-if="chatPartner">
         <div
           class="chatting-title"
-          style="display: flex;align-items: center;"
+          style="display: flex;align-items: center;margin-bottom: 20px;"
         >
           <SvgIcon
             name="left-arrow"
@@ -65,38 +65,46 @@
           <span style="margin-left: 8px;font-size: 18px;">{{ chatPartner.username }}</span>
         </div>
         <!-- 聊天内容 -->
-        <div
-          ref="chatContentWapper"
-          class="chatting-content-wrapper"
-          style="font-size: 14px;padding: 20px;margin-top: 20px;height: 60vh;overflow: auto;"
-          :style="{backgroundColor: chatPartner && '#f5f5f5'}"
-        >
+        <el-scrollbar height="50vh">
           <div
-            v-if="!chatContents.length"
-            style="text-align: center;font-size: 12px;color: #999;"
+            ref="chatContentWapper"
+            class="chatting-content-wrapper"
+            style="font-size: 14px;padding: 20px;box-sizing: border-box;"
+            :style="{backgroundColor: chatPartner && '#f5f5f5'}"
           >
-            暂无聊天记录
-          </div>
-          <div
-            v-for="content in chatContents"
-            :key="content._id"
-            class="chatting-content-wrapper__content"
-            style="overflow: hidden;margin: 10px 0;"
-          >
-            <UserAvatar
-              :avatar="content.user.avatar"
-              :style="{float: isSelf(content.senderAccount) ? 'right' : 'left',
-                       marginRight: !isSelf(content.senderAccount) && '6px', marginLeft: isSelf(content.senderAccount) && '6px'}"
-            />
             <div
-              style="padding: 6px;max-width: 50%;border-radius: 4px;letter-spacing: 1px;min-height: 18px;"
-              :style="{float: isSelf(content.senderAccount) ? 'right' : 'left',
-                       backgroundColor: isSelf(content.senderAccount) ? '#98e165' : '#fff'}"
+              v-if="!chatContents.length"
+              class="chatting-content__tip-words"
             >
-              {{ content.content }}
+              暂无聊天记录
+            </div>
+            <div
+              v-for="(content, idx) in chatContents"
+              :key="content._id"
+              class="chatting-content-wrapper__content"
+              style="overflow: hidden;margin: 10px 0;text-align: center;"
+            >
+              <div v-if="idx === 0 || !isTimeClear(content.time, chatContents[idx - 1]?.time)">
+                <span style="background-color: #dadada;color: white;padding: 3px;font-size: 10px;margin: 5px 0;border-radius: 2px;">
+                  {{ chatTime(content.time) }}
+                </span>
+              </div>
+              <UserAvatar
+                :avatar="content.user.avatar"
+                :style="{float: isSelf(content.senderAccount) ? 'right' : 'left',
+                         marginRight: !isSelf(content.senderAccount) && '6px', marginLeft: isSelf(content.senderAccount) && '6px'}"
+              />
+              <div
+                style="padding: 6px;max-width: 50%;border-radius: 4px;letter-spacing: 1px;min-height: 18px;"
+                :style="{float: isSelf(content.senderAccount) ? 'right' : 'left',
+                         backgroundColor: isSelf(content.senderAccount) ? '#98e165' : '#fff'}"
+              >
+                {{ content.content }}
+              </div>
             </div>
           </div>
-        </div>
+        </el-scrollbar>
+
         <!-- 聊天输入框 -->
         <div class="chatting-input-wrapper">
           <el-input
@@ -196,6 +204,10 @@
 import { defineComponent, ref } from 'vue'
 import UserAvatar from '@/components/common/UserAvatar.vue'
 import { ROLE_LIST } from '@/constants/constants'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+
+dayjs.extend(relativeTime)
 
 export default defineComponent({
   name: 'PersonalCenter',
@@ -253,6 +265,25 @@ export default defineComponent({
     })
   },
   methods: {
+    chatTime (time: number) {
+      if (dayjs().isSame(dayjs(time), 'day')) {
+        return dayjs(time).format('HH:mm')
+      } else if (dayjs().add(1, 'day').isSame(dayjs(time), 'day')) {
+        return '昨天' + dayjs(time).format('HH:mm')
+      } else if (dayjs().isSame(dayjs(time), 'year')) {
+        return dayjs(time).format('MM月DD日 HH:mm')
+      }
+      return dayjs(time).format('YYYY年MM月DD日 HH:mm')
+    },
+    isTimeClear (startTime: number, endTime: string) {
+      if (!endTime) {
+        return false
+      }
+      if (dayjs(startTime).from(dayjs(endTime)) !== 'in a few seconds') {
+        return false
+      }
+      return true
+    },
     async selectUser (user) {
       this.selectingUserAccount = user.account
       if (this.editingUsers) {
@@ -308,8 +339,15 @@ export default defineComponent({
     },
     async editOrSaveUsername () {
       if (this.editingUsername) { // 保存
-        this.userInfo.username = this.username
-        await this.updateUserInfo()
+        if (this.username) {
+          this.userInfo.username = this.username
+          await this.updateUserInfo()
+        } else {
+          this.$message({
+            type: 'error',
+            message: '用户名不能为空'
+          })
+        }
       } else { // 编辑
         this.username = this.userInfo.username
       }
@@ -367,7 +405,12 @@ export default defineComponent({
   align-items: center;
   border-radius: 10px;
   &.user-group__item--active {
-    background: #d9ecff;
+    background: #ecf5ff;
   }
+}
+.chatting-content__tip-words {
+  text-align: center;
+  font-size: 12px;
+  color: #999;
 }
 </style>

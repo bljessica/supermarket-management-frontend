@@ -22,7 +22,7 @@
         >
           <el-form-item
             label="账号"
-            prop="accunt"
+            prop="account"
           >
             <el-input
               v-model="loginForm.account"
