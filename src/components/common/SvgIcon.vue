@@ -6,7 +6,7 @@
       height: props.size + 'px',
       color: iconColor
     }"
-    @mouseenter="hoverChangeColor && (iconColor = '#B3C0D1')"
+    @mouseenter="hoverChangeColor && (iconColor = props.hoverColor)"
     @mouseleave="hoverChangeColor && (iconColor = props.color)"
   >
     <use
@@ -33,6 +33,10 @@ export default defineComponent({
     color: {
       type: String,
       default: '#000'
+    },
+    hoverColor: {
+      type: String,
+      default: '#B3C0D1'
     },
     hoverChangeColor: {
       type: Boolean,

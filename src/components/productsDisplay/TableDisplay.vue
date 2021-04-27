@@ -104,7 +104,7 @@ export default defineComponent({
     const pagination = {
       total: 0,
       pageIdx: 1,
-      pageSize: 12
+      pageSize: 6
     }
     return {
       columns,

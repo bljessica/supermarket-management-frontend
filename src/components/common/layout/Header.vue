@@ -9,32 +9,42 @@
     >
       超市进销存管理系统
     </h1>
-    <div
-      v-if="username"
-      class="header__user"
-      style="display: flex; align-items: center; justify-content: space-between;"
-    >
-      <UserAvatar :avatar="$store.state.user.avatar" />
-      <span style="margin-left: 8px;">{{ username }}</span>
+    <div class="header__item">
+      <div
+        v-if="username"
+        class="header__item"
+        style="cursor: default;"
+      >
+        <UserAvatar :avatar="$store.state.user.avatar" />
+        <span>{{ username }}</span>
+      </div>
       <el-divider direction="vertical" />
-      <span
-        style="cursor: pointer;"
+      <div
+        class="header__item"
         @click="$router.push({name: routeName === 'personalCenter' ? 'index' : 'personalCenter'})"
       >
-        {{ routeName === 'personalCenter' ? '主页' : '个人中心' }}
-      </span>
+        <SvgIcon
+          :name="routeName === 'personalCenter' ? 'home' : 'table'"
+          size="20"
+          color="#333"
+          :hover-change-color="false"
+        />
+        <span>{{ routeName === 'personalCenter' ? '主页' : '个人中心' }}</span>
+      </div>
       <el-divider direction="vertical" />
-      <span
-        style="cursor: pointer;"
+      <div
+        class="header__item"
         @click="logout"
-      >登出</span>
+      >
+        <SvgIcon
+          name="exit"
+          size="18"
+          color="#333"
+          :hover-change-color="false"
+        />
+        <span>登出</span>
+      </div>
     </div>
-    <el-link
-      v-else
-      @click="$router.push({path: '/loginOrRegister/login'})"
-    >
-      登录/注册
-    </el-link>
   </div>
 </template>
 
@@ -65,6 +75,14 @@ export default defineComponent({
 })
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.header__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  &>span {
+    margin-left: 6px;
+  }
+}
 </style>

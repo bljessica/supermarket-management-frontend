@@ -1,6 +1,6 @@
 export default {
   title: {
-    text: '一周年内月销售额和利润变化（单位：元）'
+    text: '一年内月销售额和利润变化（单位：元）'
   },
   tooltip: {
     trigger: 'axis'

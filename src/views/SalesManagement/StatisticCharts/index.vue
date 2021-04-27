@@ -1,14 +1,33 @@
 <template>
   <div style="display: flex;flex-direction: column;align-items: center;">
+    <el-menu
+      default-active="week"
+      mode="horizontal"
+      style="margin-bottom: 30px;"
+      @select="typeShow = $event"
+    >
+      <el-menu-item index="week">
+        周
+      </el-menu-item>
+      <el-menu-item index="month">
+        月
+      </el-menu-item>
+      <el-menu-item index="year">
+        年
+      </el-menu-item>
+    </el-menu>
     <div
+      v-if="typeShow === 'week'"
       id="week-sales-chart"
       class="sales-chart"
     />
     <div
+      v-if="typeShow === 'month'"
       id="month-sales-chart"
       class="sales-chart"
     />
     <div
+      v-if="typeShow === 'year'"
       id="year-sales-chart"
       class="sales-chart"
     />
@@ -28,16 +47,27 @@ export default defineComponent({
     const weekSalesChartOptionRef = ref(weekSalesChartOption)
     const monthSalesChartOptionRef = ref(monthSalesChartOption)
     const yearSalesChartOptionRef = ref(yearSalesChartOption)
+    const typeShow = ref('week')
     return {
       weekSalesChartOption: weekSalesChartOptionRef,
       monthSalesChartOption: monthSalesChartOptionRef,
-      yearSalesChartOption: yearSalesChartOptionRef
+      yearSalesChartOption: yearSalesChartOptionRef,
+      typeShow
     }
   },
-  mounted () {
-    this.initWeekChart('week', this.weekSalesChartOption)
-    this.initWeekChart('month', this.monthSalesChartOption)
-    this.initWeekChart('year', this.yearSalesChartOption)
+  watch: {
+    typeShow: {
+      handler (val) {
+        if (val === 'week') {
+          this.initWeekChart('week', this.weekSalesChartOption)
+        } else if (val === 'month') {
+          this.initWeekChart('month', this.monthSalesChartOption)
+        } else if (val === 'year') {
+          this.initWeekChart('year', this.yearSalesChartOption)
+        }
+      },
+      immediate: true
+    }
   },
   methods: {
     initWeekChart (type: string, option) {
@@ -60,7 +90,12 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .sales-chart {
-  width: 70%;
-  height: 400px;
+  width: 80%;
+  height: 500px;
+}
+:deep(.el-menu) {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
 }
 </style>
