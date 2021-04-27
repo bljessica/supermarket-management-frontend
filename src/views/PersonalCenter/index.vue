@@ -5,40 +5,45 @@
     style="display: flex;justify-content: space-around;"
   >
     <!-- 聊天用户选择 -->
-    <el-collapse
-      v-model="activeGroups"
-      style="width: 20%;border-bottom: none;"
+    <el-scrollbar
+      height="70vh"
+      style="width: 20%;"
     >
-      <el-collapse-item
-        v-for="userGroup in userGroups"
-        :key="userGroup._id"
-        :title="userGroup._id"
-        :name="userGroup._id"
+      <el-collapse
+        v-model="activeGroups"
+        style="border-bottom: none;padding-right: 10px;"
       >
-        <div
-          v-for="user in userGroup.users"
-          :key="user.account"
-          class="user-group__item"
-          :class="{'user-group__item--active': selectingUserAccount === user.account}"
-          @click="selectUser(user)"
+        <el-collapse-item
+          v-for="userGroup in userGroups"
+          :key="userGroup._id"
+          :title="userGroup._id"
+          :name="userGroup._id"
         >
-          <div style="display: flex;align-items: center;">
-            <UserAvatar
-              :size="10"
-              :avatar="user.avatar"
-              style="margin-right: 5px;"
-            />
-            <span>{{ user.username }}</span>
-          </div>
-          <span
-            v-if="isSelf(user.account)"
-            style="color: #999;font-size: 12px;margin-right: 6px;"
+          <div
+            v-for="user in userGroup.users"
+            :key="user.account"
+            class="user-group__item"
+            :class="{'user-group__item--active': selectingUserAccount === user.account}"
+            @click="selectUser(user)"
           >
-            本人
-          </span>
-        </div>
-      </el-collapse-item>
-    </el-collapse>
+            <div style="display: flex;align-items: center;">
+              <UserAvatar
+                :size="10"
+                :avatar="user.avatar"
+                style="margin-right: 5px;"
+              />
+              <span>{{ user.username }}</span>
+            </div>
+            <span
+              v-if="isSelf(user.account)"
+              style="color: #999;font-size: 12px;margin-right: 6px;"
+            >
+              本人
+            </span>
+          </div>
+        </el-collapse-item>
+      </el-collapse>
+    </el-scrollbar>
     <el-card
       shadow="hover"
       style="width: 60%;"

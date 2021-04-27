@@ -137,7 +137,7 @@ export default defineComponent({
   height: 20px;
 }
 .product-card-content {
-  height: 164px;
+  height: 140px;
   display: grid;
   grid-template-areas: "a b c d"
                        "e f g h"

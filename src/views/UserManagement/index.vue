@@ -137,7 +137,9 @@ export default defineComponent({
             entryTime: Date.now()
           })
           if (res.code === 0) {
-            this.$refs.RegisterForm.resetFields()
+            setTimeout(() => {
+              this.typeShow = 'edit'
+            }, 1000)
           }
         } else {
           return false

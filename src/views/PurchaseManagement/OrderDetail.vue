@@ -9,39 +9,45 @@
     >
       返回
     </el-button>
-    <!-- 订单状态时间线 -->
-    <el-card
-      class="purchaseStatus-timeline-container"
-      style="margin: 30px 0;width: 100%;"
+    <div
+      class="purchase-status-timeline-wrapper"
+      style="justify-content: space-between;"
     >
-      <template #header>
-        <div style="text-align: center;">
-          订单状态
-        </div>
-      </template>
-      <div
-        v-for="orderStatus in Object.keys(PURCHASE_ORDER_STATUS)"
-        :key="orderStatus"
-        class="purchaseStatus-timeline__item"
-        :class="{'purchaseStatus-timeline__item--line-through': isTimeLineFinished(orderStatus)}"
+      <!-- 订单状态时间线 -->
+      <el-card
+        class="purchase-status-timeline-container"
+        style="margin: 30px 0;width: 70%;"
       >
+        <template #header>
+          <div style="text-align: center;">
+            订单状态
+          </div>
+        </template>
         <div
-          class="purchaseStatus-timeline__item__dot"
-          :style="{backgroundColor: hasDone(orderStatus) ? '#67C23A' : '#ccc'}"
-        />
-        <div>{{ orderStatus }}</div>
-      </div>
-    </el-card>
-    <el-button
-      class="order-detail__next-action-btn"
-      type="success"
-      round
-      style="width: 100%;"
-      :disabled="!canChangePurchaseStatus"
-      @click="changePurchaseStatus"
-    >
-      {{ nextActionName }}
-    </el-button>
+          v-for="orderStatus in Object.keys(PURCHASE_ORDER_STATUS)"
+          :key="orderStatus"
+          class="purchaseStatus-timeline__item"
+          :class="{'purchaseStatus-timeline__item--line-through': isTimeLineFinished(orderStatus)}"
+        >
+          <div
+            class="purchaseStatus-timeline__item__dot"
+            :style="{backgroundColor: hasDone(orderStatus) ? '#67C23A' : '#ccc'}"
+          />
+          <div>{{ orderStatus }}</div>
+        </div>
+      </el-card>
+      <el-button
+        class="order-detail__next-action-btn"
+        type="success"
+        round
+        style="width: 20%;"
+        :disabled="!canChangePurchaseStatus"
+        @click="changePurchaseStatus"
+      >
+        {{ nextActionName }}
+      </el-button>
+    </div>
+
     <!-- 订单详情 -->
     <el-card
       class="order-detail-wrapper"
@@ -192,7 +198,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.purchaseStatus-timeline-container {
+.purchase-status-timeline-container {
   :deep(.el-card__body) {
     display: flex;
     align-items: center;
@@ -203,7 +209,7 @@ export default defineComponent({
   padding-bottom: 20px;
   border-radius: 30px;
 }
-.purchaseStatus-timeline__item, .order-detail__item__product-wrapper {
+.purchaseStatus-timeline__item, .order-detail__item__product-wrapper, .purchase-status-timeline-wrapper {
   display: flex;
   align-items: center;
 }
@@ -244,7 +250,7 @@ export default defineComponent({
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 400px;
+  width: 50vw;
   margin-right: 10px;
   display: inline-block;
   cursor: pointer;

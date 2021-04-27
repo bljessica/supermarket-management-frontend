@@ -290,7 +290,7 @@ export default defineComponent({
     const pagination = ref({
       total: 0,
       pageIdx: 1,
-      pageSize: 6
+      pageSize: 8
     })
     return {
       tableColumns,
