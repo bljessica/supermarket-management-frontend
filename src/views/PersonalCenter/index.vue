@@ -2,8 +2,43 @@
   <div
     v-loading="loading"
     class="personal-center-container"
-    style="display: flex;justify-content: space-between;"
+    style="display: flex;justify-content: space-around;"
   >
+    <!-- 聊天用户选择 -->
+    <el-collapse
+      v-model="activeGroups"
+      style="width: 20%;border-bottom: none;"
+    >
+      <el-collapse-item
+        v-for="userGroup in userGroups"
+        :key="userGroup._id"
+        :title="userGroup._id"
+        :name="userGroup._id"
+      >
+        <div
+          v-for="user in userGroup.users"
+          :key="user.account"
+          class="user-group__item"
+          :class="{'user-group__item--active': selectingUserAccount === user.account}"
+          @click="selectUser(user)"
+        >
+          <div style="display: flex;align-items: center;">
+            <UserAvatar
+              :size="10"
+              :avatar="user.avatar"
+              style="margin-right: 5px;"
+            />
+            <span>{{ user.username }}</span>
+          </div>
+          <span
+            v-if="isSelf(user.account)"
+            style="color: #999;font-size: 12px;margin-right: 6px;"
+          >
+            本人
+          </span>
+        </div>
+      </el-collapse-item>
+    </el-collapse>
     <el-card
       shadow="hover"
       style="width: 60%;"
@@ -87,7 +122,7 @@
         >
           <UserAvatar
             :size="80"
-            :avatar="$store.state.user.avatar"
+            :avatar="userInfo.avatar"
           />
           <el-upload
             action="#"
@@ -125,45 +160,29 @@
               @click="editOrSaveUsername"
             />
           </div>
-          <div>职位：{{ userInfo.role }}</div>
+          <div>
+            <span>职位：</span>
+            <el-select
+              v-if="editingUsers"
+              v-model="userInfo.role"
+              style="width: 50%;"
+              size="mini"
+              placeholder="请选择职位"
+              @change="updateUserInfo"
+            >
+              <el-option
+                v-for="item in Object.keys(ROLE_LIST)"
+                :key="item"
+                :label="item"
+                :value="item"
+              />
+            </el-select>
+            <span v-else>{{ userInfo.role }}</span>
+          </div>
           <div>入职时间：{{ userInfo.entryTime }}</div>
         </div>
       </div>
     </el-card>
-    <!-- 聊天用户选择 -->
-    <el-collapse
-      v-model="activeGroups"
-      style="width: 30%;border-bottom: none;"
-    >
-      <el-collapse-item
-        v-for="userGroup in userGroups"
-        :key="userGroup._id"
-        :title="userGroup._id"
-        :name="userGroup._id"
-      >
-        <div
-          v-for="user in userGroup.users"
-          :key="user.account"
-          style="line-height: 30px;height: 30px;cursor: pointer;display: flex;justify-content: space-between;align-items: center;"
-          @click="selectChatPartner(user)"
-        >
-          <div>
-            <UserAvatar
-              :size="10"
-              :avatar="user.avatar"
-              style="margin-right: 5px;"
-            />
-            {{ user.username }}
-          </div>
-          <span
-            v-if="isSelf(user.account)"
-            style="color: #999;font-size: 12px;margin-right: 6px;"
-          >
-            本人
-          </span>
-        </div>
-      </el-collapse-item>
-    </el-collapse>
   </div>
 </template>
 
@@ -177,6 +196,12 @@ export default defineComponent({
   components: {
     UserAvatar
   },
+  props: {
+    editingUsers: {
+      type: Boolean,
+      default: false
+    }
+  },
   setup () {
     const activeGroups = ref(Object.keys(ROLE_LIST))
     const userGroups = ref([])
@@ -187,6 +212,8 @@ export default defineComponent({
     const chatPartner = ref(null)
     const chatContents = ref([])
     const chattingContent = ref('')
+    const showingUserAccount = ref(null)
+    const selectingUserAccount = ref(null)
     return {
       activeGroups,
       userGroups,
@@ -196,10 +223,20 @@ export default defineComponent({
       loading,
       chatPartner,
       chatContents,
-      chattingContent
+      chattingContent,
+      showingUserAccount,
+      ROLE_LIST,
+      selectingUserAccount
+    }
+  },
+  computed: {
+    userAccount () {
+      return this.$store.state.user.account
     }
   },
   async created () {
+    this.showingUserAccount = this.userAccount
+    this.selectingUserAccount = this.userAccount
     await this.getUserInfo()
     await this.getUserGroups()
     this.$socket.on('newMsg', async () => {
@@ -210,6 +247,19 @@ export default defineComponent({
     })
   },
   methods: {
+    async selectUser (user) {
+      this.selectingUserAccount = user.account
+      if (this.editingUsers) {
+        this.showingUserAccount = user.account
+        await this.getUserInfo()
+      } else {
+        if (user.account === this.userAccount) {
+          this.chatPartner = null
+        } else {
+          this.selectChatPartner(user)
+        }
+      }
+    },
     scrollToNewestMsg () {
       this.$nextTick(() => {
         this.$refs.chatContentWapper.scrollTop = this.$refs.chatContentWapper.scrollHeight
@@ -224,14 +274,14 @@ export default defineComponent({
     },
     async getChatHistory () {
       const res = await this.$api.getChatHistory({
-        senderAccount: this.$store.state.user.account,
+        senderAccount: this.userAccount,
         recipientAccount: this.chatPartner.account
       })
       this.chatContents = res.data
     },
     async sendMsg () {
       await this.$api.sendMsg({
-        senderAccount: this.$store.state.user.account,
+        senderAccount: this.userAccount,
         recipientAccount: this.chatPartner.account,
         content: this.chattingContent,
         time: Date.now()
@@ -242,7 +292,7 @@ export default defineComponent({
       this.chattingContent = ''
     },
     isSelf (userAccount) {
-      return userAccount === this.$store.state.user.account
+      return userAccount === this.userAccount
     },
     async getUserGroups () {
       this.loading = true
@@ -264,11 +314,11 @@ export default defineComponent({
     },
     async getUserInfo () {
       this.loading = true
-      const res = await this.$api.getUserInfo({
-        account: this.$store.state.user.account
-      })
+      const res = await this.$api.getUserInfo({ account: this.showingUserAccount })
       this.userInfo = res.data
-      this.$store.commit('setUser', res.data)
+      if (this.showingUserAccount === this.userAccount) {
+        this.$store.commit('setUser', res.data)
+      }
       this.loading = false
     },
     beforeProductImageUpload (file: any) {
@@ -300,5 +350,18 @@ export default defineComponent({
 }
 :deep(.el-divider) {
   background-color: #EBEEF5;
+}
+.user-group__item {
+  line-height: 30px;
+  padding: 0 10px;
+  height: 30px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 10px;
+  &.user-group__item--active {
+    background: #d9ecff;
+  }
 }
 </style>

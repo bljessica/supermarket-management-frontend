@@ -1,6 +1,23 @@
 <template>
   <div>
-    <el-card style="width: 600px;margin: 10px auto;">
+    <el-menu
+      default-active="edit"
+      mode="horizontal"
+      style="margin-bottom: 30px;"
+      @select="typeShow = $event"
+    >
+      <el-menu-item index="edit">
+        管理用户信息
+      </el-menu-item>
+      <el-menu-item index="add">
+        添加用户
+      </el-menu-item>
+    </el-menu>
+    <!-- 添加用户 -->
+    <el-card
+      v-if="typeShow === 'add'"
+      style="width: 600px;margin: 10px auto;"
+    >
       <template #header>
         <div style="text-align: center;">
           添加用户
@@ -78,6 +95,11 @@
         </el-button>
       </el-form>
     </el-card>
+    <!-- 管理用户信息 -->
+    <PersonalCenter
+      v-if="typeShow === 'edit'"
+      :editing-users="true"
+    />
   </div>
 </template>
 
@@ -86,15 +108,21 @@ import { defineComponent, ref } from 'vue'
 import { registerFormRules, registerForm } from '@/views/UserManagement/registerFormModel'
 import CryptoJS from 'crypto-js'
 import { ROLE_LIST } from '@/constants/constants'
+import PersonalCenter from '@/views/PersonalCenter/index.vue'
 
 export default defineComponent({
   name: 'UserManagement',
+  components: {
+    PersonalCenter
+  },
   setup () {
     const registerFormRef = ref(registerForm)
+    const typeShow = ref('edit')
     return {
       registerForm: registerFormRef,
       registerFormRules,
-      ROLE_LIST
+      ROLE_LIST,
+      typeShow
     }
   },
   methods: {
@@ -120,6 +148,9 @@ export default defineComponent({
 })
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+:deep(.el-menu) {
+  display: flex;
+  justify-content: space-evenly;
+}
 </style>

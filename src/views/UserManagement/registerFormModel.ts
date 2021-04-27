@@ -47,7 +47,7 @@ const validatePassword2 = (rule: any, value: string, cb: any) => {
 export const registerFormRules = {
   account: [
     {
-      validator: validateAccount, trigger: 'blur'
+      validator: validateAccount, trigger: 'blur', required: true
     }
   ],
   username: [
@@ -57,9 +57,9 @@ export const registerFormRules = {
     { required: true, message: '请选择职位', trigger: 'blur' }
   ],
   password1: [
-    { validator: validatePassword1, trigger: 'blur' }
+    { validator: validatePassword1, trigger: 'blur', required: true }
   ],
   password2: [
-    { validator: validatePassword2, trigger: 'blur' }
+    { validator: validatePassword2, trigger: 'blur', required: true }
   ]
 }
