@@ -218,3 +218,12 @@ export const getChatHistory = (data: any) => {
     data
   })
 }
+
+// userRoleChange
+export const getUserRoleChangeRecords = (data: any) => {
+  return request({
+    url: '/userRoleChangeRecords',
+    method: 'GET',
+    data
+  })
+}

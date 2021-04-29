@@ -10,10 +10,33 @@
       <el-menu-item index="edit">
         管理用户信息
       </el-menu-item>
+      <el-menu-item index="record">
+        职位变动日志
+      </el-menu-item>
       <el-menu-item index="add">
         添加用户
       </el-menu-item>
     </el-menu>
+    <!-- 管理用户信息 -->
+    <PersonalCenter
+      v-if="typeShow === 'edit'"
+      :editing-users="true"
+    />
+    <!-- 职位变动日志 -->
+    <el-table
+      v-if="typeShow === 'record'"
+      :data="userRoleChangeData"
+      border
+    >
+      <el-table-column
+        v-for="column in tableColumns"
+        :key="column.key"
+        :width="column.width"
+        :label="column.label"
+        :prop="column.key"
+        show-overflow-tooltip
+      />
+    </el-table>
     <!-- 添加用户 -->
     <el-card
       v-if="typeShow === 'add'"
@@ -96,11 +119,6 @@
         </el-button>
       </el-form>
     </el-card>
-    <!-- 管理用户信息 -->
-    <PersonalCenter
-      v-if="typeShow === 'edit'"
-      :editing-users="true"
-    />
   </div>
 </template>
 
@@ -110,6 +128,7 @@ import { registerFormRules, registerForm } from '@/views/UserManagement/register
 import CryptoJS from 'crypto-js'
 import { ROLE_LIST } from '@/constants/constants'
 import PersonalCenter from '@/views/PersonalCenter/index.vue'
+import tableColumns from './tableColumns'
 
 export default defineComponent({
   name: 'UserManagement',
@@ -119,14 +138,31 @@ export default defineComponent({
   setup () {
     const registerFormRef = ref(registerForm)
     const typeShow = ref('edit')
+    const userRoleChangeData = ref([])
     return {
       registerForm: registerFormRef,
       registerFormRules,
       ROLE_LIST,
-      typeShow
+      typeShow,
+      tableColumns,
+      userRoleChangeData
     }
   },
+  watch: {
+    async typeShow (val: string) {
+      if (val === 'record') {
+        await this.getUserRoleChangeData()
+      }
+    }
+  },
+  // async created () {
+  //   await this.getUserRoleChangeData()
+  // },
   methods: {
+    async getUserRoleChangeData () {
+      const res = await this.$api.getUserRoleChangeRecords()
+      this.userRoleChangeData = res.data
+    },
     async register () {
       this.$refs.RegisterForm.validate(async (isValid: boolean) => {
         if (isValid) {

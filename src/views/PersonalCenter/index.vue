@@ -65,11 +65,13 @@
           <span style="margin-left: 8px;font-size: 18px;">{{ chatPartner.username }}</span>
         </div>
         <!-- 聊天内容 -->
-        <el-scrollbar height="50vh">
+        <el-scrollbar
+          ref="chatContentWapper"
+          height="50vh"
+        >
           <div
-            ref="chatContentWapper"
             class="chatting-content-wrapper"
-            style="font-size: 14px;padding: 20px;box-sizing: border-box;"
+            style="font-size: 14px;padding: 20px;box-sizing: border-box;min-height: 50vh;"
             :style="{backgroundColor: chatPartner && '#f5f5f5'}"
           >
             <div
@@ -297,9 +299,9 @@ export default defineComponent({
         }
       }
     },
-    scrollToNewestMsg () {
+    scrollToNewestMsg () { // 滚动条滚动到最底部
       this.$nextTick(() => {
-        this.$refs.chatContentWapper.scrollTop = this.$refs.chatContentWapper.scrollHeight
+        this.$refs.chatContentWapper.wrap.scrollTop = this.$refs.chatContentWapper.wrap.scrollHeight
       })
     },
     async selectChatPartner (user) {
@@ -377,7 +379,10 @@ export default defineComponent({
       return false // 屏蔽默认上传
     },
     async updateUserInfo () {
-      await this.$api.updateUserInfo(this.userInfo)
+      await this.$api.updateUserInfo({
+        ...this.userInfo,
+        operatorAccount: this.$store.state.user.account
+      })
       this.$socket.emit('userUpdate')
       await this.getUserGroups()
     }

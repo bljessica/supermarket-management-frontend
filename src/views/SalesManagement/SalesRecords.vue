@@ -62,12 +62,12 @@
       :current-page="pagination.pageIdx"
       @current-change="getProducts($event)"
     /> -->
-    <!-- 添加销售订单 - 抽屉 -->
+    <!-- 添加销售记录 - 抽屉 -->
     <el-drawer
       v-model="showDrawer"
       destroy-on-close
       size="70%"
-      title="添加销售订单"
+      title="添加销售记录"
     >
       <el-form
         ref="AddOrderForm"
